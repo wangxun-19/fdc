@@ -141,7 +141,7 @@
                 <van-dropdown-item title-class="icon iconfont iconpaixu" title="  " @change="change4" v-model="order1" :options="option4"></van-dropdown-item>
             </van-dropdown-menu>
         </div>
-        <div id="showmenu" style="height:6.7rem;overflow:auto" v-if="roomlist.length !== 0" >
+        <div id="showmenu" v-if="roomlist.length !== 0" >
             <ul 
                v-infinite-scroll="onLoad"
                infinite-scroll-distance="1">
@@ -173,7 +173,7 @@
     import mixin from '../../mixin/mixin'
     export default {
         name: "NewRoom",
-        mixins:[mixin],
+        // mixins:[mixin],
         computed:{
             noMore(){
                 return !this.loading;
@@ -658,6 +658,40 @@
         background-color: #E1E6F0;
         margin-top: 10.1px;
         margin-bottom: 6.6px;
+    }
+    @media screen and (min-height: 0px) and (max-height: 480px){
+        #showmenu{
+          height: 6.0rem;
+          overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 481px) and (max-height: 568px){
+        #showmenu{
+          height: 7.9rem;
+          overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 569px) and (max-height: 736px){
+        #showmenu{
+          height: 8.5rem;
+          overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 737px) and (max-height: 896px){
+        #showmenu{
+          height: 11.5rem;
+          overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 897px){
+        #showmenu{
+          height: 7.0rem;
+          overflow-y: auto;
+        }
     }
     .tab-tilte .active{
         background-color: #FCF5EF;

@@ -18,7 +18,7 @@
         name: "SecondRoomBox",
         props:["img","price","title","address","se_room_id"],
         created(){
-            this.imgtrans(this.img);
+            // this.imgtrans(this.img);
         },
         data(){
             return{
@@ -29,10 +29,10 @@
             gotoXQ(se_room_id){
                 if(this.$route.name != "erfdetail"){
                     let newroomid = se_room_id;
-                    this.$router.push({path:"/index/erf/detail",query:{id:newroomid,time:''}});
+                    this.$router.push({name:'erfdetail',params:{id:newroomid,time:''}});
                 }else{
                     let newroomid = se_room_id;
-                    this.$router.push({path:"/index/erf/detail",query:{id:newroomid,time:new Date()}});
+                    this.$router.push({name:'erfdetail',params:{id:newroomid,time:new Date()}});
                 }
             },
             imgtrans(img){

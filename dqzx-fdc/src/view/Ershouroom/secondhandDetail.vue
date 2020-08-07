@@ -5,10 +5,10 @@
                 <MyImage :src="item" fit="cover"/>
             </van-swipe-item>
         </van-swipe>
-        <div v-if="roominfo.collect == undefined||roominfo.collect == 0" style="position:absolute;top: 170px;width: 23px;height: 20px;right: 20px" @click="collectit">
+        <div v-if="roominfo.collect == undefined||roominfo.collect == 0" class="collect" @click="collectit">
             <MyImage :src="shoucangpic" fit="cover"/>
         </div>
-        <div v-if="roominfo.collect != undefined&&roominfo.collect > 0" style="position:absolute;top: 170px;width: 23px;height: 20px;right: 20px"  @click="uncollectit">
+        <div v-if="roominfo.collect != undefined&&roominfo.collect > 0" class="collect"  @click="uncollectit">
             <MyImage :src="shoucangpicsele" fit="cover"/>
         </div>
         <div class="titlebox">
@@ -115,7 +115,7 @@
                     <label class="grey">税费</label>
                     <label class="zixun">咨询</label>
                 </div>
-                <div style="width: 90%">
+                <div style="width: 100%">
                     <label class="grey" style="float:left;">小区</label>
                     <label class="address0" style="float:left">{{roominfo.name}}</label>
                     <van-image class="location" :src="locationpic" fit="cover" width="20px" height="20px"
@@ -232,7 +232,7 @@ import mixin from '../../mixin/mixin'
 var map,placeSearch;
     export default {
         name: "secondhandDetail",
-        mixins:[mixin],
+        
         data(){
             return{
                 roominfo:{},
@@ -263,7 +263,7 @@ var map,placeSearch;
             }
         },
         watch:{
-            '$route.query.time'(){
+            '$route.params.time'(){
                //执行数据更新查询
 　　           this.init();
 　　         }
@@ -273,7 +273,7 @@ var map,placeSearch;
         },
         methods:{
             init(){
-                let id = this.$route.query.id;
+                let id = this.$route.params.id;
                 this.roomid = id;
                 this.getershouInfo(id);
                 this.getDongtailist();
@@ -570,9 +570,11 @@ var map,placeSearch;
                     }else{
                         self.$toast(res.data.msg);
                     }
+                    self.getershouInfo(roomid);
                 })
                 .catch(function(err){
                     console.log(err);
+                    self.getershouInfo(roomid);
                 })
             },
             uncollectit(){
@@ -590,9 +592,11 @@ var map,placeSearch;
                     }else{
                         self.$toast(res.data.msg);
                     }
+                    self.getershouInfo(roomid);
                 })
                 .catch(function(err){
                     console.log(err);
+                    self.getershouInfo(roomid);
                 })
             },
             jisuantime(starttime,endtime){
@@ -691,7 +695,7 @@ var map,placeSearch;
             },
             wentigengduo(){
                 let roomid = this.roomid;
-                this.$router.push({path:'/wentigengduo',query:{id:roomid,type:'old',area:''}});
+                this.$router.push({name:'wentigengduo',params:{id:roomid,type:'old',area:''}});
             },
             tiwen(){
                 let self = this;
@@ -715,11 +719,11 @@ var map,placeSearch;
             yuyue(){
                 let self = this;
                 console.log("yueyi");
-                self.$router.push({path:'/yuyue',query:{type:'old',roomid:this.roomid}});
+                // self.$router.push({path:'/yuyue',query:{type:'old',roomid:this.roomid}});
             },
             dongtaigengduo(){
                 let self = this;
-                this.$router.push({path:'/dongtaigengduo',query:{type:'old'}})
+                this.$router.push({name:'/dongtaigengduo',params:{type:'old'}})
             }
         }
     }
@@ -795,6 +799,7 @@ var map,placeSearch;
 
     .location{
         float: right;
+        margin-right: 0.5rem;
     }
 
     .desc {
@@ -1058,5 +1063,13 @@ var map,placeSearch;
         width: 100%;
         height: 4.0rem;
         overflow-y: auto;
+    }
+
+    .collect{
+        position: absolute; 
+        right: 0.34rem; 
+        top: 3.5rem; 
+        width: 0.43rem; 
+        height: 0.37rem;
     }
 </style>

@@ -102,10 +102,11 @@
 
     export default {
         name: "index",
+        // mixins:[mixin],
         components:{
             
         },
-        mixins:[mixin],
+        
         data(){
             return{
                 autotime:3000,
@@ -176,7 +177,7 @@
         methods:{
             getlocation(){
                 this.$wxMethod.getLocation((res)=>{
-                    alert(res)
+                    console.log(res);
                 })
             }
 ,            toTheirLink(item){

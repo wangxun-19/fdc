@@ -123,7 +123,7 @@ export default {
   },
   created(){
       let self = this;
-      let query = this.$route.query;
+      let query = this.$route.params;
       this.status = query.status0;
       this.tel = query.tel;
       if(self.$store.state.time >= 0){

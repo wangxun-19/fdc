@@ -49,10 +49,10 @@
             gotoXQ(room_id){
                 if(this.$route.name != "rentdetail"){
                     let newroomid = parseInt(room_id);
-                    this.$router.push({path:"/index/rent/detail",query:{id:newroomid,time:''}});
+                    this.$router.push({name:'rentdetail',params:{id:newroomid,time:'123'}});
                 }else{
                     let newroomid = parseInt(room_id);
-                    this.$router.push({path:"/index/rent/detail",query:{id:newroomid,time:new Date()}});
+                    this.$router.push({name:'rentdetail',params:{id:newroomid,time:new Date()}});
                 }
             },
             getimg(imgarray){

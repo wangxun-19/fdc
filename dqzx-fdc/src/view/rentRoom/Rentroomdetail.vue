@@ -5,10 +5,10 @@
                 <MyImage :src="item" fit="cover"/>
             </van-swipe-item>
         </van-swipe>
-        <div v-if="roominfo.collect == undefined||roominfo.collect == 0" style="position:absolute;top: 4.85rem;width: 0.43rem;height: 0.37rem;right: 0.35rem" @click="collectit">
+        <div v-if="roominfo.collect == undefined||roominfo.collect == 0" class="collect" @click="collectit">
             <MyImage :src="shoucangpic" fit="cover"/>
         </div>
-        <div v-if="roominfo.collect != undefined&&roominfo.collect > 0" style="position:absolute;top: 4.85rem;width: 0.43rem;height: 0.37rem;right: 0.35rem" @click="uncollectit">
+        <div v-if="roominfo.collect != undefined&&roominfo.collect > 0" class="collect" @click="uncollectit">
             <MyImage :src="shoucangpicsele" fit="cover"/>
         </div>
         <div class="titlebox">
@@ -85,7 +85,7 @@
                         <label  v-if="roominfo.decoration == 3" class="huxin">精装</label>
                     </div>
                 </div>
-                <div style="width: 90%;margin-top: 0.11rem">
+                <div style="width: 100%;margin-top: 0.11rem">
                     <label class="grey" style="float:left">小区</label>
                     <label class="address" style="float:left;margin-top: -0.0rem">{{roominfo.localName}}</label>
                     <van-image class="location" :src="locationpic" fit="cover" width="0.36rem" height="0.36rem"
@@ -219,7 +219,7 @@ import mixin from '../../mixin/mixin'
 var map,placeSearch;
     export default {
         name: "Rentroomdetail",
-        mixins:[mixin],
+        
         data(){
             return{
                 roominfo:[],
@@ -253,7 +253,7 @@ var map,placeSearch;
             }
         },
         watch:{
-            '$route.query.time'(){
+            '$route.params.time'(){
                //执行数据更新查询
 　　           this.init();
 　　         }
@@ -264,7 +264,7 @@ var map,placeSearch;
         },
         methods:{
             init(){
-                let id = this.$route.query.id;
+                let id = this.$route.params.id;
                 this.roomid = id;
                 this.getershouInfo(id);
                 this.getDongtailist();
@@ -556,9 +556,11 @@ var map,placeSearch;
                     }else{
                         self.$toast(res.data.msg);
                     }
+                    self.getershouInfo(roomid);
                 })
                 .catch(function(err){
                     console.log(err);
+                    self.getershouInfo(roomid);
                 })
             },
             uncollectit(){
@@ -577,9 +579,11 @@ var map,placeSearch;
                     }else{
                         self.$toast(res.data.msg);
                     }
+                    self.getershouInfo(roomid);
                 })
                 .catch(function(err){
                     console.log(err);
+                    self.getershouInfo(roomid);
                 })
             },
             getDongtailist(){
@@ -622,7 +626,7 @@ var map,placeSearch;
                 })
             },
             yuyue(){
-                this.$router.push({path:'/yuyue',query:{type:'rent',roomid:this.roomid}});
+                // this.$router.push({path:'/yuyue',query:{type:'rent',roomid:this.roomid}});
             },
             locations(){
                 let self = this;
@@ -665,7 +669,7 @@ var map,placeSearch;
     }
 
     .titlebox{
-        margin-top: 0.29rem;
+        padding-top: 0.29rem;
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -687,6 +691,7 @@ var map,placeSearch;
 
     .location{
         float:right;
+        margin-right: 0.5rem;
     }
 
     .div1 .top{
@@ -982,5 +987,13 @@ var map,placeSearch;
         width: 100%;
         height: 4.0rem;
         overflow-y: auto;
+    }
+
+    .collect{
+        position: absolute; 
+        right: 0.34rem; 
+        top: 3.5rem; 
+        width: 0.43rem; 
+        height: 0.37rem;
     }
 </style>

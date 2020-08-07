@@ -89,9 +89,9 @@ import mixin from '../mixin/mixin'
             }
         },
         created() {
-            let roomid = this.$route.query.id;
-            let type = this.$route.query.type;
-            let area = this.$route.query.area;
+            let roomid = this.$route.params.id;
+            let type = this.$route.params.type;
+            let area = this.$route.params.area;
             this.type = type;
             this.roomid = roomid;
             this.area = area;

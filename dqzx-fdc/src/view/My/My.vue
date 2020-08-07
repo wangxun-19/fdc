@@ -89,7 +89,7 @@
 import { Toast } from 'vant';
     export default {
         name: "My",
-        mixins:[mixin],
+        
         data(){
             return{
                 myInfo:{},
@@ -143,7 +143,7 @@ import { Toast } from 'vant';
             jinjiren(){
                 let self = this;
                 if(self.myInfo.houseStatus != -1){
-                    self.$router.push({path:'/applyjjr',query:{status0:self.myInfo.houseStatus,phone: self.myInfo.phone}});
+                    self.$router.push({name:'applyjjr',params:{status0:self.myInfo.houseStatus,phone: self.myInfo.phone}});
                 }else{
                     self.$toast('先绑定手机号');
                 }

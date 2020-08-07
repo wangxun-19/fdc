@@ -24,7 +24,7 @@
         name: "answer",
         mixins:[mixin],
         created() {
-            let query = this.$route.query;
+            let query = this.$route.params;
             console.log(query);
             this.ansid = query.id;
             this.roomid = query.roomid;
@@ -62,7 +62,7 @@
                             self.$toast(res.data.message);
                             self.answer = '';
                             self.$toast(res.data.msg);
-                            self.$router.push({path:'/index/xf/detail/',query:{id:newroomid,time:''}});
+                            self.$router.push({name:'xfdetail',params:{id:newroomid,time:'123'}});
                         }else if(res.data.code == 500){
                             self.$toast(res.data.msg);
                         }else{
@@ -81,7 +81,7 @@
                             self.$toast(res.data.message);
                             self.answer = '';
                             self.$toast(res.data.msg);
-                            self.$router.push({path:"/index/erf/detail",query:{id:newroomid}});
+                            self.$router.push({name:"erfdetail",params:{id:newroomid,time:'123'}});
                         }else if(res.data.code == 500){
                             self.$toast(res.data.msg);
                         }else{

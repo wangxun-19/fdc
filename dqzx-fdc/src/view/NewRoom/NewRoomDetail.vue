@@ -117,7 +117,7 @@
                     <label class="huxin" v-if="roominfo.electricity == 1">民电</label>
                     <label class="huxin" v-if="roominfo.electricity == 2">商电</label>
                 </div>
-                <div style="margin-top: 0.23rem;display:inline-block;width: 90%">
+                <div style="margin-top: 0.23rem;display:inline-block;width: 100%">
                     <label class="grey" style="float:left">地址</label>
                     <div class="dizhi" style="float:left;margin-top: -0.05rem">
                         {{roominfo.localName}}
@@ -260,12 +260,12 @@ import { ImagePreview } from 'vant';
 var map,placeSearch;
     export default {
         name: "NewRoomDetail",
-        mixins:[mixin],
+        // mixins:[mixin],
         components:{
             ImagePreview,
         },
         watch:{
-            '$route.query.time'(){
+            '$route.params.time'(){
                //执行数据更新查询
 　　           this.init();
 　　         }
@@ -316,8 +316,8 @@ var map,placeSearch;
         },
         methods: {
             init(){
-                this.roomid = this.$route.query.id;
-                this.mianji = this.$route.query.area;
+                this.roomid = this.$route.params.id;
+                // this.mianji = this.$route.query.area;
                 this.getHomeInfo(this.roomid);
                 this.getNewRoomQuestion(this.roomid);
                 this.roomdongtai(this.roomid);
@@ -325,7 +325,10 @@ var map,placeSearch;
             },
             getlocation(){
                 this.$wxMethod.getLocation((res)=>{
-                    alert(res)
+                    console.log(res)
+                },
+                (err)=>{
+                    console.log(err)
                 })
             },
             previewImg(img){
@@ -818,20 +821,20 @@ var map,placeSearch;
             },
             yuyue() {
                 console.log("yuyue");
-                this.$router.push({path:'/yuyue',query:{type:'new',roomid:this.roomid}});
+                // this.$router.push({path:'/yuyue',query:{type:'new',roomid:this.roomid}});
             },
             dongtaigengduo(){
-                this.$router.push({path:'/dongtaigengduo',query:{type:'new'}})
+                this.$router.push({name:'dongtaigengduo',params:{type:'new'}})
             },
             tiwen(){
                 let self = this;
                 let roomid = self.roomid;
                 let area = self.mianji;
-                self.$router.push({path:'/tiwen',query:{id: roomid,type:'new',area:area}});
+                self.$router.push({name:'tiwen',params:{id: roomid,type:'new',area:area}});
             },
             wentigengduo(){
                 let roomid = this.roomid;
-                this.$router.push({path:'/wentigengduo',query:{id:roomid,type:'new',area:this.mianji}});
+                this.$router.push({name:'wentigengduo',params:{id:roomid,type:'new',area:this.mianji}});
             },
             createMap(latitude, longitude) {
                 let self = this;
@@ -907,8 +910,8 @@ var map,placeSearch;
     }
 
     .location{
-        float: left;
-        margin-left: 1.3rem;
+        float: right;
+        margin-right: 0.5rem;
     }
 
     .titlebox .commit {

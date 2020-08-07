@@ -70,9 +70,10 @@
                 let newroomid = parseInt(room_id);
                 let area = this.min + '-' + this.max +'m²'
                 if(this.$route.name != "xfdetail"){
-                    this.$router.push({path:'/index/xf/detail/',query:{id:newroomid,time:''}});
+                    // this.$router.push({path:'/index/xf/detail/'+newroomid+'/'});
+                    this.$router.push({name:'xfdetail',params:{id:newroomid,time:'123'}});
                 }else{
-                    this.$router.push({path:'/index/xf/detail/',query:{id:newroomid,time:new Date()}});
+                    this.$router.push({name:'xfdetail',params:{id:newroomid,time:new Date()}});
                 }
             }
         }

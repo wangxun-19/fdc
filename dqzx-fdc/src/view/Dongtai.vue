@@ -26,7 +26,7 @@ import mixin from '../mixin/mixin'
             }
         },
         created() {
-            let type = this.$route.query.type;
+            let type = this.$route.params.type;
             console.log(type);
             this.type = type;
             this.getdongtai(type);

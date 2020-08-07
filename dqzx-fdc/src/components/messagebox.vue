@@ -39,11 +39,11 @@ export default {
               }
           })
           if(type == 1){
-              self.$router.push({path:"/index/xf/detail",query:{id:self.hid,time:''}});
+              self.$router.push({name:'xfdetail',params:{id:self.hid,time:''}});
           }else if(type == 2){
-              self.$router.push({path:"/index/erf/detail",query:{id:self.hid,time:''}});
+              self.$router.push({name:'erfdetail',params:{id:self.hid,time:''}});
           }else if(type == 3){
-              self.$router.push({path:"/index/rent/detail",query:{id:self.hid,time:''}});
+              self.$router.push({name:'rentdetail',params:{id:self.hid,time:''}});
           }
       }
   }

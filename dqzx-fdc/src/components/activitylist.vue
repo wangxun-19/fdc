@@ -84,7 +84,7 @@
                 let newroomid = parseInt(self.hid);
                 self.minmax(self.areaarray);
                 let area = this.min + '-' + this.max +'m²'
-                this.$router.push({path:'/index/xf/detail/',query:{id:newroomid,time:''}});
+                this.$router.push({name:'xfdetail',params:{id:newroomid,time:'123'}});
             },
             minmax(array){
                 if(array.length>0){

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 10.5rem;overflow-y: auto">
       <div v-if="messagelist.length>0">
           <div v-for="(item,index) in messagelist" :key="index">
               <Messbox
@@ -14,9 +14,9 @@
                />
           </div>
       </div>
-      <div class="title0" v-if="readmessage.length >=0">
+      <!-- <div class="title0" v-if="readmessage.length >=0">
           <label>以下为已读消息</label>
-      </div>
+      </div> -->
       <div v-if="readmessage.length>0">
           <div v-for="(item,index0) in readmessage" :key="index0">
               <Messbox

@@ -33,10 +33,10 @@ import mixin from '../mixin/mixin';
             }
         },
         created() {
-            let roomid = this.$route.query.id;
-            let type = this.$route.query.type;
+            let roomid = this.$route.params.id;
+            let type = this.$route.params.type;
             if(type == 'new'){
-                this.area = this.$route.query.area;
+                this.area = this.$route.params.area;
             }
             this.roomid = roomid;
             this.type = type;

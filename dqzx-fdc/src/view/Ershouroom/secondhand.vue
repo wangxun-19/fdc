@@ -122,11 +122,11 @@
                 </van-dropdown-item>
             </van-dropdown-menu>
         </div>
-        <div class="showarea">
+        <div id="showmenu">
             <div v-if="ershouRoomList.length === 0">
                 <label>暂无二手房数据</label>
             </div>
-            <div style="height:8.3rem;overflow:auto" v-else>
+            <div v-else>
                 <ul 
                   v-infinite-scroll="onLoad"
                   infinite-scroll-distance="10">
@@ -150,7 +150,7 @@
    import mixin from '../../mixin/mixin'
     export default {
         name: "secondhand",
-        mixins:[mixin],
+        // mixins:[mixin],
         data(){
             return{
                 keyword:'',
@@ -653,5 +653,40 @@
 
     .bell{
         width:0.35rem;
+    }
+
+    @media screen and (min-height: 0px) and (max-height: 480px){
+        #showmenu{
+          height: 7.8rem;
+          overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 481px) and (max-height: 568px){
+        #showmenu{
+          height: 9.8rem;
+          overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 569px) and (max-height: 736px){
+        #showmenu{
+          height: 10rem;
+          overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 737px) and (max-height: 896px){
+        #showmenu{
+          height: 13rem;
+          overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 897px){
+        #showmenu{
+          height: 5.9rem;
+          overflow-y: auto;
+        }
     }
 </style>

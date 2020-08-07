@@ -5,14 +5,14 @@
            <li @click="selectarea(0)" :class="{active:cur==0}" >二手房</li>
            <li @click="selectarea(1)" :class="{active:cur==1}">租房</li>
        </ul>
-       <div v-show="cur == 0" style="height: 7.5rem">
+       <div v-show="cur == 0" style="height: 10.5rem;overflow-y:auto">
            <ul v-infinite-scroll="handleReachBottom"
                infinite-scroll-distance="10">
                <div v-for="(item,index) in fabuinfo" :key="index">
                    <RoomBox
                       :title="item.title"
                       :room_id="item.id"
-                      :img="item.img"
+                      :img="item.img[0]"
                       :price="item.unitPrice"
                       :status="item.status"
                       :localName="item.localName"
@@ -24,7 +24,7 @@
                 </div>
            </ul>
        </div>
-       <div v-show="cur == 1" style="height: 7.5rem">
+       <div v-show="cur == 1" style="height: 10.5rem;overflow-y:auto">
            <ul v-infinite-scroll="handleReachBottom"
                infinite-scroll-distance="10">
                <div v-for="(item,index) in fabuinfo" :key="index">
@@ -38,7 +38,7 @@
                </div>
            </ul>
        </div>
-       <div v-show="cur == 2" style="height: 7.5rem">
+       <div v-show="cur == 2" style="height: 10.5rem;overflow-y:auto">
            <ul v-infinite-scroll="handleReachBottom"
                infinite-scroll-distance="10">
                <div v-for="(item,index) in fabuinfo" :key="index">
@@ -72,6 +72,7 @@ export default {
       }
   },
   created(){
+      this.page = 0;
       this.getKaifalist();
   },
   methods:{
