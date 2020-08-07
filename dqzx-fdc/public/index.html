@@ -1,46 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <link rel="stylesheet" href="<%= BASE_URL %>css/weui.min.css" />
-    <script src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
-    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.14&key=aa31c41926555dea9c2dfc2cfaac68f1&plugin=AMap.Autocomplete,AMap.PlaceSearch"></script>
-    <script src="https://cdn.bootcss.com/vConsole/3.3.4/vconsole.min.js"></script>
-    <script src="http://api.map.baidu.com/api?v=1.4" type="text/javascript"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/getscript? 
-    v=2.0&ak=4H5Sar3CLjFIGdSvg3dfGGOURbAXGMuR"></script>
-    <script>
-      // new VConsole();
-    </script>
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width,initial-scale=1,user-scalable=0"
+        />
+        <!-- 引入vue-->
+        <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.10/vue.min.js"></script>
+        <script src="https://cdn.bootcdn.net/ajax/libs/vue-router/3.0.7/vue-router.min.js"></script>
+        <!-- 引入axios 0.19.0-->
+        <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.0/axios.min.js"></script>
+        <!-- 引入weui样式文件 -->
+        <link rel="stylesheet" href="<%= BASE_URL %>style/css/weui.min.css" />
 
-    <style>
-      body{
-        background-color: #f1f1f1;
-      }
+        <script src="http://res2.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
 
-      html{
-        line-height: 1.25;
-      }
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/vant@2.8/lib/index.css"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/vant@2.8/lib/vant.min.js"></script>
 
-      .van-tabs__nav--card .van-tab {
-        color: #ee0a24;
-        border-right: 1px solid #ee0a24;
-      }
-
-      .van-tabs__nav--card .van-tab {
-        color: black;
-      }
-    </style>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but default doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+        <!--<script src="<%= BASE_URL %>style/js/vconsole.min.js"></script>-->
+        <title>自助缴费</title>
+    </head>
+    <body>
+        <noscript>
+            <strong
+                >We're sorry but parking doesn't work properly without
+                JavaScript enabled. Please enable it to continue.</strong
+            >
+        </noscript>
+        <div id="app"></div>
+        <!-- built files will be auto injected -->
+    </body>
 </html>

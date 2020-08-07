@@ -1,49 +1,44 @@
 <template>
-    <div></div>
+    <div class="Auth"></div>
 </template>
 
 <script>
-    import CodeDeal from "../utils/CodeDeal";
-    import mixin from "../mixin/mixin";
-    export default {
-        name: "Auth",
-        mixins: [mixin],
-        created() {
-            document.title = "正在授权";
-            let code = this.$route.query.code;
-            let self = this;
-            console.log(code);
-            if(code){
-                CodeDeal.getToken(code,()=>{
-                    self.auth();
-                });
-            }else{
-                self.toauth();
-            }
-        },
-        methods:{
-            auth(){
-                let token = localStorage.getItem("token");
-                let authBefore = localStorage.getItem("authBefore");
-                if(token){
-                    console.log(authBefore);
-                    if(authBefore != ''&&authBefore != undefined){
-                        window.location.href = authBefore;
-                    }else{
-                        this.$router.replace("/index");
-                    }
-                    localStorage.removeItem("authBefore");
-                }else{
-                    CodeDeal.towxAuth();
+import mixin from "../utils/mixin"; // 引入mixin文件
+import way from "../utils/codeDeal";
+export default {
+    name: "Auth",
+    mixins: [mixin],
+    created() {
+        //let code = this.$route.query.code;
+        let code = window.location.search.split("&")[0].slice(6);
+        console.log(code);
+        if (code) {
+            way.getToken(code, () => {
+                this.auth();
+            });
+        } else {
+            this.auth();
+        }
+    },
+    methods: {
+        auth() {
+            let token = localStorage.getItem("token");
+            let authBefore = localStorage.getItem("authBefore");
+            if (token) {
+                if (authBefore) {
+                    window.location.href = authBefore;
+                } else {
+                    console.log(token);
+                    this.$router.replace("/index");
+                    //window.location.href = index;
                 }
-            },
-            toauth(){
-                CodeDeal.towxAuth();
+                localStorage.removeItem("authBefore");
+            } else {
+                way.toWxAuth();
             }
         }
     }
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
