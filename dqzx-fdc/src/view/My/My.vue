@@ -14,9 +14,9 @@
                     </div>
                 </div>
                 <div style="float: right;margin-right: 0.37rem;">
-                    <div class="jjrbtn" v-if="myInfo.houseStatus != 1&&myInfo.houseStatus != 2" @click="jinjiren">
-                        <img :src="jjrpic" class="jjr" style="float:left;margin-bottom:0.11rem">
-                        <div style="float:left;margin-right: 0.12rem;margin-top: 0.07rem;margin-left: 0.07rem;margin-bottom:0.11rem">
+                    <div class="jjrbtn" v-if="myInfo.houseStatus != 2&&myInfo.houseStatus != 3" @click="jinjiren">
+                        <img :src="jjrpic" class="jjr" style="">
+                        <div style="float:right;margin-right: 0.12rem;margin-top: 0.07rem">
                             <label class="title">申请成为经纪人</label>
                         </div>
                     </div>
@@ -53,6 +53,8 @@
                             <label style="font-size:0.27rem;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);">收藏</label>
                              <van-icon style="margin-left: 4.5rem" size="0.27rem" name="arrow" />
                         </div>
+                        <!-- <label style="font-size: 14px;color: #333333;margin-left: 24px;">收藏</label>
+                        <van-icon style="margin-left: 220px" name="arrow" /> -->
                     </div>
                     <div class="item" @click="showhis">
                         <img style="width: 0.46rem;height: 0.46rem;margin-top: 0.31rem;margin-left: 0.30rem;float:left" :src="hisbtn">
@@ -69,6 +71,8 @@
                             <label style="font-size:0.27rem;font-family:PingFang SC;font-weight:500;color:rgba(51,51,51,1);">消息</label>
                              <van-icon style="margin-left: 4.5rem" size="0.27rem" name="arrow" />
                         </div>
+                        <!-- <label style="font-size: 14px;color: #333333;margin-left: 24px;">消息</label>
+                        <van-icon style="margin-left: 220px" name="arrow" /> -->
                     </div>
                     <div class="item" @click="showyanzheng" v-if="myInfo.houseStatus == -1">
                         <img style="width: 0.46rem;height: 0.46rem;margin-top: 0.31rem;margin-left: 0.30rem;float:left" :src="mesbtn">
@@ -86,10 +90,10 @@
 <script>
     // import mixin from '../mixin/mixin';
     import mixin from '../../mixin/mixin'
-import { Toast } from 'vant';
+    import { Toast } from 'vant';
     export default {
         name: "My",
-        
+        mixins:[mixin],
         data(){
             return{
                 myInfo:{},
@@ -113,7 +117,7 @@ import { Toast } from 'vant';
                 let self = this;
                 this.$axios.get('http://house-api.zjlaishang.com:9001/my',{
                     headers:{
-                        token: token
+                        'TOKEN': token
                     }
                 }).then(function (res) {
                     console.log('myinfo');
@@ -121,16 +125,12 @@ import { Toast } from 'vant';
                     if(res.data.code == 200){
                         self.myInfo = res.data.data;
                         self.openid = res.data.data.openid;
-                        if(self.myInfo.houseStatus == 0){
+                        if(self.myInfo.houseStatus == 1){
                             self.status = "个人用户";
-                        }else if(self.myInfo.houseStatus == 1){
-                            self.status = "申请中";
                         }else if(self.myInfo.houseStatus == 2){
-                            self.status = "经纪人";
+                            self.status = "申请中";
                         }else if(self.myInfo.houseStatus == 3){
-                            self.status = "申请经纪人失败";
-                        }else{
-                            self.status = "未认证手机号"
+                            self.status = "经纪人";
                         }
                     }else{
                         self.$toast(res.data.msg);
@@ -142,54 +142,59 @@ import { Toast } from 'vant';
             },
             jinjiren(){
                 let self = this;
-                if(self.myInfo.houseStatus != -1){
-                    self.$router.push({name:'applyjjr',params:{status0:self.myInfo.houseStatus,phone: self.myInfo.phone}});
-                }else{
-                    self.$toast('先绑定手机号');
-                }
+                window.location.href = 'http://'+window.location.host+'/applyjjr/'+self.myInfo.houseStatus+'/'+new Date().toString();
+                // self.$router.push({name:'applyjjr',params:{status0:self.myInfo.houseStatus}});
             },
             erfbtn(){
                 let self = this;
-                if(self.myInfo.houseStatus != -1){
-                    this.$router.push({path:'/fabuerf'})
-                }else{
-                    this.$toast("请先绑定手机号");
+                if(self.myInfo.houseStatus == -1){
+                    self.$toast('请先验证手机号');
+                    return;
                 }
+                window.location.href = 'http://'+window.location.host+'/fabuerf/'+new Date().toString();
+                // this.$router.push({path:'/fabuerf'})
             },
             rentbtn(){
                 let self = this;
-                if(self.myInfo.houseStatus != -1){
-                    this.$router.push({path:'/faburent'})
-                }else{
-                    this.$toast("请先绑定手机号");
+                if(self.myInfo.houseStatus == -1){
+                    self.$toast('请先验证手机号');
+                    return;
                 }
+                // this.$router.push({path:'/faburent'})
+                window.location.href = 'http://'+window.location.host+'/faburent/'+new Date().toString();
             },
             showfabu(){
                 let self = this;
-                if(self.myInfo.houseStatus != -1){
-                    self.$router.push({path:'/my/fabu'})
-                }else{
-                    this.$toast("请先绑定手机号");
+                if(self.myInfo.houseStatus == -1){
+                    self.$toast('请先验证手机号');
+                    return;
                 }
-                
+                window.location.href = 'http://'+window.location.host+'/my/fabu/'+new Date().toString();
+                // self.$router.push({path:'/my/fabu'})
             },
             shoushoucang(){
                 let self = this;
-                self.$router.push({path:'/my/sc'})
+                if(self.myInfo.houseStatus == -1){
+                    self.$toast('请先验证手机号');
+                    return;
+                }
+                window.location.href = 'http://'+window.location.host+'/my/sc/'+new Date().toString();
+                // self.$router.push({path:'/my/sc'})
             },
             showhis(){
                 let self = this;
-                self.$router.push({path:'/my/his'});
+                window.location.href = 'http://'+window.location.host+'/my/his/'+new Date().toString();
+                // self.$router.push({path:'/my/his'});
             },
             showmes(){
                 let self = this;
-                self.$router.push({path:'/my/message'});
-                
+                window.location.href = 'http://'+window.location.host+'/my/message/'+new Date().toString();
+                // self.$router.push({path:'/my/message'});
             },
             showyanzheng(){
                 let self = this;
-                self.$router.push('/editInfo');
-            }
+                window.location.href = 'http://'+window.location.host+'/editInfo/'+new Date().toString();
+            },
         }
     }
 </script>
@@ -211,8 +216,8 @@ import { Toast } from 'vant';
        z-index: 1;
     }
     .jjrbtn{
-        /* width: 2.68rem; */
-        height: 0.60rem;
+        width: 2.68rem;
+        height: 0.48rem;
         /*line-height: 33px;*/
         border-radius: 0.24rem;
         background-color: #FDF7E7;
@@ -267,6 +272,8 @@ import { Toast } from 'vant';
 
     .info{
         margin-left: 0.31rem;
+        background: none;
+        color: #FFF;
     }
 
     .info .name{

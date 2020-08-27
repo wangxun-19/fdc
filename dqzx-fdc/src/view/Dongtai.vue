@@ -22,24 +22,27 @@ import mixin from '../mixin/mixin'
             return{
                 page:0,
                 dongtailist:[],
-                type:''
+                type:'',
+                roomid:0
             }
         },
         created() {
             let type = this.$route.params.type;
+            let roomid = parseInt(this.$route.params.id);
             console.log(type);
             this.type = type;
-            this.getdongtai(type);
+            this.roomid = roomid;
+            this.getdongtai(type,roomid);
         },
         methods:{
             onload(){
                 this.page++;
-                this.getdongtai(this.type);
+                this.getdongtai(this.type,this.roomid);
             },
-            getdongtai(type){
+            getdongtai(type,roomid){
                 let self = this;
                 if(type == 'new'){
-                    this.$axios.get("http://house-api.zjlaishang.com:9001/new/msg/"+this.page,{
+                    this.$axios.get("http://house-api.zjlaishang.com:9001/new/msg/"+roomid+'/'+this.page,{
                     }).then(function (res) {
                         console.log(res);
                         if(res.data.code == 200){
@@ -51,7 +54,7 @@ import mixin from '../mixin/mixin'
                         }
                     })
                 }else if(type == 'old'){
-                    this.$axios.get("http://house-api.zjlaishang.com:9001/old/msg/"+this.page,{
+                    this.$axios.get("http://house-api.zjlaishang.com:9001/old/msg/"+roomid+'/'+this.page,{
                     }).then(function (res) {
                         console.log(res);
                         if(res.data.code == 200){
@@ -74,7 +77,7 @@ import mixin from '../mixin/mixin'
         width: 100%;
     }
     .dongtai{
-        height: 7.5rem;
+        height: 12rem;
         overflow-y: auto;
     }
 </style>

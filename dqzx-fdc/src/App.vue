@@ -5,8 +5,6 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
-import mixin from './mixin/mixin'
     var updateBaseFontSize = function () {
           var dWidth = document.documentElement.clientWidth;
           var baseFontSize = dWidth * 100 / 750;
@@ -19,12 +17,12 @@ export default {
   name: 'app',
   components: {
 
-  }
+  },
 }
 </script>
 
 <style>
-    /*#app{*/
-    /*    background: #F7F9FE;*/
-    /*}*/
+    #app{
+      background-color: white;
+    }
 </style>

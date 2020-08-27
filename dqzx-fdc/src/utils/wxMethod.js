@@ -2,10 +2,10 @@ import wxJs from './wx-sdk'
 export default {
     share(info){
         let link =
-            info.link ||
-            window.location.href.split("#")[0] +
-                "redirect.html?app3Redirect=" +
-                encodeURIComponent(window.location.href);
+          info.link ||
+          window.location.href.split("#")[0] +
+            "redirect.html?app3Redirect=" +
+            encodeURIComponent(window.location.href);
         let imgUrl = info.icon || "";
         let title = info.title || "";
         let desc = info.desc || "";
@@ -13,7 +13,7 @@ export default {
         console.log("img"+imgUrl+"desc"+desc);
         wxJs.init([
             "updateAppMessageShareData",
-            "updateTimelineShareData"
+            "updateTimelineShareData",
         ])
             .then(wx=>{
                 wx.updateAppMessageShareData({
@@ -102,5 +102,61 @@ export default {
                 }
             });
         });
+    },
+    chooseImage(count,ccb,fcb){
+        // let count = info.count;
+        wxJs.init(["chooseImage"]).then(
+            wx=>{
+                wx.chooseImage({
+                    count: count, // 默认9
+                    sizeType: ['original', 'compressed'], 
+                    sourceType: ['album', 'camera'],
+                    success(res){
+                        typeof ccb == "function" && ccb(res);
+                    },
+                    cancel(err){
+                        typeof fcb == "function" && fcb(err);
+                    }
+                })
+            }
+        )
+    },
+
+    upLoadImage(ids,ccb,fcb){
+        // let count = info.count;
+        wxJs.init(["uploadImage"]).then(
+            wx=>{
+                wx.uploadImage({
+                    localId: ids,
+                    isShowProgressTips: 1,
+                    success(res){
+                        typeof ccb == "function" && ccb(res);
+                    },
+                    cancel(err){
+                        typeof fcb == "function" && fcb(err);
+                    },
+                    fail(errs){
+                        alert(JSON.stringify(errs))
+                    }
+                })
+            }
+        )
+    },
+
+    downLoadImage(serviceid,ccb,fcb){
+        // let count = info.count;
+        wxJs.init(["downloadImage"]).then(
+            wx=>{
+                wx.downloadImage({
+                    serverId: serviceid,
+                    success(res){
+                        typeof ccb == "function" && ccb(res);
+                    },
+                    fail(err){
+                        typeof fcb == "function" && fcb(err);
+                    }
+                })
+            }
+        )
     }
 }

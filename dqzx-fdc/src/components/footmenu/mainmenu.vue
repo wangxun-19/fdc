@@ -12,7 +12,7 @@
                     <img
                             :src="item.on == true?item.selepicpath:item.picpath"
                             v-if="index != 2"
-                            style="width: 20px;height: 21px"
+                            style="width: 29px;height: 29px"
                     >
                     <div v-if="index == 2" style="display: flex">
                         <img :src="item.picpath" style="width: 46px">
@@ -55,7 +55,7 @@
                 menu_list:[
                     {
                         name: '房源',
-                        path:'/index',
+                        pathname:'/index',
                         picpath:require("../../assets/images/menu/房源a.png"),
                         selepicpath:require("../../assets/images/menu/房源b.png"),
                         link:'',
@@ -64,7 +64,7 @@
                     },
                     {
                         name:'装修',
-                        path:'/zx',
+                        pathname:'/zx',
                         picpath:require("../../assets/images/menu/装修a.png"),
                         selepicpath:require("../../assets/images/menu/装修b.png"),
                         link:'',
@@ -73,7 +73,7 @@
                     },
                     {
                         name:'',
-                        path:'',
+                        pathname:'',
                         picpath:require("../../assets/images/menu/组1@3x.png"),
                         selepicpath:'',
                         link:'',
@@ -82,7 +82,7 @@
                     },
                     {
                         name:'活动',
-                        path:'/activity',
+                        pathname:'/activity',
                         picpath:require("../../assets/images/menu/活动a.png"),
                         selepicpath:require("../../assets/images/menu/活动b.png"),
                         link:'',
@@ -91,7 +91,7 @@
                     },
                     {
                         name:'我的',
-                        path:'/my',
+                        pathname:'/my',
                         picpath:require("../../assets/images/menu/我的a.png"),
                         selepicpath:require("../../assets/images/menu/我的b.png"),
                         link:'',
@@ -112,18 +112,18 @@
             self.menu_list.forEach(element=>{
                 element.on = false;
             })
-            switch (this.$route.path) {
-                case "/index":
+            switch (this.$route.name) {
+                case "index":
                     self.menu_list[0].on = true;
                     console.log('123');
                     break;
-                case "/zx":
+                case "zx":
                     self.menu_list[1].on = true;
                     break;
-                case "/activity":
+                case "activity":
                     self.menu_list[3].on = true;
                     break;
-                case "/my":
+                case "my":
                     self.menu_list[4].on = true;
                     break;
             }
@@ -131,10 +131,17 @@
         methods:{
             toTheirRouter(item){
                 if(item.isRoute == true){
-                    this.$router.push({
-                        path:item.path
-                    });
+                    if(item.pathname != '/index'){
+                        window.location.href = 'http://'+window.location.host+item.pathname+'/'+new Date().toString();
+                    }else{
+                        window.location.href = 'http://'+window.location.host+item.pathname+'/'+parseInt(Math.random()*100000);
+                    }
+                    
+                    // this.$router.push({
+                    //     name:item.pathname
+                    // });
                 }else{
+                    this.$toast('尽请期待')
                     // window.location.href = item.link;
                 }
             }

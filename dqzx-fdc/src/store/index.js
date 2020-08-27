@@ -14,11 +14,20 @@ export default new vuex.Store({
         newRoomlist: [],
         ershouRoomList:[],
         rentRoomList:[],
+        isios:false,
+        firsturl:''
     },
     mutations:{
         saveToken(state,value){
             state.token = value;
             localStorage.setItem('token',value);
+        },
+        isIosFun(state,value){
+            state.isios = value;
+        },
+        firstUrlfun(state,value){
+            state.firsturl = value;
+            localStorage.setItem('firsturl',value);
         },
         saverefreshtoken(state,value){
             state.refresh_token = value;

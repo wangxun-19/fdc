@@ -1,20 +1,21 @@
 import router from "../router/index";
+import store from '../store/index'
 import { getJsSdkApi } from "../utils/api.js"
 
 export default {
     init(jsApiList = []){
-        let wxurl = location.href.split("#")[0];
-        // let wechaturl = localStorage.getItem("wechaturl");
-        // if(wechaturl != undefined&&wechaturl != ''&&wechaturl != null){
-        //     wxurl = window.wechatUrl;
-        // }
-        // if(router.$route.name == "xfdetail"||router.$route.name == "erfdetail"||router.$route.name=="rentdetail"){
-        //     wxurl = "http://"+location.host+'/';
-        // }
+        let wxurl = location.href.split('#')[0];
+        let htmlurl = wxurl;
+        // let htmlurl = encodeURIComponent(wxurl)
+        if(navigator.userAgent.indexOf('iPhone') !== -1){
+            console.log('ios');
+            htmlurl = location.href.split('#')[0];
+            // wxurl = window.location+'';
+        }
         console.log(wxurl);
         return new Promise((resolve,reject)=>{
             getJsSdkApi({
-                url: wxurl
+                url: htmlurl
             })
                 .then(res=>{
                     if(res.code === 200){
@@ -24,10 +25,9 @@ export default {
                             timestamp: res.data.timestamp, // 必填，生成签名的时间戳
                             nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
                             signature: res.data.signature, // 必填，签名，见附录1
-                            jsApiList: jsApiList // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                            jsApiList: res.data.jsApiList // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                         });
                         wx.ready(()=>{
-                            // console.log(wx);
                             resolve(wx);
                         })
                         wx.error((err)=>{

@@ -1,33 +1,13 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
-import Index from '@/view/index'
-import Auth from '../components/Auth'
 import MainMenu from '../components/footmenu/mainmenu'
 import Mypic from '../components/Mypic'
-import NewRoom from '../view/NewRoom/NewRoom'
 import ImgBtn from '../components/ImgBtn'
 import RoomBox from "../components/RoomBox";
-import secondhand from "../view/Ershouroom/secondhand";
 import secRoomBox from "../components/SecondRoomBox";
-import Rentroom from "../view/rentRoom/Rentroom";
-import Rentroomdetail from "../view/rentRoom/Rentroomdetail";
-import NewRoomDetail from "../view/NewRoom/NewRoomDetail";
-import secondhandDetail from "../view/Ershouroom/secondhandDetail";
 import Tabbar from "../components/Tabbar";
-import My from "../view/My/My";
 import DongTai from '../components/dongtailist'
 import WentiList from '../components/tiwenlist'
-import tiwen from "../view/tiwen";
-import answer from "../view/answer";
-import Dongtai from "../view/Dongtai";
-import Wentidengluo from "../view/Wentidengluo";
 import RentRoomBox from "../components/RentRoomBox";
-import radio from "../components/radio";
-import FabuErshou from "../view/FabuErshou";
-import Faburent from "../view/Faburent";
-import {Dialog} from 'element-ui'
-import map from '../view/map'
-import applyjjr from '../view/applyjjr'
 import huxinBox from "../components/huxinBox";
 import myfabu from '../view/myfabu'
 import mycollect from '../view/mycollect'
@@ -35,16 +15,10 @@ import myhistory from '../view/myhistory'
 import mymessage from '../view/mymessage'
 import messagebox from '../components/messagebox'
 import maplist from '../components/maplist'
-import yuyuekanfang from '../view/yuyuekanfang'
-import mapview from '../view/mapview'
-import activity from '../view/activity/activity'
 import activitylist from '../components/activitylist'
-import mapfind from '../view/mapfind/mapfind'
-import mapdemo from '../view/mapfind/mapdemo'
-import editinfo from '../view/editInfo'
 import JinjiList from '../components/jinjilist'
 
-Vue.use(VueRouter);
+// Vue.use(VueRouter);
 
 Vue.component("MainMenu", MainMenu);
 Vue.component("MyImage",Mypic);
@@ -55,13 +29,11 @@ Vue.component("RentRoomBox",RentRoomBox)
 Vue.component("Tabbar",Tabbar)
 Vue.component("DongTai",DongTai)
 Vue.component("WentiList",WentiList)
-Vue.component("tradio",radio)
 Vue.component("huxinBox",huxinBox)
 Vue.component("Messbox",messagebox)
 Vue.component("MapList",maplist)
 Vue.component("Activity",activitylist)
 Vue.component("JinjiList",JinjiList)
-Vue.component(Dialog.name,Dialog)
 
 export default new VueRouter({
     mode:"history",
@@ -73,47 +45,47 @@ export default new VueRouter({
                 title: "授权中",
                 notShare: true
             },
-            component:Auth
+            component:resolve =>require(['@/components/Auth'],resolve)
         },
         {
-            path:'/index',
+            path:'/index/:time',
             name:'index',
             meta: {
                 title: "房产"
             },
-            component:Index
+            component:resolve =>require(['@/view/index'],resolve)
         },
         {
-            path:'/index/xf',
+            path:'/search',
+            name:'search',
+            meta: {
+                title: "搜索"
+            },
+            component:resolve =>require(['@/view/search'],resolve)
+        },
+        {
+            path:'/index/xf/:time',
             name:'xf',
             meta:{
                 title: "新房"
             },
-            component: NewRoom
+            component: resolve =>require(['@/view/NewRoom/NewRoom'],resolve)
         },
         {
-            path:'/index/esf',
+            path:'/index/esf/:time',
             name:'esf',
             meta:{
                 title: "二手房"
             },
-            component: secondhand
+            component: resolve =>require(['@/view/Ershouroom/secondhand'],resolve)
         },
         {
-            path:'/index/rent',
+            path:'/index/rent/:time',
             name:'rent',
             meta: {
                 title: "租房"
             },
-            component: Rentroom
-        },
-        {
-            path:'/map',
-            name:'map',
-            meta: {
-                title: "租房"
-            },
-            component: map
+            component: resolve =>require(['@/view/rentRoom/Rentroom'],resolve)
         },
         {
             path: '/index/xf/detail/:id/:time',
@@ -122,7 +94,7 @@ export default new VueRouter({
                 title: "新房详情"
             },
             
-            component: NewRoomDetail
+            component: resolve =>require(['@/view/NewRoom/NewRoomDetail'],resolve)
         },
         {
             path: '/index/erf/detail/:id/:time',
@@ -130,7 +102,7 @@ export default new VueRouter({
             meta: {
                 title: "二手房详情"
             },
-            component: secondhandDetail
+            component: resolve =>require(['@/view/Ershouroom/secondhandDetail'],resolve)
         },
         {
             path: '/index/rent/detail/:id/:time',
@@ -138,26 +110,26 @@ export default new VueRouter({
             meta: {
                 title: "租房详情"
             },
-            component: Rentroomdetail
+            component: resolve =>require(['@/view/rentRoom/Rentroomdetail'],resolve)
         },
         {
-            path: '/my',
+            path: '/my/:time',
             name: 'my',
             meta: {
                 title: "我的"
             },
-            component: My
+            component: resolve =>require(['@/view/My/My'],resolve)
         },
         {
-            path: '/tiwen/:id/:type/:area',
+            path: '/tiwen/:id/:type',
             name: 'tiwen',
             meta: {
                 title: "提问"
             },
-            component: tiwen
+            component: resolve =>require(['@/view/tiwen'],resolve)
         },
         {
-            path: '/answer/:id/:title/:type/:roomid/:area',
+            path: '/answer/:id/:title/:type/:roomid',
             name: 'answer',
             meta: {
                 title: "回答"
@@ -169,10 +141,10 @@ export default new VueRouter({
             //     roomid:'',
             //     area:''
             // },
-            component: answer
+            component: resolve =>require(['@/view/answer'],resolve)
         },
         {
-            path: '/dongtaigengduo/:type',
+            path: '/dongtaigengduo/:type/:id',
             name: 'dongtaigengduo',
             meta: {
                 title: "更多动态"
@@ -180,21 +152,10 @@ export default new VueRouter({
             query: {
                 type:''
             },
-            component: Dongtai
+            component: resolve =>require(['@/view/Dongtai'],resolve)
         },
         {
-            path: '/mapview',
-            name: 'mapview',
-            meta: {
-                title: "地图"
-            },
-            query: {
-                type:''
-            },
-            component: mapdemo
-        },
-        {
-            path: '/wentigengduo',
+            path: '/wentigengduo/:id/:type',
             name: 'wentigengduo',
             meta: {
                 title: "更多问题"
@@ -203,26 +164,26 @@ export default new VueRouter({
                 id:'',
                 type:''
             },
-            component: Wentidengluo
+            component: resolve =>require(['@/view/Wentidengluo'],resolve)
         },
         {
-            path: '/fabuerf',
+            path: '/fabuerf/:time',
             name: 'fabuerf',
             meta: {
                 title: "发布二手房"
             },
-            component: FabuErshou
+            component: resolve =>require(['@/view/FabuErshou'],resolve)
         },
         {
-            path: '/faburent',
+            path: '/faburent/:time',
             name: 'faburent',
             meta: {
                 title: "发布租房"
             },
-            component: Faburent
+            component: resolve =>require(['@/view/Faburent'],resolve)
         },
         {
-            path:'/applyjjr/:status0/:tel',
+            path:'/applyjjr/:status0/:time',
             name:'applyjjr',
             meta:{
                 title: "申请成为中介"
@@ -231,10 +192,10 @@ export default new VueRouter({
                 status0:0,
                 phone:''
             },
-            component: applyjjr
+            component: resolve =>require(['@/view/applyjjr'],resolve)
         },
         {
-            path:'/my/fabu',
+            path:'/my/fabu/:time',
             name:'myfabu',
             meta:{
                 title: "我的发布"
@@ -242,7 +203,7 @@ export default new VueRouter({
             component: myfabu
         },
         {
-            path:'/my/sc',
+            path:'/my/sc/:time',
             name:'mysc',
             meta:{
                 title: "我的收藏"
@@ -250,7 +211,7 @@ export default new VueRouter({
             component: mycollect
         },
         {
-            path:'/my/his',
+            path:'/my/his/:time',
             name:'myhis',
             meta:{
                 title: "我的历史"
@@ -258,7 +219,7 @@ export default new VueRouter({
             component: myhistory
         },
         {
-            path:'/my/message',
+            path:'/my/message/:time',
             name:'mymessage',
             meta:{
                 title: "我的消息"
@@ -266,40 +227,36 @@ export default new VueRouter({
             component: mymessage
         },
         {
-            path:'/yuyue',
+            path:'/yuyue/:type/:roomid/:time',
             name:'yuyuekanafng',
-            query:{
-                roomid:'',
-                type:''
-            },
             meta:{
                 title: "预约看房"
             },
-            component: yuyuekanfang
+            component: resolve =>require(['@/view/yuyuekanfang'],resolve)
         },
         {
-            path:'/activity',
+            path:'/activity/:time',
             name:'activity',
             meta:{
                 title: "活动"
             },
-            component: activity
+            component: resolve =>require(['@/view/activity/activity'],resolve)
         },
         {
-            path:'/index/mapfind',
+            path:'/index/mapfind/:time',
             name:'mapfind',
             meta:{
                 title: "地图找房"
             },
-            component: mapfind
+            component: resolve =>require(['@/view/mapfind/mapfind'],resolve)
         },
         {
-            path:'/editinfo',
+            path:'/editinfo/:time',
             name:'mapfind',
             meta:{
                 title: "编辑信息"
             },
-            component: editinfo
+            component: resolve =>require(['@/view/editInfo'],resolve)
         },
         { 
             path: '*', 

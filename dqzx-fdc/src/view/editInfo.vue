@@ -62,8 +62,6 @@
 </template>
 
 <script>
-    //import { userInfoApi,saveInfoApi,sendSMSApi,bindPhoneApi } from '../request/api';
-    import 'element-ui/lib/theme-chalk/index.css';
     import mixin from '../mixin/mixin'; // 引入mixin文件
     export default {
         name: "editInfo",
@@ -270,6 +268,7 @@
                             duration: 1200
                         });
                         self.$store.commit("setTime",0);
+                        localStorage.setItem("time",0)
                         self.$router.push('/my');
                     }else{
                         self.$toast(res.data.msg);

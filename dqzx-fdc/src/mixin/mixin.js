@@ -28,7 +28,7 @@ export default {
                         title: this.$route.meta.title, // 分享标题
                         desc: this.$route.meta.title, // 分享描述
                         icon:
-                            "http://www.zjlaishang.com/resource/uploads/my/common_share.jpg"
+                            "http://newhouse.zjlaishang.com/static//images/logo.jpg"
                     },
                     res => {
                         console.log("通用分享设置成功");
@@ -114,19 +114,28 @@ export default {
         let token = localStorage.getItem("token");
         let type = getquery.getQueryString("type");
         let code = getquery.getQueryString("code");
+        let ua = window.navigator.userAgent.toLowerCase();
         if(type == "home"){
             window.location.href = "http://house.zjlaishang.com:9001?code="+code
         }
-        //console.log(to.path);
-        // Toast(token == ''&&token == null&&token == undefined);
-        if (to.path === "/") {
-            next();
-        } else {
-            if (token) {
+
+        if (ua.match(/MicroMessenger/i) == "micromessenger") {
+            if (to.path === "/" ) {
                 next();
             } else {
-                localStorage.setItem("authBefore", window.location.href);
-                next("/");
+                if (token) {
+                    console.log(token)
+                    next();
+                } else {
+                    localStorage.setItem("authBefore", window.location.href);
+                    next("/");
+                }
+            }
+        } else {
+            if (to.path === "/") {
+                next("/index/"+parseInt(Math.random()*100000));
+            } else {
+                next();
             }
         }
     }

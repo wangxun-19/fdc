@@ -30,52 +30,10 @@
             </div>
         </div>
         <div class="selectArea">
-            <van-dropdown-menu active-color="#ee0a24">
+            <van-sticky @scroll="scroll">
+                <van-dropdown-menu active-color="#ee0a24" >
                 <van-dropdown-item title="区域" v-model="tiaojian" :options="option1" @change="change1"></van-dropdown-item>
                 <van-dropdown-item title="价格" :options="option5" @change="zongjia">
-                    <!-- <van-row style="overflow-x: auto;overflow-y: hidden">
-                        <ul class="moneyss" style="display: inline-flex;width: 100%;border-bottom: 1px solid #ECECEC;">
-                          <li @click="clickmonarr(1)" :class="{active:monarr==1}" style="margin-left: 30px;margin-bottom: 6.6px">0.7万以下</li>
-                          <li @click="clickmonarr(2)" :class="{active:monarr==2}" style="margin-left: 30px">0.7万-0.8万</li>
-                          <li @click="clickmonarr(3)" :class="{active:monarr==3}" style="margin-left: 30px">0.8万-1万</li>
-                          <li @click="clickmonarr(4)" :class="{active:monarr==4}" style="margin-left: 30px">1万-1.5万</li>
-                          <li @click="clickmonarr(5)" :class="{active:monarr==5}" style="margin-left: 30px">1.5万-2万</li>
-                          <li @click="clickmonarr(6)" :class="{active:monarr==6}" style="margin-left: 30px">2万以上</li>
-                        </ul>
-                    </van-row> -->
-                    <div>
-                        
-                        <!-- <div v-show="cur == 1">
-                            <van-row style="width: 100%;height: 48.65px">
-                                <van-col style="margin-left: 24px;font-size: 15px;margin-top: 15.6px">
-                                    <label style="width: 41px;height: 13px">自定义</label>
-                                </van-col>
-                                <van-col style="margin-left: 12.25px;margin-top: 8px">
-                                    <input placeholder="最小值" type="number" v-model="moneymin" style="width: 64px;height: 28px;text-align:center;border-radius: 5px;border: 1px solid #C0C0C0;font-size: 13px" />
-                                </van-col>
-                                <van-col style="margin-left: 4.15px;margin-top: 9px">
-                                    <label>-</label>
-                                </van-col>
-                                <van-col style="margin-left: 8.25px;margin-top: 8px">
-                                    <input placeholder="最大值" type="number" v-model="moneymax" style="width: 64px;height: 28px;text-align:center;border-radius: 5px;border: 1px solid #C0C0C0;font-size: 13px" />
-                                </van-col>
-                                <van-col style="margin-left: 8.65px;margin-top: 11px">
-                                    <label style="font-size: 15px">万</label>
-                                </van-col>
-                                <van-col style="margin-left: 42.25px;margin-top: 8px">
-                                    <van-button style="width: 64px;height: 28px;border-radius: 5px" :disabled="(moneymin === ''&&moneymax ==='')?'disabled':''" type="info" @click="zongjia">确定</van-button>
-                                </van-col>
-                            </van-row>
-                        </div> -->
-                    </div>
-<!--                    <van-tabs v-model="activity" type="card">-->
-<!--                        <van-tab title="单价(元/平方米)">-->
-
-<!--                        </van-tab>-->
-<!--                        <van-tab title="总价(万元)">-->
-
-<!--                        </van-tab>-->
-<!--                    </van-tabs>-->
                 </van-dropdown-item>
                 <van-dropdown-item title="户型" v-model="huxin" :options="option3" @change="change2"></van-dropdown-item>
                 <van-dropdown-item title="更多" ref="item">
@@ -84,7 +42,7 @@
                                 <label style="font-weight: bold;font-size: 16px">面积</label>
                             </van-col>
                         </van-row>
-                        <van-row style="margin-top: 20px">
+                        <van-row style="margin-top: 7px">
                             <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC">
                                 <li @click="clickarea(1)" :class="{active:area==1}" style="margin-left: 21px;margin-bottom: 6.6px">50m²以下</li>
                                 <li @click="clickarea(2)" :class="{active:area==2}" style="margin-left: 20px">50-70m²</li>
@@ -101,7 +59,7 @@
                                 <label style="font-weight: bold;font-size: 16px">状态</label>
                             </van-col>
                         </van-row>
-                        <van-row style="margin-top: 20px">
+                        <van-row style="margin-top: 7px">
                             <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC">
                                 <li @click="clickstatus(1)" :class="{active:status==1}" style="margin-left: 21px;margin-bottom: 6.6px">待售</li>
                                 <li @click="clickstatus(2)" :class="{active:status==2}" style="margin-left: 20px">已售</li>
@@ -113,7 +71,7 @@
                                 <label style="font-weight: bold;font-size: 16px">性质</label>
                             </van-col>
                         </van-row>
-                        <van-row style="margin-top: 20px">
+                        <van-row style="margin-top: 7px">
                             <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC">
                                 <li @click="clicknature(1)" :class="{active:nature==1}" style="margin-left: 21px;margin-bottom: 6.6px">住宅</li>
                                 <li @click="clicknature(2)" :class="{active:nature==2}" style="margin-left: 20px">别墅</li>
@@ -127,24 +85,23 @@
                                 <label style="font-weight: bold;font-size: 16px">装修</label>
                             </van-col>
                         </van-row>
-                        <van-row style="margin-top: 20px">
+                        <van-row style="margin-top: 7px">
                             <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC">
-                                <ul class="zhuangxiu" style="display: inline-flex;width: 100%;border-bottom: 1px solid #ECECEC">
                                 <li @click="clickdecor(1)" :class="{active:decoration==1}" style="margin-left: 21px;margin-bottom: 6.6px">毛坯</li>
                                 <li @click="clickdecor(2)" :class="{active:decoration==2}" style="margin-left: 20px">简装</li>
                                 <li @click="clickdecor(3)" :class="{active:decoration==3}" style="margin-left: 20px">精装</li>
-                            </ul>
                             </ul>
                         </van-row>
                         <van-button @click="change3" style="width: 100%"  type="primary">确定</van-button>
                 </van-dropdown-item>
                 <van-dropdown-item title-class="icon iconfont iconpaixu" title="  " @change="change4" v-model="order1" :options="option4"></van-dropdown-item>
             </van-dropdown-menu>
+            </van-sticky>
         </div>
-        <div id="showmenu" v-if="roomlist.length !== 0" >
+        <div id="showmenu" v-if="roomlist.length !== 0" :style="(ScrollTop.isFixed&&ScrollTop.isFixed == true)?'overflow-y: auto':''">
             <ul 
                v-infinite-scroll="onLoad"
-               infinite-scroll-distance="1">
+               infinite-scroll-distance="0">
                 <div v-for="(item,index) in roomlist" :key="index">
                     <RoomBox
                             :title="item.title"
@@ -152,7 +109,7 @@
                             :img="item.img[0]"
                             :price="item.unitPrice"
                             :status="item.status"
-                            :localName="item.localName"
+                            :areaId="item.areaId"
                             :min="item.minArea"
                             :max="item.maxArea"
                             :nature="item.nature"
@@ -173,7 +130,7 @@
     import mixin from '../../mixin/mixin'
     export default {
         name: "NewRoom",
-        // mixins:[mixin],
+        mixins:[mixin],
         computed:{
             noMore(){
                 return !this.loading;
@@ -210,6 +167,7 @@
                 roomlist:[],
                 tiaojian:'',
                 huxin:'',
+                ScrollTop:{},
                 selected:'',
                 refresh:false,
                 danjiamin:'',
@@ -233,7 +191,7 @@
             }
         },
         mounted(){
-            window.addEventListener('scroll', this.onScroll);
+            // window.addEventListener('scroll', this.onScroll);
         },
         created() {
             this.searchroom();
@@ -243,6 +201,10 @@
         methods:{
             goBack(){
                 this.$router.go(-1);
+            },
+            scroll(scrollTop){
+                this.ScrollTop = scrollTop;
+                console.log(scrollTop);
             },
             getmessCount(){
 
@@ -403,10 +365,12 @@
                 this.searchroom();
             },
             onLoad(){
-                let self = this;
-                self.page++;
-                console.log('123');
-                self.searchroom();
+                if(this.ScrollTop.isFixed == true){
+                    let self = this;
+                   self.page++;
+                   console.log('123');
+                   self.searchroom();
+                }
                 // this.page++;
                 // console.log('123');
                 // this.searchroom();
@@ -453,6 +417,9 @@
                 let areaid = (self.tiaojian != 0)?self.tiaojian:''
                 let unitPrice = (self.danjiamin != ''&&self.danjiamin != '')?[self.danjiamin,self.danjiamax]:''
                 let unitType = (self.huxin != 0)?self.huxin:''
+                let status = (self.status != '')?self.status:''
+                let nature = (self.nature != '')?self.nature:''
+                let decoration = (self.decoration != '')?self.decoration:''
                 let area = (self.areaarray.length != 0)?self.areaarray:''
                 if(this.orderBy != ''){
                     self.$axios.get('http://house-api.zjlaishang.com:9001/new/'+self.page+'/'+self.keyword,{
@@ -461,6 +428,9 @@
                         "unitPrice":unitPrice,
                         "unitType": unitType,
                         "area":area,
+                        "status":status,
+                        "nature":nature,
+                        "decoration":decoration,
                         "order":self.desc,
                         "orderBy":self.orderBy,
                     },
@@ -486,12 +456,15 @@
                 }else{
                     self.$axios.get('http://house-api.zjlaishang.com:9001/new/'+self.page+'/'+self.keyword,{
                        params:{
-                        "areaId": areaid,
-                        "unitPrice":unitPrice,
-                        "unitType": unitType,
-                        "area":area,
-                        "order":self.desc,
-                    }
+                           "areaId": areaid,
+                           "unitPrice":unitPrice,
+                           "unitType": unitType,
+                           "area":area,
+                           "status":status,
+                           "nature":nature,
+                           "decoration":decoration,
+                          "order":self.desc,
+                       }
                     }).then(function(res){
                        console.log(res.data);
                        if(res.data.code == 200){
@@ -659,7 +632,12 @@
         margin-top: 10.1px;
         margin-bottom: 6.6px;
     }
-    @media screen and (min-height: 0px) and (max-height: 480px){
+    #showmenu{
+          height: 13rem;
+          /* overflow-y: auto; */
+          margin-bottom: 1.3rem;
+        }
+    /* @media screen and (min-height: 0px) and (max-height: 480px){
         #showmenu{
           height: 6.0rem;
           overflow-y: auto;
@@ -692,7 +670,7 @@
           height: 7.0rem;
           overflow-y: auto;
         }
-    }
+    } */
     .tab-tilte .active{
         background-color: #FCF5EF;
         color: #EB613D;
@@ -741,9 +719,9 @@
         cursor: pointer;
         width: 70px;
         height: 36px;
-        background-color: #D8D8D8;
+        background-color: #f6f6f6;
         font-size: 14px;
-        color: #000;
+        color: #4d4d4d;
         border-radius: 4px;
         margin-top: 10.1px;
         margin-bottom: 6.6px;

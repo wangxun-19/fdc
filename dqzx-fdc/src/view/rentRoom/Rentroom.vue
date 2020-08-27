@@ -20,7 +20,8 @@
             </div>
         </div>
         <div class="selectarea">
-            <van-dropdown-menu active-color="#ee0a24">
+            <van-sticky @scroll="scroll">
+                <van-dropdown-menu active-color="#ee0a24">
                 <van-dropdown-item
                         title="区域"
                         v-model="tiaojian"
@@ -28,56 +29,6 @@
                         :options="option1">
                 </van-dropdown-item>
                 <van-dropdown-item title="租金" :options="options0" v-model="unit" @change="zongjia">
-                    <!-- <ul class="tab-tilte" style="display: inline-flex;width: 100%;border-bottom: 1px solid #ECECEC">
-                        <li @click="cur = 0" :class="{active:cur==0}" style="margin-left: 61px;margin-bottom: 6.6px">单价(元/m²)</li>
-                        <li @click="cur = 1" :class="{active:cur==1}" style="margin-left: 50px">总价(万元)</li>
-                    </ul>
-                    <div>
-                        <div v-show="cur == 0">
-                            <van-row style="width: 100%;height: 48.65px">
-                                <van-col style="margin-left: 24px;font-size: 15px;margin-top: 15.6px">
-                                    <label style="width: 41px;height: 13px">自定义</label>
-                                </van-col>
-                                <van-col style="margin-left: 12.25px;margin-top: 8px">
-                                    <input placeholder="最小值" type="number" v-model="danjiamin" style="width: 64px;height: 28px;text-align:center;border-radius: 5px;border: 1px solid #C0C0C0;font-size: 13px" />
-                                </van-col>
-                                <van-col style="margin-left: 4.15px;margin-top: 9px">
-                                    <label>-</label>
-                                </van-col>
-                                <van-col style="margin-left: 8.25px;margin-top: 8px">
-                                    <input placeholder="最大值" type="number" v-model="danjiamax" style="width: 64px;height: 28px;text-align:center;border-radius: 5px;border: 1px solid #C0C0C0;font-size: 13px" />
-                                </van-col>
-                                <van-col style="margin-left: 8.65px;margin-top: 11px">
-                                    <label style="font-size: 15px">元/m²</label>
-                                </van-col>
-                                <van-col style="margin-left: 20.1px;margin-top: 8px">
-                                    <van-button style="width: 64px;height: 28px;border-radius: 5px" :disabled="(danjiamin === ''&&danjiamax ==='')?'disabled':''" type="info" @click="zongjia">确定</van-button>
-                                </van-col>
-                            </van-row>
-                        </div>
-                        <div v-show="cur == 1">
-                            <van-row style="width: 100%;height: 48.65px">
-                                <van-col style="margin-left: 24px;font-size: 15px;margin-top: 15.6px">
-                                    <label style="width: 41px;height: 13px">自定义</label>
-                                </van-col>
-                                <van-col style="margin-left: 12.25px;margin-top: 8px">
-                                    <input placeholder="最小值" type="number" v-model="moneymin" style="width: 64px;height: 28px;text-align:center;border-radius: 5px;border: 1px solid #C0C0C0;font-size: 13px" />
-                                </van-col>
-                                <van-col style="margin-left: 4.15px;margin-top: 9px">
-                                    <label>-</label>
-                                </van-col>
-                                <van-col style="margin-left: 8.25px;margin-top: 8px">
-                                    <input placeholder="最大值" type="number" v-model="moneymax" style="width: 64px;height: 28px;text-align:center;border-radius: 5px;border: 1px solid #C0C0C0;font-size: 13px" />
-                                </van-col>
-                                <van-col style="margin-left: 8.65px;margin-top: 11px">
-                                    <label style="font-size: 15px">万</label>
-                                </van-col>
-                                <van-col style="margin-left: 42.25px;margin-top: 8px">
-                                    <van-button style="width: 64px;height: 28px;border-radius: 5px" :disabled="(moneymin === ''&&moneymax ==='')?'disabled':''" type="info" @click="zongjia">确定</van-button>
-                                </van-col>
-                            </van-row>
-                        </div>
-                    </div> -->
                 </van-dropdown-item>
                 <van-dropdown-item title="户型" ref="item1">
                     <ul class="tab-tilte" style="display: inline-flex;width: 100%;border-bottom: 1px solid #ECECEC">
@@ -106,36 +57,36 @@
                 </van-dropdown-item>
                 <van-dropdown-item title="更多" ref="item">
                     <div style="width: 100%;height: 300px;overflow: auto">
-                        <van-row style="margin-top: 20px">
+                        <van-row style="margin-top: 20px;margin-left: 21px">
                             <van-col>
-                                <label style="font-weight: bold;font-size: 20px;margin-left: 21px">装修</label>
+                                <label style="font-weight: bold;font-size: 16px;">装修</label>
                             </van-col>
                         </van-row>
-                        <van-row style="margin-top: 20px">
-                            <ul class="zhuangxiu" style="display: inline-flex;width: 100%;border-bottom: 1px solid #ECECEC">
+                        <van-row style="margin-top: 7px">
+                            <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC">
                                 <li @click="clickdecor(1)" :class="{active:decoration==1}" style="margin-left: 21px;margin-bottom: 6.6px">毛坯</li>
                                 <li @click="clickdecor(2)" :class="{active:decoration==2}" style="margin-left: 21px">简装</li>
                                 <li @click="clickdecor(3)" :class="{active:decoration==3}" style="margin-left: 21px">精装</li>
                             </ul>
                         </van-row>
-                        <van-row style="margin-top: 20px">
+                        <van-row style="margin-top: 20px;margin-left: 21px">
                             <van-col>
-                                <label style="font-weight: bold;font-size: 20px;margin-left: 21px">电梯</label>
+                                <label style="font-weight: bold;font-size: 16px;">电梯</label>
                             </van-col>
                         </van-row>
-                        <van-row style="margin-top: 20px">
-                            <ul class="zhuangxiu" style="display: inline-flex;width: 100%;border-bottom: 1px solid #ECECEC">
+                        <van-row style="margin-top: 7px">
+                            <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC">
                                 <li @click="clickele(1)" :class="{active:elevator==1}" style="margin-left: 21px;margin-bottom: 6.6px">有</li>
                                 <li @click="clickele(2)" :class="{active:elevator==2}" style="margin-left: 21px">无</li>
                             </ul>
                         </van-row>
                         <van-row style="margin-top: 20px">
                             <van-col>
-                                <label style="font-weight: bold;font-size: 20px;margin-left: 21px">楼层选择</label>
+                                <label style="font-weight: bold;font-size: 16px;margin-left: 21px">楼层选择</label>
                             </van-col>
                         </van-row>
                         <van-row style="margin-top: 20px">
-                            <ul class="zhuangxiu" style="display: inline-flex;width: 100%;border-bottom: 1px solid #ECECEC">
+                            <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC">
                                 <li @click="clickfloor(5)" :class="{active:floor==5}" style="margin-left: 21px;margin-bottom: 6.6px">6楼以下</li>
                                 <li @click="clickfloor(8)" :class="{active:floor==8}" style="margin-left: 21px">6-12楼</li>
                                 <li @click="clickfloor(13)" :class="{active:floor==13}" style="margin-left: 21px">12楼以上</li>
@@ -143,11 +94,11 @@
                         </van-row>
                         <van-row style="margin-top: 20px">
                             <van-col>
-                                <label style="font-weight: bold;font-size: 20px;margin-left: 21px">权属</label>
+                                <label style="font-weight: bold;font-size: 16px;margin-left: 21px">权属</label>
                             </van-col>
                         </van-row>
                         <van-row style="margin-top: 20px">
-                            <ul class="zhuangxiu" style="display: inline-flex;width: 100%;border-bottom: 1px solid #ECECEC">
+                            <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC">
                                 <li @click="clicktype(1)" :class="{active:type==1}" style="margin-left: 20px;margin-bottom: 6.6px">住宅</li>
                                 <li @click="clicktype(2)" :class="{active:type==2}" style="margin-left: 20px">别墅</li>
                                 <li @click="clicktype(3)" :class="{active:type==3}" style="margin-left: 20px">商铺</li>
@@ -156,10 +107,10 @@
                         </van-row>
                         <van-row style="margin-top: 20px">
                             <van-col>
-                                <label style="font-weight: bold;font-size: 20px;margin-left: 21px">面积</label>
+                                <label style="font-weight: bold;font-size: 16px;margin-left: 21px">面积</label>
                             </van-col>
                         </van-row>
-                        <van-row style="margin-top: 20px">
+                        <van-row style="margin-top: 7px">
                             <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC">
                                 <li @click="clickarea(1)" :class="{active:area==1}" style="margin-left: 21px;margin-bottom: 6.6px">50m²以下</li>
                                 <li @click="clickarea(2)" :class="{active:area==2}" style="margin-left: 21px">50-70m²</li>
@@ -171,16 +122,14 @@
                                 <li @click="clickarea(8)" :class="{active:area==8}" style="margin-left: 21px">300m²以上</li>
                             </ul>
                         </van-row>
-                        <!-- <van-row style="margin-top: 20px">
-                            <van-button @click="change3" style="width: 100%"  type="primary">确定</van-button>
-                        </van-row> -->
                     </div>
                     <van-button @click="change3" style="width: 100%"  type="primary">确定</van-button>
                 </van-dropdown-item>
                 <van-dropdown-item title-class="icon iconfont iconpaixu" title="  " @change="change4" v-model="order1" :options="option4"></van-dropdown-item>
             </van-dropdown-menu>
+            </van-sticky>
         </div>
-        <div id="showmenu">
+        <div id="showmenu" :style="(scrollTop.isFixed&&scrollTop.isFixed == true)?'overflow-y: auto':''">
             <div class="grey"></div>
             <div v-if="rentrooomlist.length === 0">
                 <label>暂无租房数据</label>
@@ -188,7 +137,7 @@
             <div v-else>
                 <ul 
                   v-infinite-scroll="onLoad"
-                  infinite-scroll-distance="10">
+                  infinite-scroll-distance="0">
                     <div v-for="(item,index) in rentrooomlist" :key="index">
                         <RentRoomBox
                                 :title="item.title"
@@ -211,7 +160,7 @@
 import mixin from '../../mixin/mixin'
     export default {
         name: "Rentroom",
-        // mixins:[mixin],
+        mixins:[mixin],
         data(){
             return{
                 keyword:'',
@@ -237,6 +186,7 @@ import mixin from '../../mixin/mixin'
                 type:'',
                 refresh:true,
                 area:'',
+                scrollTop:{},
                 rentrooomlist:[],
                 option4:[
                     { text: '默认排序', value: 0 },
@@ -290,6 +240,9 @@ import mixin from '../../mixin/mixin'
                 this.rentrooomlist = [];
                 this.searchrentroom();
             },
+            scroll(scrollTop){
+                this.scrollTop = scrollTop;
+            },
             search(){
                 this.page = 0;
                 this.rentrooomlist = [];
@@ -340,7 +293,8 @@ import mixin from '../../mixin/mixin'
                             area:self.areaarray
                         },
                         headers:{
-                            token:token
+                           // token:token,
+                           'Content-Type': 'application/x-www-form-urlencoded',
                         }
                     }).then(function (res) {
                         if(res.data.code == 200){
@@ -367,7 +321,8 @@ import mixin from '../../mixin/mixin'
                             type:self.type,
                         },
                         headers:{
-                            token:token
+                           // token:token,
+                           'Content-Type': 'application/x-www-form-urlencoded',
                         }
                     }).then(function (res) {
                         if(res.data.code == 200){
@@ -395,7 +350,8 @@ import mixin from '../../mixin/mixin'
                             area:self.areaarray,
                         },
                         headers:{
-                            token:token
+                           // token:token,
+                           'Content-Type': 'application/x-www-form-urlencoded',
                         }
                     }).then(function (res) {
                         if(res.data.code == 200){
@@ -423,7 +379,8 @@ import mixin from '../../mixin/mixin'
                             type:self.type,
                         },
                         headers:{
-                            token:token
+                           // token:token,
+                           'Content-Type': 'application/x-www-form-urlencoded',
                         }
                     }).then(function (res) {
                         if(res.data.code == 200){
@@ -633,10 +590,12 @@ import mixin from '../../mixin/mixin'
                 console.log(this.rentrooomlist)
             },
             onLoad(){
-                let self = this;
-                self.page++;
-                console.log('123');
-                self.searchrentroom();
+                if(this.scrollTop.isFixed == true){
+                    let self = this;
+                    self.page++;
+                    console.log('123');
+                    self.searchrentroom();    
+                }
             },
             goback(){
                 this.$router.go(-1);
@@ -758,7 +717,8 @@ import mixin from '../../mixin/mixin'
         min-width: 92.75px;
         min-height: 32.75px;
         font-size: 14px;
-        background-color: #E1E6F0;
+        background-color: #f6f6f6;
+        color: #4d4d4d;
         border-radius: 5px;
         margin-top: 10.1px;
         margin-bottom: 6.6px;
@@ -779,9 +739,9 @@ import mixin from '../../mixin/mixin'
         cursor: pointer;
         width: 70px;
         height: 36px;
-        background-color: #D8D8D8;
+        background-color: #f6f6f6;
         font-size: 14px;
-        color: #000;
+        color: #4d4d4d;
         border-radius: 4px;
         margin-top: 10.1px;
         margin-bottom: 6.6px;
@@ -802,45 +762,10 @@ import mixin from '../../mixin/mixin'
         width:0.35rem;
     }
 
-    @media screen and (min-height: 0px) and (max-height: 480px){
-        #showmenu{
-          height: 7.7rem;
-          overflow-y: auto;
-        }
+    #showmenu{
+          height: 11.5rem;
+          /* overflow-y: auto; */
+          margin-bottom: 1.3rem;
     }
 
-    @media screen and (min-height: 481px) and (max-height: 568px){
-        #showmenu{
-          height: 9.6rem;
-          overflow-y: auto;
-        }
-    }
-
-    @media screen and (min-height: 569px) and (max-height: 667px){
-        #showmenu{
-          height: 10rem;
-          overflow-y: auto;
-        }
-    }
-
-    @media screen and (min-height: 668px) and (max-height: 736px){
-        #showmenu{
-          height: 10.2rem;
-          overflow-y: auto;
-        }
-    }
-
-    @media screen and (min-height: 737px) and (max-height: 896px){
-        #showmenu{
-          height: 13rem;
-          overflow-y: auto;
-        }
-    }
-
-    @media screen and (min-height: 897px){
-        #showmenu{
-          height: 8.2rem;
-          overflow-y: auto;
-        }
-    }
 </style>

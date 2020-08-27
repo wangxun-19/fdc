@@ -6,8 +6,16 @@
         </div>
         <div class="content" style="">
             <label class="title">{{title}}</label>
-            <div class="desclist" v-if="localName != ''&&localName != null" >
-                <label class="desc" style="float:left;">{{localName}}</label>
+            <div class="desclist" v-if="areaId != ''&&areaId != null" >
+                <label class="desc" style="float:left;" v-if="areaId == 1">东部新城</label>
+                <label class="desc" style="float:left;" v-if="areaId == 2">凤凰分区</label>
+                <label class="desc" style="float:left;" v-if="areaId == 3">湖东西区</label>
+                <label class="desc" style="float:left;" v-if="areaId == 4">老城区</label>
+                <label class="desc" style="float:left;" v-if="areaId == 5">仁皇山分区</label>
+                <label class="desc" style="float:left;" v-if="areaId == 6">太湖度假区</label>
+                <label class="desc" style="float:left;" v-if="areaId == 7">西南分区</label>
+                <label class="desc" style="float:left;" v-if="areaId == 8">织里镇</label>
+                <label class="desc" style="float:left;" v-if="areaId == 9">其他</label>
                 <label class="desc" style="float:left;margin-left: 10px"
                        v-if="min != null&&max != null&&parseInt(min) != 0&&parseInt(max) != 0">建面{{parseInt(min)}}-{{parseInt(max)}}m²</label>
                 <!-- <div v-for="(item,index) in desclist" :key="index">
@@ -46,7 +54,7 @@
 <script>
     export default {
         name: "RoomBox",
-        props: ["title", "img", 'status', "price", "danjia", "room_id", "danwei", "localName", "min", "max", "nature"],
+        props: ["title", "img", 'status', "price", "danjia", "room_id", "danwei", "areaId", "min", "max", "nature"],
         watch: {
             // localName(val){
             //     this.desclist = val.split(",");
@@ -70,10 +78,12 @@
                 let newroomid = parseInt(room_id);
                 let area = this.min + '-' + this.max +'m²'
                 if(this.$route.name != "xfdetail"){
+                    window.location.href = 'http://'+window.location.host+'/index/xf/detail/'+newroomid+'/123'
                     // this.$router.push({path:'/index/xf/detail/'+newroomid+'/'});
-                    this.$router.push({name:'xfdetail',params:{id:newroomid,time:'123'}});
+                    // this.$router.push({name:'xfdetail',params:{id:newroomid,time:'123'}});
                 }else{
-                    this.$router.push({name:'xfdetail',params:{id:newroomid,time:new Date()}});
+                    window.location.href = 'http://'+window.location.host+'/index/xf/detail/'+newroomid+'/'+new Date().toString();
+                    // this.$router.push({name:'xfdetail',params:{id:newroomid,time:new Date()}});
                 }
             }
         }
@@ -174,7 +184,7 @@
         }
 
         .room2 .content .desc {
-            font-size: 0.19rem;
+            font-size: 0.23rem;
             font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400;
             color: rgba(102, 102, 102, 1);
@@ -191,7 +201,7 @@
             border-radius: 0.04rem;
             border: 1px solid rgba(178, 178, 178, 1);
             padding: 0rem 0.06rem 0.02rem 0.06rem;
-            font-size: 0.17rem;
+            font-size: 0.23rem;
             font-weight: 400;
             color: rgba(178, 178, 178, 1);
             line-height: 0.25rem;

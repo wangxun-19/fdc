@@ -6,6 +6,9 @@
                         type="search"
                         placeholder="请输入楼盘信息或关键字"
                         v-model="keyword"
+                        readonly
+                        clickable
+                        @click="gotosearch"
                         autofocus
                         ref="inputs"
                 />
@@ -18,6 +21,7 @@
                     <my-image :src="item.img" :radius="7" ></my-image>
                 </van-swipe-item>
             </van-swipe>
+            <!-- <div id="slide" class="bui-slide bui-slide-skin01"></div> -->
         </div>
         <div class="menulist" style="">
             <div class="item"
@@ -25,38 +29,32 @@
                  :key="index"
                  @click="toTheirLink(item)"
             >
-                <img :src="item.pic" class="ic">
-                <label>{{item.name}}</label>
+               
+               <img :src="item.pic" class="ic">
+                    <label>{{item.name}}</label>
             </div>
         </div>
         <div class="middle">
             <img :src="img" class="picture">
             <div class="gonggao">
                 <van-swipe 
-                    style="height: 1.20rem" 
+                    style="height: 1.00rem" 
                     :autoplay="autotime"
                     vertical
                     :show-indicators="false"
+                    :touchable="false"
                  >
                     <van-swipe-item v-for="(item,index) in newarr" :key="index">
                          <van-row>
-                             <div class="circle" style="margin-top: 0.25rem;margin-right: 0.21rem;float:left"></div>
+                             <div class="circle" style="margin-top: 0.20rem;margin-right: 0.21rem;float:left"></div>
                              <label class="gonggaolabel">{{item[0].content}}</label>
                          </van-row>
                          <van-row v-if="item[1].content != undefined&&item[1].content != ''">
-                             <div class="circle" style="margin-top: 0.25rem;margin-right: 0.21rem;float:left"></div>
+                             <div class="circle" style="margin-top: 0.20rem;margin-right: 0.21rem;float:left"></div>
                              <label class="gonggaolabel">{{item[1].content}}</label>
                          </van-row>
                     </van-swipe-item>
                 </van-swipe>
-                <!-- <swiper ref="mySwiper" :options="swiperOptions">
-                    <swiper-slide>Slide 1</swiper-slide>
-                    <swiper-slide>Slide 2</swiper-slide>
-                    <swiper-slide>Slide 3</swiper-slide>
-                    <swiper-slide>Slide 4</swiper-slide>
-                    <swiper-slide>Slide 5</swiper-slide>
-                    <div class="swiper-pagination" slot="pagination"></div>
-              </swiper> -->
             </div>
         </div>
         <div>
@@ -102,7 +100,7 @@
 
     export default {
         name: "index",
-        // mixins:[mixin],
+        mixins:[mixin],
         components:{
             
         },
@@ -112,6 +110,11 @@
                 autotime:3000,
                 indicator:'white',
                 keyword:'',
+                swiperoption:{
+                    pagination: {
+                      el: '.swiper-pagination'
+                    },
+                },
                 swiper_list:[
                     {
                         img:require("../assets/images/swiper/swiper_1.png"),
@@ -171,8 +174,6 @@
             self.getSwiper();
             self.getIcon();
             self.getnew();
-            this.getlocation();
-            // this.updateBaseFontSize();
         },
         methods:{
             getlocation(){
@@ -185,7 +186,7 @@
                     // this.$router.push({
                     //     path:item.path
                     // })
-                    window.location.href = item.path;
+                    window.location.href = item.path+'/'+new Date().toString();
                 }
             },
             getIcon(){
@@ -193,7 +194,7 @@
                 let token = localStorage.getItem("token");
                 self.$axios.get("http://house-api.zjlaishang.com:9001/bar",{
                     headers:{
-                        token:token
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }).then(function(res){
                     if(res.data.code == 200){
@@ -213,24 +214,46 @@
                         self.$toast(res.data.msg);
                     }
                 })
+                .catch(function(err){
+                    alert(JSON.stringify(err))
+                })
+            },
+            gotosearch(){
+                this.$router.push('/search');
             },
             getSwiper(){
                 let self = this;
                 let token = localStorage.getItem("token");
                 self.$axios.get("http://house-api.zjlaishang.com:9001/banner",{
                     headers:{
-                        token:token
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
-                }).then(function(res){
+                })
+                .then(function(res){
                     if(res.data.code == 200){
                         self.swiper_list.length = 0;
-                        res.data.data.forEach(item=>{
+                        res.data.data.forEach((item,index)=>{
                             let picpath = {img:item.image,link:item.link};
                             self.swiper_list.push(picpath);
                         })
+                        // bui.ready(function(){
+                        //     let silde = bui.slide({
+                        //         id: "#slide",
+                        //         height: 'auto',
+                        //         autopage: true,
+                        //         loop: true,
+                        //         cross: true,
+                        //         transition: 300,
+                        //         interval: 5000,
+                        //         data:self.swiper_list
+                        //     })
+                        //     silde.start();
+                        // })
                     }else{
                         self.$toast(res.data.msg);
                     }
+                }).catch(function(err){
+                    alert(JSON.stringify(err))
                 })
             },
             getnew(){
@@ -238,7 +261,7 @@
                 let token = localStorage.getItem("token");
                 self.$axios.get("http://house-api.zjlaishang.com:9001/announcement",{
                     headers:{
-                        token:token
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }).then(function(res){
                     console.log(res.data);
@@ -253,11 +276,13 @@
                     }else{
                         self.$toast(res.data.msg);
                     }
+                }).catch(function(err){
+                    alert(JSON.stringify(err))
                 })
             },
             gotolink(link){
                 if(link == null||link == ''){
-                    window.location.href = link;
+                    window.location.href = link+'/'+new Date().toString();
                 }
             },
             formatArray(arr,num){
@@ -279,8 +304,7 @@
                 let self = this;
                 self.newroom = [];
                 self.newRoomlist();
-                // console.log(self.keyword);
-                // self.$axios.get()
+                
             },
             addmore(){
                 let self = this;
@@ -297,10 +321,11 @@
                 let token = localStorage.getItem("token");
                 self.$axios.get("http://house-api.zjlaishang.com:9001/new/0/"+self.keyword,{
                     headers:{
-                        token:token
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }).then(function(res){
                     // self.$toast(res.data.code);
+                    console.log(res)
                     if(res.data.code == 200){
                         self.nodata = false;
                         res.data.data.forEach(element => {
@@ -311,8 +336,9 @@
                     }
                 })
                 .catch(function(err){
-                    // self.$toast(err);
-                    self.nodata = true;
+                     console.log(err);
+                        // self.$toast(err);
+                        self.nodata = true;
                 })
             },
         }
@@ -332,7 +358,7 @@
     .searchicon{
         float:right;
         margin-right: 0.3rem;
-        font-size: 0.26rem;
+        font-size: 0.4rem;
     }
     .swiper-slide {
       text-align: center;
@@ -361,7 +387,7 @@
       width: 100%;
     }
     .gonggaolabel{
-        font-size:0.40rem;
+        font-size:0.30rem;
         font-family:PingFang SC;
         font-weight:500;
         color:rgba(254,254,254,1);
@@ -370,12 +396,12 @@
         border: none;
         outline: none;
         /* width:140px; */
-        margin-left: 0.09rem;
+        margin-left: 0.15rem;
         /* padding-top: 10px;
         padding-bottom: 9px; */
         font-family:PingFang SC;
         font-weight:500;
-        color:rgba(182,182,197,1);
+        color: #f6f6f6;;
         width: 100%;
     }
 
@@ -396,15 +422,17 @@
         align-items: center;
     }
     .menulist{
-           margin-top: 0.15rem;
-           width: 100%;
+           margin-top: 0.44rem;
+           /* width: 100%; */
            display: flex;
+           margin-left: 0.90rem;
+           margin-right: 0.90rem;
            justify-content: space-between;
            font-size: 0.1rem;
         }
 
         .menulist .item{
-           flex: 1;
+           /* flex: 1; */
            display: flex;
            flex-direction: column;
            align-items: center;
@@ -415,9 +443,9 @@
         }
 
         .ic{
-            width: 0.73rem;
-            height: 0.73rem;
-            margin-bottom: 0.09rem;
+            width: 0.80rem;
+            height: 0.80rem;
+            /* margin-bottom: 0.05rem; */
         }
         .xin{
            margin-top: 0.33rem;
@@ -453,7 +481,7 @@
         .middle .gonggao{
             position: absolute;
             left: 0.60rem;
-            top: 0.25rem;
+            top: 0.35rem;
             z-index: 199;
         }
 
@@ -496,8 +524,8 @@
     .searchBox .searchBtn{
         display: flex;
         flex: 1;
-        margin-right: 0.435rem;
-        margin-left: 0.44rem;
+        margin-right: 0.2rem;
+        margin-left: 0.2rem;
         height:0.69rem;
         width:100%;
         background:rgba(255,255,255,1);
@@ -520,4 +548,14 @@
        align-items: center;
        width: 100%;
     }
+
+    /* .bui-slide-head {
+        text-align: center;
+        position: fixed;
+        top: 4.2rem;
+        right: 0;
+        left: 0;
+        padding: 0 .2rem;
+        z-index: 10;
+    } */
 </style>

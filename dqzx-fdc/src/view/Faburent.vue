@@ -1,13 +1,15 @@
 <template>
     <div>
-        <div v-show="methods == 0">
-            <van-field
+        <div v-if="methods == 0">
+            <van-form>
+                <van-field
                     v-model="title"
                     label="标题"
                     placeholder="标题"
                     input-align="right"
                     type="label"
                     :required="true"
+                    :rules="[{ required: true,message: '标题不能为空' }]"
             ></van-field>
             <div class="greyline">
                 <label class="zi">租金详情</label>
@@ -38,37 +40,44 @@
                         @confirm="onConfirm"
                 />
             </el-dialog>
+            </van-form>
             <div class="greyline">
                 <label class="zi">基本信息</label>
             </div>
-            <van-field
+            <van-form>
+                <van-field
                     v-model="localName"
                     readonly
                     clickable
-                    label="*小区"
+                    label="小区"
                     placeholder="小区"
                     input-align="right"
+                    required
                     @click="shouxiaoqu"
             >
             </van-field>
             <el-dialog :visible.sync="showPicker1" title="选择小区" fullscreen>
-                <!-- <div>
-                    <div id="container"></div>
-                    <div id="panel"></div>
-                    <div>
-                      <label>请输入关键字：</label>
-                    </div>
-                    <div>
-                      <input v-model="title0" id="tipinput"/><button @click="searchAddress">搜索</button>
-                    </div>
-                </div> -->
                 <van-row>
                     <van-field
-                     label="请输入关键字："
-                     v-model="title0"
-                     input-align="right"
-                     placeholder="请输入关键字"
-                      @input="tiplist"></van-field>
+                        label="小区名:"
+                        v-model="title0"
+                        input-align="right"
+                        placeholder="请输入关键字"
+                        @input="tiplist"
+                    >
+                    </van-field>
+                    <!-- <van-col :span="8">
+                        <label>请输入关键字:</label>
+                    </van-col>
+                    <van-col :offset="1" :span="15">
+                        <van-field
+                           v-model="title0"
+                           input-align="right"
+                           placeholder="请输入关键字"
+                           @input="tiplist"
+                        >
+                        </van-field>
+                    </van-col> -->
                 </van-row>
                 <div class="scroll">
                     <div class="title">
@@ -83,10 +92,11 @@
                 </div>
                 <van-row style="margin-top: 20px">
                      <van-col :span="6">
-                        <van-button type="primary" @click="showPicker1 = false">确定</van-button>
+                         <van-button type="warning" @click="guanbi">关闭</van-button>
+                        
                     </van-col>
                     <van-col :offset="12" :span="6">
-                        <van-button type="warning" @click="guanbi">关闭</van-button>
+                        <van-button type="primary" @click="showPicker1 = false">确定</van-button>
                     </van-col>
                 </van-row>
             </el-dialog>
@@ -106,7 +116,6 @@
                     input-align="right"
                     readonly
                     clickable
-                    :rules="[{ required: true,message: '请输入正确内容' }]"
                     @click="shouhuxing"
             >
             </van-field>
@@ -123,10 +132,11 @@
                 </van-row>
                 <van-row style="margin-top: 20px">
                        <van-col :span="6">
-                           <van-button type="primary" :disabled="(huxin != '')?false:true" @click="showPicker2 = false">确定</van-button>
+                           <van-button type="warning" @click="huxinguanbi">取消</van-button>
+                           
                        </van-col>
                        <van-col :offset="12" :span="6">
-                           <van-button type="warning" @click="huxinguanbi">取消</van-button>
+                           <van-button type="primary" :disabled="(huxin != '')?false:true" @click="showPicker2 = false">确定</van-button>
                        </van-col>
                 </van-row>
             </el-dialog>
@@ -136,6 +146,7 @@
                     placeholder="一室一厅一卫"
                     input-align="right"
                     required
+                    :rules="[{ required: true,message: '户型简介不为空' }]"
             >
             </van-field>
             <van-field
@@ -145,7 +156,6 @@
                     input-align="right"
                     readonly
                     clickable
-                    :rules="[{ required: true,message: '请输入正确内容' }]"
                     @click="shoudirection"
             >
 
@@ -162,10 +172,11 @@
                 </van-row>
                 <van-row style="margin-top: 20px">
                        <van-col :span="6">
-                           <van-button type="primary" :disabled="(direction != '')?false:true" @click="showPicker3 = false">确定</van-button>
+                           <van-button type="warning" @click="directionguanbi">取消</van-button>
+                           
                        </van-col>
                        <van-col :offset="12" :span="6">
-                           <van-button type="warning" @click="directionguanbi">取消</van-button>
+                           <van-button type="primary" :disabled="(direction != '')?false:true" @click="showPicker3 = false">确定</van-button>
                        </van-col>
                 </van-row>
             </el-dialog>
@@ -182,44 +193,26 @@
             </van-row>
             <van-field
                     v-model="floor"
-                    label="*层数"
-                    placeholder="层数"
+                    label="当前层数"
+                    placeholder="当前层数"
                     input-align="right"
-                    readonly
-                    @click="shoufloor"
-                    clickable
-                    :rules="[{ required: true,message: '请输入正确内容' }]"
+                    :required="true"
+                    type="digit"
+                    :rules="[{ required: true,validator: asyncValidator1,message:'所在楼层不可为0' }]"
+            >
+            </van-field>
+            <van-field
+                    v-model="level"
+                    label="总层数"
+                    placeholder="总层数"
+                    input-align="right"
+                    :required="true"
+                    type="digit"
+                    :rules="[{ required: true,validator: asyncValidator2,message:'总楼层数不得小于当前楼层数' }]"
             >
 
             </van-field>
-            <el-dialog :visible.sync="showPicker4" title="提示" width="100%">
-                <ul class="tab-tilte" style="display: inline-flex;width: 100%;border-bottom: 1px solid #ECECEC">
-                    <li @click="cur = 0" :class="{active:cur==0}" style="margin-left: 61px;margin-bottom: 6.6px">所在层数</li>
-                    <li @click="cur = 1" :class="{active:cur==1}" style="margin-left: 50px">总层数</li>
-                </ul>
-                <div v-show="cur == 0">
-                    <van-row style="width: 100%;height: 48.65px">
-                        <van-col style="margin-left: 24px;font-size: 15px;margin-top: 15.6px">
-                            <van-field label="所在楼层" placeholder="所在楼层" type="digit" v-model="floor"></van-field>
-                        </van-col>
-                    </van-row>
-                </div>
-                <div v-show="cur == 1">
-                    <van-row style="width: 100%;height: 48.65px">
-                        <van-col style="margin-left: 24px;font-size: 15px;margin-top: 15.6px">
-                            <van-field label="总楼层" placeholder="总楼层" type="digit" v-model="level" ></van-field>
-                        </van-col>
-                    </van-row>
-                </div>
-                <van-row style="margin-top: 20px">
-                    <van-col :span="6">
-                        <van-button type="primary" :disabled="(floor !== ''&&level !== '')?false:true" @click="showPicker4 = false">确定</van-button>
-                    </van-col>
-                    <van-col :offset="12" :span="6">
-                        <van-button type="warning" @click="levelguanbi">取消</van-button>
-                    </van-col>
-                </van-row>
-            </el-dialog>
+            
             <van-field
                     label="*装修情况"
                     placeholder="装修情况"
@@ -227,7 +220,6 @@
                     readonly
                     clickable
                     v-model="decorate"
-                    :rules="[{ required: true,message: '请输入正确内容' }]"
                     @click="shoudecorate"
             >
             </van-field>
@@ -241,10 +233,11 @@
                 </van-row>
                 <van-row style="margin-top: 20px">
                     <van-col :span="6">
-                        <van-button type="primary" :disabled="(decorate !== '')?false:true" @click="showPicker5 = false">确定</van-button>
+                        <van-button type="warning" @click="decorationguanbi">取消</van-button>
+                        
                     </van-col>
                     <van-col :offset="12" :span="6">
-                        <van-button type="warning" @click="decorationguanbi">取消</van-button>
+                        <van-button type="primary" :disabled="(decorate !== '')?false:true" @click="showPicker5 = false">确定</van-button>
                     </van-col>
                 </van-row>
             </el-dialog>
@@ -262,16 +255,17 @@
                 <van-row style="overflow: auto">
                     <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC;">
                         <div v-for="(item,index) in option2" :key="index">
-                            <li @click="clickareaid(item.value)" :class="{active:areaid==item.value}" style="margin-left: 10px;margin-bottom: 6.6px">{{item.text}}</li>
+                            <li @click="clickareaid(item.value)" :class="{active:areaid==item.value}" style="margin-left: 10px;margin-bottom: 6.6px;width: 99px">{{item.text}}</li>
                         </div>
                     </ul>
                 </van-row>
                 <van-row style="margin-top: 20px">
                     <van-col :span="6">
-                        <van-button type="primary" :disabled="(areaid !== '')?false:true" @click="showPicker7 = false">确定</van-button>
+                        <van-button type="warning" @click="areaidguanbi">取消</van-button>
+                        
                     </van-col>
                     <van-col :offset="12" :span="6">
-                        <van-button type="warning" @click="areaidguanbi">取消</van-button>
+                        <van-button type="primary" :disabled="(areaid !== '')?false:true" @click="showPicker7 = false">确定</van-button>
                     </van-col>
                 </van-row>
             </el-dialog>
@@ -283,14 +277,40 @@
                     :rules="[{ required: true,message: '请输入正确内容' }]"
             >
             </van-field>
+            </van-form>
+            
             <van-button @click="nextDate" type="info" style="width: 100%;height: 50px">下一步</van-button>
         </div>
-        <div v-show="methods == 1">
+        <div v-if="methods == 1">
             <van-field name="uploader" label="文件上传">
                 <template #input>
-                    <van-uploader v-model="uploader" accept="image/*" result-type="dataUrl"/>
+                    <van-button icon="plus" type="primary" @click="chooseimg">上传图片</van-button>
+                    
+                    <!-- <van-uploader v-model="uploader" multiple accept="image/*" result-type="dataUrl"/> -->
                 </template>
             </van-field>
+            <van-row>
+                <div class="image-view">
+                    <div class="view" v-if="appSource() == 'ios'">
+                       <div class="item" v-for="(item, index) in uploader" :key="index">
+                          <span class="cancel-btn" @click="delImg(index)">x</span>
+                          <img :src="item.localData">
+                       </div>
+                    </div>
+                   <div class="view" v-else-if="appSource() == 'android'">
+                       <div class="item" v-for="(item, index) in uploader" :key="index">
+                          <span class="cancel-btn" @click="delImg(index)">x</span>
+                          <img :src="item.localIds">
+                       </div>
+                   </div>
+                   <div class="view" v-else>
+                       <div class="item" v-for="(item, index) in uploader" :key="index">
+                          <span class="cancel-btn" @click="delImg(index)">x</span>
+                          <img :src="item.localData">
+                       </div>
+                   </div>
+                </div>
+            </van-row>
             <van-field label="配套设施">
                 <template #input>
                     <van-row>
@@ -327,7 +347,7 @@
 </template>
 
 <script>
-    import 'element-ui/lib/theme-chalk/index.css';
+    // import 'element-ui/lib/theme-chalk/index.css';
     import mixin from "../mixin/mixin";
     var map, placeSearch,marker;
     export default {
@@ -364,6 +384,7 @@
                 decorate:'',
                 watchTime:'',
                 methods:0,
+                filess1:[],
                 uploader:[],
                 place:'',
                 washing:'',
@@ -456,6 +477,130 @@
                 this.showPicker4 = false;
                 this.level = '';
                 this.floor = '';
+            },
+            appSource() {
+                 if (navigator.userAgent.indexOf('iPhone') !== -1) {
+                   return "ios";
+                 } else if(navigator.userAgent.indexOf('android') !== -1) {
+                   return "android";
+                 }
+                 return '0';
+            },
+            chooseimg(){
+                let self = this;
+                this.$wxMethod.chooseImage(9,
+                res=>{
+                    self.filess1 = res.localIds;
+                    console.log(res);
+                    res.localIds.forEach((item,index)=>{
+                        // let items = {localIds:item,localData:'',serverId:''};
+                        // console.log(items);
+                        // self.uploader.push(items);
+                        if(index <3){
+                            let items = {localIds:item,localData:'',serverId:''};
+                            console.log(items);
+                            self.uploader.push(items);
+                        }
+                    })
+                    self.uploader = self.unquine(self.uploader);
+                    console.log(self.uploader)
+                    let isios = self.appSource();
+                    console.log(isios);
+                    if(isios == 'android'){
+                        console.log(self.uploader)
+                        self.uploadImg(self.uploader,0);
+                    }else{
+                        alert('000');
+                        self.previewImg(self.uploader,0);
+                        self.uploadImg(self.uploader,0);
+                    }
+                },
+                (err)=>{
+                    self.$toast(JSON.stringify(err))
+                })
+                // this.$wxMethod.chooseImage(9,res=>{
+                //     self.filess1 = res.localIds;
+                //     console.log(res);
+                //     res.localIds.forEach(item=>{
+                //         let items = {localIds:item,localData:'',serverId:''};
+                //         console.log(items);
+                //         self.uploader.push(items);
+                //     })
+                //     self.uploader = self.unquine(self.uploader);
+                //     console.log(self.uploader)
+                //     if(self.appSource() == 'android'){
+                //         console.log(self.uploader)
+                //         self.uploadImg(self.uploader,0);
+                //     }else{
+                //         alert('000');
+                //         self.previewImg(self.uploader,0);
+                //         self.uploadImg(self.uploader,0);
+                //     }
+                    
+                // },
+                // err=>{
+                //     console.log(err);
+                //     self.uploadImg(filelist,i);
+                // })
+            },
+            unquine(filearray){
+                var result = [], isRepeated;
+                for (let i = 0; i < filearray.length; i++) {
+                   isRepeated = false;
+                   for (let j = 0; j < result.length; j++) {
+                      if (filearray[i].localIds == result[j].localIds) {
+                           isRepeated = true;
+                           console.log('repeat');
+                           break;
+                        }
+                    }
+                   if (!isRepeated) {
+                      result.push(filearray[i]);
+                    }
+                }
+                return result;
+            },
+            previewImg(filelist,i){
+          let context = this;
+          this.$wxsdk.init(['getLocalImgData']).then(wx=>{
+              wx.getLocalImgData({
+                  localId: filelist[i].localIds, // 图片的localID
+                  success: function (res) {
+                        var localData = res.localData;
+                        
+                        if (localData.indexOf('data:image') != 0) {                       
+                            //判断是否有这样的头部                                               
+                            localData = 'data:image/jpeg;base64,' +  localData                    
+                        }                    
+                        localData = localData.replace(/\r|\n/g, '').replace('data:image/jgp', 'data:image/jpeg'); // 此处的localData 就是你所需要的base64位
+                        filelist[i].localData = localData;
+                        i++;
+                        if(i<filelist.length){
+                            context.previewImg(filelist,i);
+                        }
+                  },
+                  fail: function (res) {
+                        alert('选择图片失败:' + res.errMsg);
+                   },
+             })
+          })
+            },
+            uploadImg(filelist,i){
+                let self = this;
+                console.log('upload');
+                this.$wxMethod.upLoadImage(filelist[i].localIds,
+                    result=>{
+                        filelist[i].serverId = result.serverId;
+                        i++;
+                        alert('111');
+                        console.log(filelist);
+                        if(i<filelist.length ){
+                           self.uploadImg(filelist,i);
+                        }
+                    },
+                    (err)=>{
+                        self.$toast(JSON.stringify(err));
+                })
             },
             typeguanbi(){
                 this.showType5 = false;
@@ -593,6 +738,12 @@
                 console.log(val);
                 return /^\d+$|^\d+[.]?\d+$/.test(val);
             },
+            asyncValidator1(val){
+                return (parseInt(val)>0)?true:false;
+            },
+            asyncValidator2(val){
+                return (parseInt(val)>parseInt(this.floor))?true:false;
+            },
             shouxiaoqu(){
                 this.showPicker1 = true;
                 this.title0 = '';
@@ -650,21 +801,67 @@
                 let type = parseInt(this.renttype);
                 let areaid = parseInt(this.areaid);
                 let typeName = (this.huxinName == '')?"一室一厅一卫":this.huxinName;
-                if(title == ''||name == ''||type == 0||direction == 0||
-                   paymonth == 0||unitPrice == 0||unitType == 0||
-                   area == ''||local == ''||localName == ''||
-                   decoration == 0||areaid == 0){
-                       this.$toast('有选项未填');
-                       this.methods = 0;
-                       return;
-                }
-                if(level<floor){
-                    this.$toast("总楼层不能小于当前楼层");
-                    console.log(level,floor);
-                    this.methods = 0;
-                    this.level = '';
+                if(title == ''){
+                    this.$toast('标题不能为空');
                     return;
                 }
+                if(unitPrice == 0){
+                    this.$toast('单价不能为空');
+                    return;
+                }
+
+                if(paymonth == 0){
+                    this.$toast('地区不能为空');
+                    return;
+                }
+
+                if(local == ''||localName == ''){
+                    this.$toast('地址栏不能为空');
+                    return;
+                }
+
+                if(area == 0){
+                    this.$toast('面积不能为空');
+                    return;
+                }
+                if(unitType == 0){
+                    this.$toast('户型不能为空');
+                    return;
+                }
+
+                if(this.huxinName == ''){
+                    this.$toast('户型简介不能为空');
+                    return;
+                }
+
+                if(direction == 0){
+                    this.$toast('朝向不能为空');
+                    return;
+                }
+                if(type == 0){
+                    this.$toast('方式不能为空');
+                    return;
+                }
+                if(floor == 0){
+                    this.$toast('请输入所在楼层');
+                    return;
+                }
+                if(level == 0){
+                    this.$toast('请输入总楼层');
+                    return;
+                }
+                if(decoration == 0){
+                    this.$toast('装修情况不能为空');
+                    return;
+                }
+
+
+                if(areaid == 0){
+                    this.$toast('地区不能为空');
+                    return;
+                }
+
+
                 this.methods = 1;
             },
             shouhuxing(){
@@ -754,10 +951,12 @@
                 let typeName = (this.huxinName == '')?"一室一厅一卫":this.huxinName;
                 var formdata = new FormData();
                 this.Trans(this.uploader);
+                if(this.uploader.length == 0){
+                    this.$toast('您需要上传图片');
+                }
                 for(let i=0;i<this.filess.length;i++){
                     formdata.append(`imglist[${i}]`,this.filess[i])
                 }
-                // formdata.append("imglist[]",this.filess);
                 formdata.append("title",title);
                 formdata.append("name",this.name);
                 formdata.append("type",type);
@@ -788,27 +987,31 @@
                 formdata.append("watchTime",watchTime);
                 formdata.append("typeName",typeName);
                 let self = this;
-                token = '4f5c545239adce88876e87a4f5556afc';
                 self.$axios.post("http://house-api.zjlaishang.com:9001/rent/save",formdata,{
                     headers:{
                         'Content-Type': 'application/json',
-                        token: token
+                         token: token
                     }
                 }).then(function(res){
                     if(res.data.code == 200){
                         self.$toast(res.data.msg);
-                        self.$router.push({path:"/my"})
+                        let date = new Date().toString();
+                        self.$router.push({name:'my',params:{time:date}});
                     }else{
                         self.$toast(res.data.msg);
                     }
                 })
                 .catch(function(err){
-                    console.log('获取数据失败');
+                    alert(err);
+                    // self.$toast('获取数据失败');
                 })
+            },
+            delImg(index){
+                this.uploader.splice(index,1);
             },
             Trans(filearray){
                 for(let i=0;i<filearray.length;i++){
-                    this.filess[i] = filearray[i].content;
+                    this.filess[i] = filearray[i].serverId;
                 }
                 console.log(this.filess);
             },
@@ -939,5 +1142,51 @@
 
     .active00{
         background-color: yellow;
+    }
+
+    .image-view{
+        width: 7.5rem;
+        height:100px;
+        /* margin:50px auto; */
+    }
+    .image-view .item {
+        position:relative;
+        float:left;
+        height:100px;
+        width:100px;
+        margin:10px 10px 0 0;
+    }
+    .image-view .item .cancel-btn{
+        position:absolute;
+        right:0;
+        top:0;
+        display:block;
+        width:20px;
+        height:20px;
+        color:#fff;
+        line-height:20px;
+        text-align:center;
+        background:red;
+        border-radius:10px;
+        cursor:pointer;
+    }
+    .image-view .item img{
+        width:100%;
+        height:100%;
+    }
+    .image-view .view{
+        clear:both;
+    }
+
+    .van-field__label {
+         -webkit-box-flex: 0;
+         -webkit-flex: none;
+         flex: none;
+         box-sizing: border-box;
+         width: 7em;
+         margin-right: 12px;
+         color: #646566;
+         text-align: left;
+         word-wrap: break-word;
     }
 </style>

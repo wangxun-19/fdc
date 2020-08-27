@@ -60,70 +60,98 @@
                     <label class="price" v-if="roominfo.unitPrice&&roominfo.unitPrice != 0">{{roominfo.unitPrice}}<span class="danwei">元/m²</span></label>
                     <label v-if="roominfo.unitPrice&&roominfo.unitPrice == 0">价格待定</label>
                 </div>
+                <van-row style="margin-top: 0.23rem;width:95%">
+                   <van-col :span="12">
+                        <label class="grey">户型</label>
+                        <label v-if="huxin != ''" class="huxin">{{huxin}}</label>
+                        <label v-else class="huxin">待定</label>
+                   </van-col>
+                    <van-col :span="11">
+                        <label class="grey">建面</label>
+                        <label v-if="mianji != ''" class="huxin">{{mianji}}</label>
+                        <label v-else class="huxin">待定</label>
+                    </van-col>
+                </van-row>
                 <div style="margin-top: 0.23rem">
-                    <label class="grey">户型</label>
-                    <label v-if="huxin != ''" class="huxin">{{huxin}}</label>
-                    <label v-else class="huxin">待定</label>
-                    <label style="margin-left: 1.56rem" class="grey">建面</label>
-                    <label v-if="mianji != ''" class="huxin">{{mianji}}</label>
-                    <label v-else class="huxin">待定</label>
-                </div>
-                <div style="margin-top: 0.23rem">
-                    <label class="grey">开盘</label>
-                    <label class="huxin">{{roominfo.openDate}}</label>
+                    <div>
+                        <label class="grey">开盘</label>
+                        <label class="huxin">{{roominfo.openDate}}</label>
+                    </div>
                 </div>
                 <div style="margin-top: 0.23rem">
                     <label class="grey">交付日期</label>
                     <label class="huxin">{{roominfo.deliverDate}}</label>
                 </div>
-                <div style="margin-top: 0.23rem">
-                    <label class="grey">占地面积</label>
-                    <label class="huxin">{{roominfo.totalArea}}㎡</label>
-                    <label class="grey" style="margin-left: 1.56rem">建筑面积</label>
-                    <label class="huxin">{{roominfo.buildingArea}}㎡</label>
-                </div>
-                <div style="margin-top: 0.23rem">
+                <van-row style="margin-top: 0.23rem;width:95%">
+                    <van-col :span="13">
+                        <label class="grey">占地面积</label>
+                        <label class="huxin">{{roominfo.totalArea}}㎡</label>
+                    </van-col>
+                    <van-col :span="11">
+                        <label class="grey">建筑面积</label>
+                        <label class="huxin">{{roominfo.buildingArea}}㎡</label>
+                    </van-col>
+                </van-row>
+                <van-row style="margin-top: 0.23rem;width:95%">
                     
-                    <label class="grey">容积率</label>
-                    <label class="huxin">{{roominfo.volumeRate}}%</label>
-                    <label class="grey" style="margin-left: 1.56rem">绿化率</label>
-                    <label class="huxin">{{roominfo.greeningRate}}%</label>
-                </div>
-                <div style="margin-top: 0.23rem">
-                    <label  class="grey">规划车位</label>
-                    <label class="huxin">{{roominfo.parkingNumber}}个</label>
-                    <label class="grey" style="margin-left: 1.56rem">车位配比</label>
-                    <label class="huxin">{{roominfo.parkingSpaceRatio}}</label>
-                </div>
-                <div style="margin-top: 0.23rem">
-                    <label class="grey">规划楼栋</label>
-                    <label class="huxin">{{roominfo.totalFloor}}栋</label>
-                    <label class="grey" style="margin-left: 1.56rem">规划户数</label>
-                    <label class="huxin">{{roominfo.totalHousehold}}户</label>
-                </div>
-                <div style="margin-top: 0.23rem">
+                    <van-col :span="13">
+                        <label class="grey">容积率</label>
+                        <label class="huxin">{{roominfo.volumeRate}}%</label>
+                    </van-col>
+                    <van-col :span="11">
+                        <label class="grey" >绿化率</label>
+                        <label class="huxin">{{roominfo.greeningRate}}%</label>
+                    </van-col>
+                </van-row>
+                <van-row style="margin-top: 0.23rem;width: 95%">
+                    <van-col :span="13">
+                        <label  class="grey">规划车位</label>
+                        <label class="huxin">{{roominfo.parkingNumber}}个</label>
+                    </van-col>
+                    <van-col :span="11">
+                        <label class="grey">车位配比</label>
+                        <label class="huxin">{{roominfo.parkingSpaceRatio}}</label>
+                    </van-col>
+                </van-row>
+                <van-row style="margin-top: 0.23rem;width: 95%">
+                    <van-col :span="13">
+                        <label class="grey">规划楼栋</label>
+                        <label class="huxin">{{roominfo.totalFloor}}栋</label>
+                    </van-col>
+                    <van-col :span="11">
+                        <label class="grey">规划户数</label>
+                        <label class="huxin">{{roominfo.totalHousehold}}户</label>
+                    </van-col>
+                    
+                    
+                </van-row>
+                <van-row style="margin-top: 0.23rem;width: 95%">
                     <label  class="grey">物业公司</label>
                     <label class="huxin">{{roominfo.propertyCompany}}</label>
-                    <!-- <label style="margin-left: 1.56rem" class="grey">规划户数</label>
-                    <label class="huxin">{{roominfo.totalHousehold}}</label> -->
-                </div>
-                <div style="margin-top: 0.23rem">
-                    <label  class="grey">物业费</label>
+                </van-row>
+                <van-row style="margin-top: 0.23rem;width: 95%">
+                    <van-col :span="9">
+                        <label  class="grey">物业费</label>
                     <label class="huxin">{{roominfo.propertyCosts}}月/㎡</label>
-                    <label style="margin-left: 0.80rem" class="grey">水</label>
-                    <label class="huxin" v-if="roominfo.water == 1">民水</label>
-                    <label class="huxin" v-if="roominfo.water == 2">商业水</label>
-                    <label style="margin-left: 0.80rem"  class="grey">电</label>
-                    <label class="huxin" v-if="roominfo.electricity == 1">民电</label>
-                    <label class="huxin" v-if="roominfo.electricity == 2">商电</label>
-                </div>
-                <div style="margin-top: 0.23rem;display:inline-block;width: 100%">
+                    </van-col>
+                    <!-- <van-col :span="6">
+                        <label class="grey">水</label>
+                        <label class="huxin" v-if="roominfo.water == 1">民水</label>
+                        <label class="huxin" v-if="roominfo.water == 2">商业水</label>
+                    </van-col>
+                    <van-col :span="6">
+                        <label  class="grey">电</label>
+                        <label class="huxin" v-if="roominfo.electricity == 1">民电</label>
+                        <label class="huxin" v-if="roominfo.electricity == 2">商电</label>
+                    </van-col> -->
+                </van-row>
+                <div style="margin-top: 0.23rem;display:inline-block;width: 95%" @click="locations">
                     <label class="grey" style="float:left">地址</label>
                     <div class="dizhi" style="float:left;margin-top: -0.05rem">
                         {{roominfo.localName}}
                     </div>
                     <van-image class="location" :src="locationpic" fit="cover" width="0.31rem" height="0.31rem"
-                             @click="locations"></van-image>
+                             ></van-image>
                 </div>
                 <div class="bluerect">
 
@@ -143,7 +171,7 @@
             <div class="div">
                 <label class="dongtai1">主力户型<span>({{totalhuxin}})</span></label>
             </div>
-            <div class="showarea" v-if="huxinarrays.length>0">
+            <div class="showarea10" v-if="huxinarrays.length>0">
                 <div v-for="(item,index) in huxinarrays" :key="index">
                     <huxinBox
                             :img="item.img"
@@ -163,7 +191,7 @@
                 <label class="gengduo" @click="dongtaigengduo">更多</label>
             </div>
             <div class="showarea">
-                <div style="overflow:auto;height: 2.6rem" v-if="dongtailist.length != undefined&&dongtailist.length>0">
+                <div class="dongtaiarea" v-if="dongtailist.length != undefined&&dongtailist.length>0" :style="(dongtailist.length>=3)?'height: 8.13rem':''">
                     <ul
                       v-infinite-scroll="onLoad"
                       infinite-scroll-distance="10">
@@ -192,7 +220,7 @@
                     <div id="container"></div>
                 </div>
                 <van-row style="display: inline-block;width: 100%">
-                    <div id="panel0" v-if="zhoubianarray.length != undefined&&zhoubianarray.length > 0">
+                    <div id="panel0" v-if="zhoubianarray.length != undefined&&zhoubianarray.length > 0" :style="(zhoubianarray.length >= 5)?'height: 3.6rem':''">
                         <div v-for="(item,index) in zhoubianarray" 
                         @click="openMarkerTipById1(index,$event)"  
                         @mouseout="onmouseout_MarkerStyle(index+1,$event)" :key="index">
@@ -242,7 +270,7 @@
                             :img="item.img[0]"
                             :price="item.unitPrice"
                             :status="item.status"
-                            :localName="item.localName"
+                            :areaId="item.areaid"
                             :min="item.minArea"
                             :max="item.maxArea"
                             :nature="item.nature"
@@ -260,7 +288,7 @@ import { ImagePreview } from 'vant';
 var map,placeSearch;
     export default {
         name: "NewRoomDetail",
-        // mixins:[mixin],
+        mixins:[mixin],
         components:{
             ImagePreview,
         },
@@ -289,7 +317,7 @@ var map,placeSearch;
                 dongtailist:[],
                 marker: [],
                 currentPage:1,
-                pagesize0:50,
+                pagesize0:5,
                 totalss:0,
                 windowsArr:[],
                 selectedIndex:-1,
@@ -376,12 +404,22 @@ var map,placeSearch;
                 let token = localStorage.getItem("token");
                 self.$axios.get('http://house-api.zjlaishang.com:9001/new/show/' + roomid, {
                     headers:{
-                        token:token
+                        'token':token
+                        // token:token,
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                        // 'TOKEN': token
                     }
                 }).then(function (res) {
                     console.log(res.data);
                     if (res.data.code == 200) {
                         self.roominfo = res.data.data;
+                        let isarray0 =  (self.roominfo instanceof Array)
+                        if(isarray0 == true){
+                            if(self.roominfo.length == 0){
+                                self.$toast("这个房子已下架");
+                                self.$router.go(-1);
+                            }
+                        }
                         let j = 0;
                         let huxinarr = [];
                         let isarray = (self.roominfo.img instanceof Array);
@@ -389,18 +427,13 @@ var map,placeSearch;
                         self.swiperlist.length = 0;
                         self.huxinarrays.length = 0;
                         self.mianji = self.roominfo.minArea + "-" + self.roominfo.maxArea+"㎡";
-                        if(isarray == true&&self.roominfo.img.length > 0){
-                            self.roominfo.img.forEach(item=>{
-                                self.swiperlist.push(item);
-                            })
-                        }else{
-                            self.swiperlist.length = 0;
-                        }
-                        console.log(self.swiperlist);
+                        self.totalhuxin = self.roominfo.unitType.length;
+                        self.huxinarrays = self.roominfo.unitType;
+                        self.jinjitotal = self.roominfo.broker.length;
+                        self.jinjirenlist = self.roominfo.broker;
+                        console.log(self.jinjirenlist);
+                        self.getfujin(self.roomid);
                         if(self.roominfo.unitType != undefined&&self.roominfo.unitType.length > 0){
-                            self.roominfo.unitType.forEach(item=>{
-                                self.huxinarrays.push(item);
-                            })
                             console.log(self.huxinarrays);
                             for(let i=0;i<self.roominfo.unitType.length;i++){
                                 huxinarr.push(self.roominfo.unitType[i].type)
@@ -430,19 +463,27 @@ var map,placeSearch;
                             self.huxin += "室";
                             self.ischn = self.functionChina(self.roominfo.localName);
                         }
+                        if(isarray == true&&self.roominfo.img.length > 0){
+                            self.roominfo.img.forEach(item=>{
+                                self.swiperlist.push(item);
+                            })
+                        }else{
+                            self.swiperlist.length = 0;
+                        }
+                        console.log(self.swiperlist);
                         // self.mainActiveIndex = self.roominfo.hasUnitType.split(',');
                         if(self.roominfo.local != undefined&&self.roominfo.local != null){
                             self.position = self.roominfo.local.split(',');
-                            self.createMap(self.position[0],self.position[1]);
+                            if(self.position.length < 2){
+                                self.createMap(self.position[0],'');
+                            }else{
+                                self.createMap(self.position[0],self.position[1]);
+                            }
+                            // self.createMap(self.position[0],self.position[1]);
                             self.clickaround(1);
                         }else{
                             self.createMap('','');
                         }
-                        self.totalhuxin = self.roominfo.unitType.length;
-                        self.jinjitotal = self.roominfo.broker.length;
-                        self.jinjirenlist = self.roominfo.broker;
-                        console.log(self.jinjirenlist);
-                        self.getfujin(self.roomid);
                     } else {
                         self.$toast(res.data.msg);
                     }
@@ -451,7 +492,9 @@ var map,placeSearch;
             getfujin(roomid){
                 let self = this;
                 self.$axios.get("http://house-api.zjlaishang.com:9001/new/nearby/"+self.roominfo.areaId+'/'+roomid,{
-
+                    headers:{
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
                 }).then(function(res){
                     if(res.data.code == 200){
                         res.data.data.forEach(item=>{
@@ -468,7 +511,11 @@ var map,placeSearch;
                 if(self.around == 1){
                     self.selectedIndex = -1;
                     if(self.roominfo.local != undefined&&self.roominfo.local != null){
-                        self.createMap(self.position[0],self.position[1]);
+                        if(self.position.length < 2){
+                            self.createMap(self.position[0],'');
+                        }else{
+                            self.createMap(self.position[0],self.position[1]);
+                        }
                     }else{
                         self.createMap('','');
                     }
@@ -508,7 +555,11 @@ var map,placeSearch;
                 }else if(self.around == 2){
                     self.selectedIndex = -1;
                     if(self.roominfo.local != undefined&&self.roominfo.local != null){
-                        self.createMap(self.position[0],self.position[1]);
+                        if(self.position.length < 2){
+                            self.createMap(self.position[0],'');
+                        }else{
+                            self.createMap(self.position[0],self.position[1]);
+                        }
                     }else{
                         self.createMap('','');
                     }
@@ -548,7 +599,11 @@ var map,placeSearch;
                 }else if(self.around == 3){
                     self.selectedIndex = -1;
                     if(self.roominfo.local != undefined&&self.roominfo.local != null){
-                        self.createMap(self.position[0],self.position[1]);
+                        if(self.position.length < 2){
+                            self.createMap(self.position[0],'');
+                        }else{
+                            self.createMap(self.position[0],self.position[1]);
+                        }
                     }else{
                         self.createMap('','');
                     }
@@ -589,7 +644,11 @@ var map,placeSearch;
                 }else if(self.around == 4){
                     self.selectedIndex = -1;
                     if(self.roominfo.local != undefined&&self.roominfo.local != null){
-                        self.createMap(self.position[0],self.position[1]);
+                        if(self.position.length < 2){
+                            self.createMap(self.position[0],'');
+                        }else{
+                            self.createMap(self.position[0],self.position[1]);
+                        }
                     }else{
                         self.createMap('','');
                     }
@@ -699,7 +758,7 @@ var map,placeSearch;
                     
                 },{
                     headers:{
-                        token:token
+                        'TOKEN': token
                     }
                 }).then(function (res) {
                     if(res.data.code == 200){
@@ -720,7 +779,7 @@ var map,placeSearch;
                 let roomid = self.roomid;
                 self.$axios.delete("http://house-api.zjlaishang.com:9001/new/collect/"+roomid,{
                     headers:{
-                        token:token
+                        'TOKEN': token
                     }
                 }).then(function(res){
                     if(res.data.code == 200){
@@ -735,12 +794,13 @@ var map,placeSearch;
                     self.getHomeInfo(self.roomid);
                 })
             },
-            roomdongtai(){
+            roomdongtai(roomid){
                 let self = this;
                 let token = localStorage.getItem("token");
-                this.$axios.get('http://house-api.zjlaishang.com:9001/new/msg/'+self.page,{
+                this.$axios.get('http://house-api.zjlaishang.com:9001/new/msg/'+roomid+'/'+self.page,{
                     headers:{
-                        token:token
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'TOKEN': token
                     }
                 }).then(function (res) {
                     if(res.data.code == 200){
@@ -767,7 +827,8 @@ var map,placeSearch;
                 let token = localStorage.getItem("token");
                 self.$axios('http://house-api.zjlaishang.com:9001/new/question/' + roomid, {
                     headers:{
-                        token: token
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'TOKEN': token
                     }
                 }).then(function (res) {
                     if (res.data.code == 200) {
@@ -803,7 +864,7 @@ var map,placeSearch;
             onLoad(){
                 let self = this;
                 self.page++;
-                self.roomdongtai();
+                self.roomdongtai(self.roomid);
             },
             locations() {
                 let self = this;
@@ -822,19 +883,23 @@ var map,placeSearch;
             yuyue() {
                 console.log("yuyue");
                 // this.$router.push({path:'/yuyue',query:{type:'new',roomid:this.roomid}});
+                window.location.href = 'http://'+window.location.host+'/yuyue/new/'+this.roomid+'/'+new Date().toString();
             },
             dongtaigengduo(){
-                this.$router.push({name:'dongtaigengduo',params:{type:'new'}})
+                // this.$router.push({name:'dongtaigengduo',params:{type:'new',id:this.roomid}})
+                window.location.href = 'http://'+window.location.host+'/dongtaigengduo/new/'+this.roomid;
             },
             tiwen(){
                 let self = this;
                 let roomid = self.roomid;
                 let area = self.mianji;
-                self.$router.push({name:'tiwen',params:{id: roomid,type:'new',area:area}});
+                // self.$router.push({name:'tiwen',params:{id: roomid,type:'new'}});
+                 window.location.href = 'http://'+window.location.host+'/tiwen/'+roomid+'/new';
             },
             wentigengduo(){
                 let roomid = this.roomid;
-                this.$router.push({name:'wentigengduo',params:{id:roomid,type:'new',area:this.mianji}});
+                // this.$router.push({name:'wentigengduo',params:{id:roomid,type:'new'}});
+                window.location.href = 'http://'+window.location.host+'/wentigengduo/'+roomid+'/new';
             },
             createMap(latitude, longitude) {
                 let self = this;
@@ -972,6 +1037,15 @@ var map,placeSearch;
         display: inline-flex;
         flex-direction: row;
         overflow-x: auto;
+    }
+
+    .zhulihuxin .showarea10{
+        width: 100%;
+        margin-bottom: 0.2rem;
+        display: inline-flex;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
     }
 
     .dongtai{
@@ -1123,6 +1197,10 @@ var map,placeSearch;
         color:rgba(51,51,51,1);
         line-height:0.35rem;
         margin-left: 0.18rem;
+        width: 4.0rem;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
     }
 
     .xiangqin .kaipan{
@@ -1156,6 +1234,11 @@ var map,placeSearch;
         font-family:PingFang SC;
         font-weight:400;
         color:rgba(124,124,124,1); 
+    }
+
+    .dongtaiarea{
+        overflow: auto;
+        /* height: 8.13rem; */
     }
 
     .btnyuyue{
@@ -1230,17 +1313,15 @@ var map,placeSearch;
     #panel0{
         position: relative;
         background-color: white;
-        height: 2.1rem;
+        /* height: 10.5rem; */
         overflow-y: auto;
-        margin-left: 0.30rem;
         margin-bottom: 0.10rem;
-        border-bottom: solid 1px silver;
     }
     .btn{
         margin-top: 14px;
         margin-left: 14px;
         margin-right: 14px;
-        margin-bottom: 52px;
+        margin-bottom: 14px;
     }
 
     .btn .tiwen{
@@ -1280,7 +1361,7 @@ var map,placeSearch;
 
     .fcarr{
         width: 100%;
-        height: 4.0rem;
-        overflow-y: auto;
+        /* height: 10.5rem;
+        overflow-y: auto; */
     }
 </style>

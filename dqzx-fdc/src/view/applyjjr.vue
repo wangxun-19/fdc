@@ -1,8 +1,8 @@
 <template>
   <div >
        <div class="header">
-           <label class="title" v-if="status == 0">申请成为中介</label>
-           <label class="desc" v-if="status == 0">成为中介增加上传新楼盘功能，以及二手房 和出租屋发布次数不限</label>
+           <label class="title">申请成为中介</label>
+           <label class="desc">成为中介增加上传新楼盘功能，以及二手房 和出租屋发布次数不限</label>
        </div>
        <div class="jiange"></div>
        <van-field
@@ -13,7 +13,19 @@
           input-align="right"
           v-if="status != -1"
        ></van-field>
-       <van-row v-if="status != -1">
+       <van-field
+          v-model="captcha"
+          label="验证码"
+          type="text"
+          placeholder="验证码"
+          input-align="right"  
+          v-if="status != -1"
+       >
+       <template #button>
+          <van-button class="newbtn" @click="getCaptcha" :disabled="disabled">{{btnTxt}}{{disabled && time>0?time:''}}</van-button>
+       </template>
+       </van-field>
+       <!-- <van-row v-if="status != -1">
            <van-col span="18">
                <van-field
                  v-model="captcha"
@@ -27,7 +39,7 @@
            <van-col span="2">
                <van-button class="newbtn" @click="getCaptcha" :disabled="disabled">{{btnTxt}}{{disabled && time>0?time:''}}</van-button>
            </van-col>
-       </van-row>
+       </van-row> -->
        <van-field
           v-model="name"
           label="真实姓名"
@@ -52,7 +64,7 @@
        ></van-field>
        <el-dialog :visible.sync="showdialog" title="业务范围" fullscreen>
            <van-row>
-              <van-checkbox-group v-model="checkboxGroup" direction="horizontal">
+              <van-checkbox-group v-model="checkboxGroup" direction="horizontal" ref="checkboxGroup">
                     <div v-for="(item,index) in options1" :key="index">
                         <van-checkbox :name="item" shape="square" style="margin-top: 0.5rem;">{{item.title}}</van-checkbox>
                     </div>
@@ -83,9 +95,28 @@
           input-align="right"
        ></van-field>
        <van-field name="uploader" label="公司营业执照" v-if="status != -1">
+                
         </van-field>
-        <van-row v-if="status != -1">
-            <van-uploader v-model="uploader" max-count="1" accept="image/*" result-type="dataUrl"/>
+        <van-row>
+            <van-button icon="plus" type="primary" style="margin-left:0.35rem;margin-bottom:0.35rem" @click="chooseimg">上传图片</van-button>
+            <van-row>
+                <div class="image-view">
+                   <div class="view" v-if="appSource() == 'android'">
+                      <div class="item" v-for="(item, index) in uploader" :key="index">
+                         <span class="cancel-btn" @click="delImg(index)">x</span>
+                         <img :src="item.localIds">
+                         <!-- <img :src="item.localData"> -->
+                      </div>
+                   </div>
+                   <div class="view" v-else>
+                       <div class="item" v-for="(item, index) in uploader" :key="index">
+                          <span class="cancel-btn" @click="delImg(index)">x</span>
+                          <img :src="item.localData">
+                       </div>
+                   </div>
+                </div>
+            </van-row>
+            <!-- <van-button icon="plus" type="primary" style="margin-left:0.35rem;margin-bottom:0.35rem" @click="chooseimg">上传图片</van-button> -->
         </van-row>
         <button class="sub" v-if="status != -1" @click="submit">提交信息</button>
         <button class="sub" v-if="status == -1" @click="submit">认证手机号</button>
@@ -93,13 +124,13 @@
 </template>
 
 <script>
-import 'element-ui/lib/theme-chalk/index.css';
+// import 'element-ui/lib/theme-chalk/index.css';
 import mixin from '../mixin/mixin';
 export default {
   name: 'app',
-//   mixins:[mixin],
+  mixins:[mixin],
   components: {
-
+      
   },
   data(){
       return{
@@ -109,6 +140,7 @@ export default {
           fanwei:'',
           showdialog:false,
           options1:[],
+          filess1:[],
           area:'',
           companyName:'',
           uploader:[],
@@ -118,14 +150,16 @@ export default {
           times:null,
           btnTxt:'验证码',
           checkboxGroup:[],
-          status:null
+          status:null,
+          dialogVisible:false,
+          datas:{text:''},
       }
   },
   created(){
       let self = this;
       let query = this.$route.params;
       this.status = query.status0;
-      this.tel = query.tel;
+    //   this.tel = query.tel;
       if(self.$store.state.time >= 0){
                 if(self.$store.state.time == 0){
                     self.$store.state.time = parseInt(localStorage.getItem("time"));
@@ -144,9 +178,7 @@ export default {
           let self = this;
           let token = localStorage.getItem("token");
           this.$axios.get("http://house-api.zjlaishang.com:9001/type/area",{
-              headers:{
-                  token:token
-              }
+              
           }).then(function(res){
               if(res.data.code == 200){
                   res.data.data.forEach(item=>{
@@ -159,6 +191,148 @@ export default {
                   self.$toast(res.data.msg);
               }
           })
+      },
+      delImg(index){
+          this.uploader.splice(index,1);
+      },
+      chooseimg(){
+          let self = this;
+          this.$wxsdk.init(["chooseImage"]).then(
+            wx=>{
+                wx.chooseImage({
+                    count: 1, // 默认9
+                    sizeType: ['original', 'compressed'], 
+                    sourceType: ['album', 'camera'],
+                    success(res){
+                            self.filess1 = res.localIds;
+                            for(let i=0;i<res.localIds.length;i++){
+                                self.uploader[i] = {localIds:'',localData:'',serverId:''};
+                                self.uploader[i].localIds = res.localIds[i]
+                                self.uploader[i].localData = '';
+                                self.uploader[i].serverId = '';
+                            }
+                            self.uploader = self.unquine(self.uploader);
+                            if(self.appSource() == 'android'){
+                                console.log(self.uploader)
+                                self.uploadImg(self.uploader,0);
+                            }else{
+                                alert('000');
+                                self.previewImg(self.uploader,0);
+                                self.uploadImg(self.uploader,0);
+                            }
+                    },
+                    cancel(err){
+                        alert(JSON.stringify(err))
+                    }
+                })
+            }
+        )
+        // this.$wxMethod.chooseImage(1,(res)=>{
+            // self.filess1 = res.localIds;
+            // for(let i=0;i<res.localIds.length;i++){
+            //     self.uploader[i] = {localIds:'',localData:'',serverId:''};
+            //     self.uploader[i].localIds = res.localIds[i]
+            //     self.uploader[i].localData = '';
+            //     self.uploader[i].serverId = '';
+            // }
+            // self.uploader = self.unquine(self.uploader);
+            // if(self.appSource() == 'android'){
+            //     console.log(self.uploader)
+            //     self.uploadImg(self.uploader,0);
+            // }else{
+            //     alert('000');
+            //     self.previewImg(self.uploader,0);
+            //     self.uploadImg(self.uploader,0);
+            // }
+        // },(err)=>{
+        //     console.log(err);
+        // })
+      },
+      unquine(filearray){
+          var result = [], isRepeated;
+          for (let i = 0; i < filearray.length; i++) {
+             isRepeated = false;
+             for (let j = 0; j < result.length; j++) {
+                if (filearray[i].localIds == result[j].localIds) {
+                     isRepeated = true;
+                     console.log('repeat');
+                     break;
+                  }
+              }
+             if (!isRepeated) {
+                result.push(filearray[i]);
+              }
+          }
+          return result;
+      },
+      appSource() {
+          if (navigator.userAgent.indexOf('iPhone') !== -1) {
+            return "ios";
+          } else if(navigator.userAgent.indexOf('android') !== -1) {
+            return "android";
+          }
+          return '0';
+      },
+      previewImg(filelist,i){
+          let context = this;
+          this.$wxsdk.init(['getLocalImgData']).then(wx=>{
+              wx.getLocalImgData({
+                  localId: filelist[i].localIds, // 图片的localID
+                  success: function (res) {
+                        var localData = res.localData;
+                        if (localData.indexOf('data:image') != 0) {                       
+                            //判断是否有这样的头部                                               
+                            localData = 'data:image/jpeg;base64,' +  localData                    
+                        }                    
+                        localData = localData.replace(/\r|\n/g, '').replace('data:image/jgp', 'data:image/jpeg'); // 此处的localData 就是你所需要的base64位
+                        filelist[i].localData = localData;
+                        i++;
+                        if(i<filelist.length){
+                            context.previewImg(filelist,i);
+                        }
+                  },
+                  fail: function (res) {
+                        alert('选择图片失败:' + res.errMsg);
+                   },
+             })
+          })
+      },
+      uploadImg(filearray,i){
+        let self = this;
+        console.log(770);
+        // this.$wxMethod.upLoadImage(filearray[i].localIds,(res)=>{
+        //        filearray[i].serverId = res.serverId;
+        //         i++;
+        //         console.log(filearray);
+        //         if(i<filearray.length ){
+        //             self.uploadImg(i);
+        //         }
+        // },(err)=>{
+        //     console.log(err);
+        // })
+        this.$wxsdk.init(['uploadImage']).then(
+            wx=>{
+                wx.uploadImage({
+                    localId: filearray[i].localIds,
+                    isShowProgressTips: 1,
+                    success(res){
+                        filearray[i].serverId = res.serverId;
+                        filearray[i].serverId = res.serverId;
+                        i++;
+                        console.log(filearray);
+                        if(i<filearray.length ){
+                           self.uploadImg(i);
+                        }
+                    },
+                    cancel(err){
+                        alert(JSON.stringify(err));
+                    },
+                    fail(errs){
+                        alert(JSON.stringify(errs))
+                    }
+                })
+            }
+        )
       },
       queding(){
           let self = this;
@@ -179,6 +353,7 @@ export default {
       areaidguanbi(){
           this.showdialog = false;
           this.checkboxGroup.length = 0;
+          this.$refs.checkboxGroup.toggleAll(false);
           this.area = '';
       },
       getCaptcha(){
@@ -218,16 +393,33 @@ export default {
       submit(){
           if(this.status != -1){
               let phone = this.tel;
+            //   alert(2);
               let captcha = this.captcha;
               this.trans(this.uploader);
               let fanwei = this.fanwei;
-              let area = parseInt(this.area);
+              let area = this.area
               let companyName = this.companyName;
               let name = this.name;
-             if(phone == ''||area == 0||companyName == ''||name == ''){
-                 this.$toast("有元素未填");
-                  return;
-                }
+            //    if(phone == ''||area == ''||companyName == ''||name == ''){
+            //      this.$toast("有元素未填");
+            //       return;
+            //     }
+            if(phone == ''){
+                this.$toast("电话未填");
+                return;
+            }
+            if(area == ''){
+                this.$toast("区域未填");
+                return;
+            }
+            if(companyName == ''){
+                this.$toast("公司名未填");
+                return;
+            }
+            if(this.filess == ''){
+                this.$toast("图片未传");
+                return;
+            }
                let formdata = new FormData();
                formdata.append("areaId",area);
                formdata.append("name",name);
@@ -245,7 +437,13 @@ export default {
                        self.$toast(res.data.msg);
                        self.$router.push({path:'/my'})
                    }else{
-                       self.$toast(res.data.msg);
+                       alert(JSON.stringify(res))
+                   }
+               }).catch(function(err){
+                   if(err.response){
+                       alert(JSON.stringify(err.response))
+                   }else if(err.request){
+                       alert(JSON.stringify(err.request))
                    }
                })
           }else if(this.status == -1){
@@ -263,7 +461,9 @@ export default {
           }
       },
       trans(uploader){
-          this.filess = this.uploader[0].content;
+          if(this.uploader.length > 0){
+              this.filess = this.uploader[0].serverId;
+          }
           console.log(this.filess);
       },
       formatter(value){
@@ -365,6 +565,42 @@ export default {
         font-family:PingFang SC;
         font-weight:bold;
         color:rgba(255,255,255,1);
+    }
+
+    .image-view{
+        /* width:7.5rem; */
+        height:100px;
+        margin-bottom: 0.2rem;
+        margin-left: 0.1rem;
+        /* margin:50px auto; */
+    }
+    .image-view .item {
+        position:relative;
+        float:left;
+        height:100px;
+        width:100px;
+        margin:10px 10px 10px 0;
+    }
+    .image-view .item .cancel-btn{
+        position:absolute;
+        right:0;
+        top:0;
+        display:block;
+        width:20px;
+        height:20px;
+        color:#fff;
+        line-height:20px;
+        text-align:center;
+        background:red;
+        border-radius:10px;
+        cursor:pointer;
+    }
+    .image-view .item img{
+        width:100%;
+        height:100%;
+    }
+    .image-view .view{
+        clear:both;
     }
     /*#app{*/
     /*    background: #F7F9FE;*/

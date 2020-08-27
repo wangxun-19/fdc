@@ -48,9 +48,12 @@
             getactivitylist(){
                 let self = this;
                 let token = localStorage.getItem("token");
-                self.$axios.post("http://house-api.zjlaishang.com:9001/activity/"+self.page,{},{
+                // token = 'e84e3873bec74410ed1d8a670a2614fe';
+                self.$axios.post("http://house-api.zjlaishang.com:9001/activity/"+self.page,{
+                },{
                     headers: {
-                        token:token
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token':token,
                     },
                 }).then(function(res){
                     if(res.data.code == 200){
@@ -86,7 +89,8 @@
 
     .local{
         width: 100%;
-        height: 10.5rem;
+        height: 11rem;
         overflow-y:auto;
+        margin-bottom: 1.3rem;
     }
 </style>

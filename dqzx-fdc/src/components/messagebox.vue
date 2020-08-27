@@ -28,23 +28,30 @@ export default {
           let self = this;
           let token = localStorage.getItem("token");
           self.$axios.put("http://house-api.zjlaishang.com:9001/message/"+id,{
+              
+          },
+          {
               headers:{
-                  token:token
+                  'token':token
               }
           }).then(function(res){
-              if(res.data.code == 200){
+              if(res.data.code == 301){
                   self.$toast(res.data.msg);
+                  if(type == 1){
+                      window.location.href = 'http://'+window.location.host+'/index/xf/detail/'+self.hid+'/123'
+                    //   self.$router.push({name:'xfdetail',params:{id:self.hid,time:''}});
+                   }else if(type == 2){
+                       window.location.href = 'http://'+window.location.host+'/index/erf/detail/'+self.hid+'/123'
+                    //  self.$router.push({name:'erfdetail',params:{id:self.hid,time:''}});
+                 }else if(type == 3){
+                     window.location.href = 'http://'+window.location.host+'/index/rent/detail/'+self.hid+'/123'
+                    //  self.$router.push({name:'rentdetail',params:{id:self.hid,time:''}});
+                 }
               }else{
                   self.$toast(res.data.msg);
               }
           })
-          if(type == 1){
-              self.$router.push({name:'xfdetail',params:{id:self.hid,time:''}});
-          }else if(type == 2){
-              self.$router.push({name:'erfdetail',params:{id:self.hid,time:''}});
-          }else if(type == 3){
-              self.$router.push({name:'rentdetail',params:{id:self.hid,time:''}});
-          }
+          
       }
   }
 }

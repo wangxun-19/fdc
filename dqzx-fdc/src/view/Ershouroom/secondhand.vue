@@ -20,7 +20,8 @@
             </div>
         </div>
         <div class="selectarea">
-            <van-dropdown-menu active-color="#ee0a24">
+            <van-sticky @scroll="scroll">
+                <van-dropdown-menu active-color="#ee0a24">
                 <van-dropdown-item
                         title="区域"
                         v-model="tiaojian"
@@ -121,15 +122,16 @@
                 <van-dropdown-item @change="change4"  title-class="icon iconfont iconpaixu" title="   " v-model="order1"  :options="options2">
                 </van-dropdown-item>
             </van-dropdown-menu>
+            </van-sticky>
         </div>
-        <div id="showmenu">
+        <div id="showmenu" :style="(scrollTop.isFixed&&scrollTop.isFixed == true)?'overflow-y: auto':''">
             <div v-if="ershouRoomList.length === 0">
                 <label>暂无二手房数据</label>
             </div>
             <div v-else>
                 <ul 
                   v-infinite-scroll="onLoad"
-                  infinite-scroll-distance="10">
+                  infinite-scroll-distance="0">
                     <div v-for="(item,index) in ershouRoomList" :key="index">
                         <secRoomBox
                             :title="item.name"
@@ -150,7 +152,7 @@
    import mixin from '../../mixin/mixin'
     export default {
         name: "secondhand",
-        // mixins:[mixin],
+        mixins:[mixin],
         data(){
             return{
                 keyword:'',
@@ -182,6 +184,7 @@
                     {text:'400万以上',value:7},
                 ],
                 tiaojian:'',
+                scrollTop:{},
                 huxin:'',
                 page:0,
                 refresh:true,
@@ -226,6 +229,9 @@
                 }else{
                     this.putYear = '';
                 }
+            },
+            scroll(scrollTop){
+                this.scrollTop = scrollTop; 
             },
             clickele(index){
                 if(this.elevator != index){
@@ -392,7 +398,8 @@
                             area:self.areaarray
                         },
                         headers:{
-                            token:token
+                        // token:token,
+                        'Content-Type': 'application/x-www-form-urlencoded',
                         }
                     }).then(function (res) {
                         if(res.data.code == 200){
@@ -420,7 +427,8 @@
                             area:''
                         },
                         headers:{
-                            token:token
+                        // token:token,
+                        'Content-Type': 'application/x-www-form-urlencoded',
                         }
                     }).then(function (res) {
                         if(res.data.code == 200){
@@ -449,7 +457,8 @@
                             area:''
                         },
                         headers:{
-                            token:token
+                        // token:token,
+                        'Content-Type': 'application/x-www-form-urlencoded',
                         }
                     }).then(function (res) {
                         if(res.data.code == 200){
@@ -476,7 +485,8 @@
                             area:self.areaarray
                         },
                         headers:{
-                            token:token
+                        // token:token,
+                        'Content-Type': 'application/x-www-form-urlencoded',
                         }
                     }).then(function (res) {
                         if(res.data.code == 200){
@@ -503,7 +513,8 @@
                             type:self.type,
                         },
                         headers:{
-                            token:token
+                        // token:token,
+                        'Content-Type': 'application/x-www-form-urlencoded',
                         }
                     }).then(function (res) {
                         if(res.data.code == 200){
@@ -518,10 +529,12 @@
                 // self.ershouRoomList = [];
             },
             onLoad(){
-                let self = this;
-                self.page++;
-                console.log('123');
-                self.searchroom();
+                if(this.scrollTop.isFixed == true){
+                    let self = this;
+                    self.page++;
+                    console.log('123');
+                    self.searchroom();
+                }
             },
             getmessCount(){
                 let self = this;
@@ -589,9 +602,9 @@
         cursor: pointer;
         width: 70px;
         height: 36px;
-        background-color: #D8D8D8;
+        background-color: #f6f6f6;
         font-size: 14px;
-        color: #000;
+        color: #4d4d4d;
         border-radius: 4px;
         margin-top: 10.1px;
         margin-bottom: 6.6px;
@@ -655,7 +668,13 @@
         width:0.35rem;
     }
 
-    @media screen and (min-height: 0px) and (max-height: 480px){
+    #showmenu{
+          height: 13rem;
+          /* overflow-y: auto; */
+          margin-bottom: 1.3rem;
+    }
+
+    /* @media screen and (min-height: 0px) and (max-height: 480px){
         #showmenu{
           height: 7.8rem;
           overflow-y: auto;
@@ -688,5 +707,5 @@
           height: 5.9rem;
           overflow-y: auto;
         }
-    }
+    } */
 </style>

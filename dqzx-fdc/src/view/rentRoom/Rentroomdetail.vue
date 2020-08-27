@@ -57,40 +57,50 @@
                 <label class="title">楼盘详情</label>
             </div>
             <div class="detail">
-                <div>
+                <van-row>
                     <label class="junjia">价格</label>
                     <label class="price" v-if="roominfo.unitPrice&&roominfo.unitPrice != 0">{{roominfo.unitPrice}}<span class="danwei">元/月</span></label>
                     <label class="price" v-if="roominfo.unitPrice&&roominfo.unitPrice == 0">价格待定</label>
-                </div>
-                <div style="margin-top: 0.11rem;width: 65%">
-                    <label class="grey">方式</label>
-                    <label v-if="roominfo.type&&roominfo.type == 1" class="huxin">整租</label>
-                    <label v-if="roominfo.type&&roominfo.type == 2" class="huxin">合租</label>
-                    <div style="float:right">
+                </van-row>
+                <van-row style="margin-top: 0.11rem;width: 90%">
+                    <van-col :span="13">
+                        <label class="grey">方式</label>
+                        <label v-if="roominfo.type&&roominfo.type == 1" class="huxin">整租</label>
+                        <label v-if="roominfo.type&&roominfo.type == 2" class="huxin">合租</label>
+                    </van-col>
+                    <van-col :span="11">
                         <label class="grey" >朝向</label>
                         <label  v-if="roominfo.direction == 1" class="huxin">东</label>
                         <label  v-if="roominfo.direction == 2" class="huxin">南</label>
                         <label  v-if="roominfo.direction == 3" class="huxin">西</label>
                         <label  v-if="roominfo.direction == 4" class="huxin">北</label>
-                    </div>
-                </div>
-                <div style="margin-top: 0.11rem;width: 69%">
-                    <label class="grey">层数</label>
-                    <label v-if="roominfo.floor != null&&roominfo.level != null" class="huxin">{{roominfo.floor}}/{{roominfo.level}}层</label>
-                    <label v-else class="huxin">暂无/暂无层</label>
-                    <div style="float:right">
+                    </van-col>
+                    <!-- <div style="float:right">
+                        <label class="grey" >朝向</label>
+                        <label  v-if="roominfo.direction == 1" class="huxin">东</label>
+                        <label  v-if="roominfo.direction == 2" class="huxin">南</label>
+                        <label  v-if="roominfo.direction == 3" class="huxin">西</label>
+                        <label  v-if="roominfo.direction == 4" class="huxin">北</label>
+                    </div> -->
+                </van-row>
+                <van-row style="margin-top: 0.11rem;width: 90%">
+                    <van-col :span="13">
+                        <label class="grey">层数</label>
+                        <label v-if="roominfo.floor != null&&roominfo.level != null" class="huxin">{{roominfo.floor}}/{{roominfo.level}}层</label>
+                        <label v-else class="huxin">暂无/暂无层</label>
+                    </van-col>
+                    <van-col :span="11">
                         <label class="grey">装修</label>
                         <label  v-if="roominfo.decoration == 1" class="huxin">毛坯</label>
                         <label  v-if="roominfo.decoration == 2" class="huxin">简装</label>
                         <label  v-if="roominfo.decoration == 3" class="huxin">精装</label>
-                    </div>
-                </div>
-                <div style="width: 100%;margin-top: 0.11rem">
-                    <label class="grey" style="float:left">小区</label>
-                    <label class="address" style="float:left;margin-top: -0.0rem">{{roominfo.localName}}</label>
-                    <van-image class="location" :src="locationpic" fit="cover" width="0.36rem" height="0.36rem"
-                               @click="locations"></van-image>
-                </div>
+                    </van-col>
+                </van-row>
+                <van-row style="width: 100%;margin-top: 0.20rem" @click="locations">
+                    <label class="grey" style="float:left;">小区</label>
+                    <label class="address0" style="float:left">{{roominfo.name}}</label>
+                    <van-image class="location" :src="locationpic" fit="cover" width="20px" height="20px"></van-image>
+                </van-row>
                 <div class="bluerect">
 
                     <div class="zhiye">
@@ -122,44 +132,49 @@
                     <!-- <label class="huxin ">{{roominfo.claim}}</label> -->
                    <!-- <label class="huxin shenglue">{{roominfo.claim}}</label> -->
                 </div>
-                <div class="rentdevice">
-                   <div class="item"  style="margin-top: 0.18rem">
-                       <van-image :class="{active0:roominfo.bed == 1}" :src="bed" fit="cover" width="30px" height="30px"></van-image>
-                       <label :class="{active0:roominfo.bed == 1}">床</label>
+                <div class="rentdevice" style="justify-content: space-between;margin-top: 0.2rem">
+                   <div class="item" :class="{active0:roominfo.bed == 1}">
+                       <van-image  :src="bed" fit="cover" width="30px" height="30px"></van-image>
+                       <label>床</label>
                    </div>
-                    <div class="item"  style="margin-left: 0.7rem;margin-top: 0.18rem">
-                        <van-image :class="{active0:roominfo.wifi == 1}" :src="wifi" fit="cover" width="30px" height="30px"></van-image>
-                        <label :class="{active0:roominfo.wifi == 1}">宽带</label>
+                    <div class="item" :class="{active0:roominfo.wifi == 1}" >
+                        <van-image  :src="wifi" fit="cover" width="30px" height="30px"></van-image>
+                        <label>宽带</label>
                     </div>
-                    <div class="item"  style="margin-left: 0.7rem;margin-top: 0.18rem">
-                        <van-image :class="{active0:roominfo.watchTv == 1}" :src="watchTv" fit="cover" width="30px" height="30px"></van-image>
-                        <label :class="{active0:roominfo.watchTv == 1}">电视机</label>
+                    <div class="item" :class="{active0:roominfo.watchTv == 1}">
+                        <van-image  :src="watchTv" fit="cover" width="30px" height="30px"></van-image>
+                        <label>电视机</label>
                     </div>
-                    <div class="item"  style="margin-left: 0.7rem;margin-top: 0.18rem">
-                        <van-image :class="{active0:roominfo.refrigerator == 1}" :src="refrigerator" fit="cover" width="30px" height="30px"></van-image>
-                        <label :class="{active0:roominfo.refrigerator == 1}">冰箱</label>
+                    <div class="item" :class="{active0:roominfo.refrigerator == 1}">
+                        <van-image  :src="refrigerator" fit="cover" width="30px" height="30px"></van-image>
+                        <label>冰箱</label>
                     </div>
-                    <div class="item"  style="margin-left: 0.7rem;margin-top: 0.18rem">
-                        <van-image :class="{active0:roominfo.washing == 1}" :src="washing" fit="cover" width="30px" height="30px"></van-image>
-                        <label :class="{active0:roominfo.washing == 1}">洗衣机</label>
+                    <div class="item" :class="{active0:roominfo.washing == 1}">
+                        <van-image :src="washing" fit="cover" width="30px" height="30px"></van-image>
+                        <label>洗衣机</label>
                     </div>
+                    
                 </div>
-                <div class="rentdevice">
-                    <div class="item"  style="margin-top: 0.18rem">
-                        <van-image :class="{active0:roominfo.airCond == 1}" :src="airCond" fit="cover" width="30px" height="30px"></van-image>
-                        <label :class="{active0:roominfo.airCond == 1}">空调</label>
+                <div class="rentdevice" style="width: 63.5%;justify-content: space-between;margin-top: 0.2rem;margin-bottom: 0.3rem">
+                    <div class="item" :class="{active0:roominfo.airCond == 1}" >
+                        <van-image  :src="airCond" fit="cover" width="30px" height="30px"></van-image>
+                        <label>空调</label>
                     </div>
-                    <div class="item"  style="margin-left: 0.6rem;margin-top: 0.18rem">
-                        <van-image :class="{active0:roominfo.waterHeader == 1}" :src="waterHeader" fit="cover" width="30px" height="30px"></van-image>
-                        <label :class="{active0:roominfo.waterHeader == 1}">热水器</label>
+                    <div class="item" :class="{active0:roominfo.waterHeader == 1}" >
+                        <van-image  :src="waterHeader" fit="cover" width="30px" height="30px"></van-image>
+                        <label>热水器</label>
                     </div>
-                    <div class="item"  style="margin-left: 0.7rem;margin-top: 0.18rem">
-                        <van-image :class="{active0:roominfo.wardrobe == 1}" :src="wardrobe" fit="cover" width="30px" height="30px"></van-image>
-                        <label :class="{active0:roominfo.wardrobe == 1}">衣柜</label>
+                    <div class="item" :class="{active0:roominfo.wardrobe == 1}" >
+                        <van-image  :src="wardrobe" fit="cover" width="30px" height="30px"></van-image>
+                        <label>衣柜</label>
                     </div>
-                    <div class="item"  style="margin-left: 0.7rem;margin-top: 0.18rem">
-                        <van-image :class="{active0:roominfo.washingRoom == 1}" :src="washingRoom" fit="cover" width="30px" height="30px"></van-image>
-                        <label :class="{active0:roominfo.washingRoom == 1}">卫生间</label>
+                    <div class="item" :class="{active0:roominfo.washingRoom == 1}" >
+                        <van-image  :src="washingRoom" fit="cover" width="30px" height="30px"></van-image>
+                        <label>卫生间</label>
+                    </div>
+                    <div class="item" :class="{active0:roominfo.airCond == 1}" v-if="roominfo.airCond <0">
+                        <van-image  :src="airCond" fit="cover" width="30px" height="30px"></van-image>
+                        <label>空调</label>
                     </div>
                 </div>
             </div>
@@ -171,7 +186,7 @@
             </div>
             <div style="display: inline-block;width: 100%">
                 <div style="display: inline-block;width: 100%;">
-                    <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC">
+                    <ul class="zhuangxiu10" style="width: 100%">
                         <li @click="clickaround(1);currentPage = 1" :class="{active:around==1}" style="margin-left: 15px;margin-bottom: 6.6px">公交</li>
                         <li @click="clickaround(2);currentPage = 1" :class="{active:around==2}" style="margin-left: 20px">学校</li>
                         <li @click="clickaround(3);currentPage = 1" :class="{active:around==3}" style="margin-left: 20px">医院</li>
@@ -182,7 +197,7 @@
                     <div id="container"></div>
                 </div>
                 <div style="display: inline-block;width: 100%" v-if="zhoubianarray.length != undefined&&zhoubianarray.length > 0">
-                    <div id="panel1">
+                    <div id="panel1" :style="(zhoubianarray.length>=5)?'height: 3.6rem':''">
                         <div v-for="(item,index) in zhoubianarray" 
                         @click="openMarkerTipById1(index,$event)"  
                         @mouseout="onmouseout_MarkerStyle(index+1,$event)" :key="index">
@@ -197,7 +212,7 @@
             <div class="div3">
                 <label class="title3">猜你喜欢</label>
             </div>
-            <div class="fcarr" v-if="zhoubianfcarr.length>0">
+            <div class="fcarr" v-if="zhoubianfcarr.length>0" :style="(zhoubianfcarr.length>=5)?'height: 13.5rem':''">
                 <div v-for="(item,index) in zhoubianfcarr" :key="index">
                     <RentRoomBox
                         :title="item.title"
@@ -219,7 +234,7 @@ import mixin from '../../mixin/mixin'
 var map,placeSearch;
     export default {
         name: "Rentroomdetail",
-        
+        mixins:[mixin],
         data(){
             return{
                 roominfo:[],
@@ -274,7 +289,7 @@ var map,placeSearch;
                 let token = localStorage.getItem("token");
                 self.$axios.get("http://house-api.zjlaishang.com:9001/rent/show/"+id,{
                     headers:{
-                        token : token
+                        'token' : token.toString()
                     }
                 }).then(function (res) {
                     console.log(res.data);
@@ -626,6 +641,7 @@ var map,placeSearch;
                 })
             },
             yuyue(){
+                window.location.href = 'http://'+window.location.host+'/yuyue/rent/'+this.roomid+'/'+new Date().toString();
                 // this.$router.push({path:'/yuyue',query:{type:'rent',roomid:this.roomid}});
             },
             locations(){
@@ -691,13 +707,13 @@ var map,placeSearch;
 
     .location{
         float:right;
-        margin-right: 0.5rem;
+        margin-right: 0.75rem;
     }
 
     .div1 .top{
         font-size: 0.30rem;
         font-family:PingFangSC-Medium,PingFang SC;
-        font-weight:500;
+        font-weight:bold;
         color:rgba(240,53,53,1);
         line-height:0.30rem;
     }
@@ -711,7 +727,7 @@ var map,placeSearch;
     }
 
     .desc {
-        margin-left: 0.17rem;
+        margin-left: 0.09rem;
         /* width: 50px;
         height: 20px; */
         background-color: #FFE4DC;
@@ -722,7 +738,7 @@ var map,placeSearch;
         padding-bottom: 0.05rem;
         padding-left: 0.09rem;
         padding-right: 0.06rem;
-        margin-top: 0.31rem;
+        margin-top: 0.10rem;
     }
 
     .zhoubian{
@@ -738,16 +754,16 @@ var map,placeSearch;
     .zhoubian .title3{
         font-weight: bold;
         color: #333333;
-        margin-left: 19px;
+        margin-left: 16px;
         margin-top: 16px;
         float: left;
-        margin-bottom: 18px;
+        /* margin-bottom: 8px; */
         font-size: 20px;
     }
 
     .jiange {
         width: 100%;
-        height: 0.012rem;
+        height: 0.12rem;
         background-color: #F1F3F7;
     }
 
@@ -804,13 +820,13 @@ var map,placeSearch;
 
     .peitaosheshi .huxin{
         color: #333333;
-        font-size: 0.38rem;
+        font-size: 0.30rem;
         margin-left: 0.13rem;
     }
 
     .peitaosheshi .huxin0{
         color: #333333;
-        font-size: 0.35rem;
+        font-size: 0.30rem;
         margin-left: 0.13rem;
     }
 
@@ -852,64 +868,60 @@ var map,placeSearch;
     }
 
     .xiangqin .grey{
-        font-size:0.28rem;
-        font-family:PingFangSC-Regular,PingFang SC;
-        font-weight:400;
-        color:rgba(153,153,153,1);
-        line-height:0.40rem;
+        color: #999999;
+        font-size: 15px;
     }
 
     .xiangqin .huxin{
-        margin-left: 0.19rem;
         color: #333333;
-        font-size: 0.28rem;
-        line-height:0.40rem;
+        font-size: 14px;
+        margin-left: 10px;
     }
 
-    .xiangqin .address{
-        margin-left: 0.19rem;
-        width:4.68rem;
-        font-size:0.28rem;
+    .xiangqin .address0{
+        margin-left: 10px;
+        color: #919FBE;
+        font-size: 14px;
+        width: 2.5rem;
         overflow: hidden;
-        text-overflow:ellipsis;
+        text-overflow: ellipsis;
         white-space: nowrap;
-        font-family:PingFang SC;
-        font-weight:500;
-        color:rgba(145,159,190,1);
     }
     .xiangqin .bluerect{
-        margin-top: 0.43rem;
+        margin-top: 24px;
+        margin-right: 16px;
         width: 90%;
-        border-radius: 0.18rem;
+        border-radius: 6px;
         background-color: #E6EEF8;
         display: inline-block;
-        margin-bottom: 0.25rem;
+        margin-bottom: 19px;
     }
 
     .bluerect .zhiye{
-        margin-top: 0.26rem;
-        margin-left: 0.26rem;
-        margin-bottom: 0.14rem;
-        font-size: 0.35rem;
-        font-weight: bold;
+        margin-top: 15px;
+        margin-left: 15px;
+        margin-bottom: 9px;
+        font-size: 20px;
         color: #151E38;
     }
 
     .bluerect .zuijia{
-        margin-left: 0.25rem;
-        margin-bottom: 0.19rem;
-        font-size: 0.23rem;
-        color: #7C7C7C;
+        margin-left: 14px;
+        margin-bottom: 10px;
+        font-size:10px;
+        font-family:PingFang SC;
+        font-weight:400;
+        color:rgba(124,124,124,1);
     }
 
     .btnyuyue{
-        width:2.3rem;
-        height:0.8rem;
-        background:rgba(86,124,243,1);
-        border-radius:0.42rem;
+        width: 99px;
+        height: 33px;
+        border-radius: 16px;
         border: none;
-        margin-top: 0.09rem;
-        margin-right: 0.5rem;
+        background-color: #567CF3;
+        margin-top: 12px;
+        margin-right: 18px;
         color: #ffffff;
         font-size: 14px;
         float: right;
@@ -919,6 +931,12 @@ var map,placeSearch;
         display: flex;
         background-color: #fff;
         font-size: 13px;
+        margin-left: 0.2rem;
+        margin-right: 0.45rem;
+        width:83%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        /* justify-content: space-between; */
     }
 
     .rentdevice .item{
@@ -932,8 +950,10 @@ var map,placeSearch;
 
     .active0{
         color: #999999;
-        -webkit-filter: sepia(100%);
-		filter: sepia(100%);
+        -webkit-filter: grayscale(1); /* Webkit */  
+         filter: gray; /* IE6-9 */    
+         filter: grayscale(1); /* W3C */  
+         opacity: 0.5;
     }
     #container{
         width: 90%;
@@ -942,7 +962,7 @@ var map,placeSearch;
         margin-right: 17px;
     }
     .shenglue{
-        width: 1.5rem;
+        width: 4.0rem;
         white-space:nowrap;/* 规定文本是否折行 */  
         overflow: hidden;/* 规定超出内容宽度的元素隐藏 */
         text-overflow: ellipsis;
@@ -950,18 +970,22 @@ var map,placeSearch;
     #panel1{
         position: relative;
         background-color: white;
-        height: 2.1rem;
+        /* height: 2.1rem; */
         overflow-y: auto;
-        margin-left: 0.70rem;
+        /* margin-left: 0.70rem; */
         margin-bottom: 0.10rem;
-        border-bottom: solid 1px silver;
+        /* border-bottom: solid 1px silver; */
     }
 
-    .zhuangxiu{
+    .peitaosheshi .junjia{
+        font-size: 0.30rem;
+    }
+
+    .zhuangxiu10{
         width: 90%;
     }
 
-    .zhuangxiu li{
+    .zhuangxiu10 li{
         float: left;
         text-align: center;
         cursor: pointer;
@@ -974,19 +998,19 @@ var map,placeSearch;
         font-family:PingFang SC;
         font-weight:500;
         color:rgba(158,158,158,1);
-        margin-top: 0.29rem;
+        margin-top: 0.10rem;
         margin-bottom: 6.6px;
     }
 
-    .zhuangxiu .active{
+    .zhuangxiu10 .active{
         background:rgba(83,135,247,1);
         color:rgba(255,255,255,1);
     }
 
     .fcarr{
         width: 100%;
-        height: 4.0rem;
-        overflow-y: auto;
+        /* height: 13.5rem; */
+        /* overflow-y: auto; */
     }
 
     .collect{

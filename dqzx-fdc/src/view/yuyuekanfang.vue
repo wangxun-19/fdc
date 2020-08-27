@@ -8,8 +8,9 @@
 <!--       <div class="form"></div>-->
        <van-form class="form" @submit="subimtit">
           <van-cell-group style="margin-top: 0.4rem">
+              
             <van-field label="姓名" v-model="name" placeholder="姓名"></van-field>
-            <van-field label="手机号" v-model="phone" type="phone" placeholder="请填电话号码"></van-field>
+            <van-field label="手机号" v-model="phone" type="phone" placeholder="请填电话号码" style="margin-top: 0.2rem"></van-field>
             <van-field name="checkbox">
               <template #input>
                 <van-checkbox v-model="checked" shape="round" icon-size="0.2rem">我已阅读并同意</van-checkbox><a>用户协议</a>
@@ -17,7 +18,7 @@
             </van-field>
           </van-cell-group>
            <div style="margin-left: 0.6rem;margin-right: 0.6rem;margin-top: 0.3rem; margin-bottom: 0.25rem">
-               <van-button round block type="info" native-type="submit">
+               <van-button class="btn11" native-type="submit">
                    确定
                </van-button>
            </div>
@@ -43,6 +44,8 @@ export default {
       name:'',
       phone:'',
       checked:false,
+      namepic:require('../../src/assets/images/icon/name.png'),
+      phonepic:require('../../src/assets/images/icon/phone.png')
     }
   },
   methods:{
@@ -88,6 +91,18 @@ export default {
      border-radius: 0.23rem;
      background-color: #fff;
    }
+
+   .btn11{
+     background:linear-gradient(90deg,rgba(86,124,243,1),rgba(120,173,252,1));
+     /* background:linear-gradient(90deg,rgba(86,124,243,1),rgba(120,173,252,1)); */
+     border-radius:1rem;
+     width: 100%;
+     height: 1rem;
+   }
+
+   /* .searchbox1{
+     border-radius: 1rem solid #f6f6f6;
+   } */
     /*#app{*/
     /*    background: #F7F9FE;*/
     /*}*/

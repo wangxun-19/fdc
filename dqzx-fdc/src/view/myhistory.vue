@@ -5,7 +5,7 @@
            <li @click="selectarea(1)" :class="{active:cur==1}" >二手房</li>
            <li @click="selectarea(2)" :class="{active:cur==2}" >租房</li>
        </ul>
-       <div v-show="cur == 0" style="height: 10.5rem;overflow-y:auto">
+       <div v-if="cur == 0" style="height: 10.5rem;overflow-y:auto">
            <ul v-infinite-scroll="handleReachBottom"
                    infinite-scroll-distance="10">
                <div v-for="(item,index) in collectinfo" :key="index">
@@ -24,7 +24,7 @@
                 </div>
            </ul>
        </div>
-       <div v-show="cur == 1" style="height: 10.5rem;overflow-y:auto">
+       <div v-if="cur == 1" style="height: 10.5rem;overflow-y:auto">
            <ul v-infinite-scroll="handleReachBottom"
                    infinite-scroll-distance="10">
                <div v-for="(item,index) in collectinfo" :key="index">
@@ -38,7 +38,7 @@
                </div>
            </ul>
        </div>
-       <div v-show="cur == 2" style="height: 10.5rem;overflow-y:auto">
+       <div v-if="cur == 2" style="height: 10.5rem;overflow-y:auto">
            <ul v-infinite-scroll="handleReachBottom"
                    infinite-scroll-distance="10">
                <div v-for="(item,index) in collectinfo" :key="index">

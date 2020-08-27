@@ -106,9 +106,7 @@
             gotoenroll(){
                 let self = this;
                 let token = localStorage.getItem("token");
-                self.$axios.post("http://house-api.zjlaishang.com:9001/activity/sign/"+self.id,{
-                    
-                },
+                self.$axios.post("http://house-api.zjlaishang.com:9001/activity/sign/"+self.id,self.$qs.stringify({}),
                 {
                     headers:{
                         token:token
@@ -131,9 +129,7 @@
             dianzanit(){
                 let self = this;
                 let token = localStorage.getItem("token");
-                self.$axios.post("http://house-api.zjlaishang.com:9001/activity/like/"+self.id+"/"+self.hid,{
-                    
-                },{
+                self.$axios.post("http://house-api.zjlaishang.com:9001/activity/like/"+self.id+"/"+self.hid,self.$qs.stringify({}),{
                     headers:{
                         token:token
                     }

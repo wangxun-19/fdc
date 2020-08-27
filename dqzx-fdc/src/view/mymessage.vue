@@ -40,7 +40,7 @@ import mixin from '../mixin/mixin';
 
 export default {
   name: 'app',
-//   mixins:[mixin],
+  mixins:[mixin],
   data(){
       return{
           messagelist:[],

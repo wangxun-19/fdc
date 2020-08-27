@@ -33,10 +33,13 @@ export default {
     /*}*/
 
     .maplist{
-        width: 95%;
+        width: 100%;
         display: inline-block;
-        padding: 0;
-        border-bottom: 1px solid rgba(153,153,153,1);
+        /* padding: 0; */
+        padding-left: 0.30rem;
+        padding-right: 0.15rem;
+        /* padding-top: 0.10rem;
+        padding-bottom: 0.10rem; */
     }
 
     .name{
@@ -44,7 +47,7 @@ export default {
         font-family:PingFangSC-Regular,PingFang SC;
         font-weight:bold;
         display: block;
-        width: 2rem;
+        width: 1.8rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

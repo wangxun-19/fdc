@@ -5,7 +5,11 @@
        </div>
        <div class="container">
            <label class="name0">{{bname}}</label>
-           <van-icon size="0.5rem" style="float:right" color="green" name="phone-circle" @click="gettel" />
+           <!-- <van-icon size="0.8rem" style="float:right" color="green" name="phone-circle" @click="gettel" /> -->
+           <van-image width="0.8rem" height="0.8rem" :src="callpic" style="float:right" @click="gettel" />
+           <div style="color:grey">
+               <label>某某房地产公司经济人</label>
+           </div>
        </div>
   </div>
 </template>
@@ -16,6 +20,11 @@
 export default {
   name: 'app',
   props:["bname","bid","id","nid","avatar","phone"],
+  data(){
+      return{
+          callpic:require('../../src/assets/images/icon/call.png')
+      }
+  },
   components: {
 
   },
@@ -39,22 +48,22 @@ export default {
     }
 
     .avatar{
-        width: 0.8rem;
-        height: 0.8rem;
+        width: 1.0rem;
+        height: 1.0rem;
         border-radius: 50%;
     }
 
     .container{
-        margin-left: 0.15rem;
+        margin-left: 0.43rem;
         float: left;
         height: 0.8rem;
         width: 80%;
         display: inline-block;
-        border-bottom: 1px solid rgba(153,153,153,1);
     }
 
     .name0{
-        font-size: 0.25rem;
+        font-size: 0.40rem;
+        font-weight: bold;
         color: #000;
     }
     .img{

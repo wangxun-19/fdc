@@ -29,10 +29,12 @@
             gotoXQ(se_room_id){
                 if(this.$route.name != "erfdetail"){
                     let newroomid = se_room_id;
-                    this.$router.push({name:'erfdetail',params:{id:newroomid,time:''}});
+                    window.location.href = 'http://'+window.location.host+'/index/erf/detail/'+newroomid+'/123'
+                    // this.$router.push({name:'erfdetail',params:{id:newroomid,time:'123'}});
                 }else{
                     let newroomid = se_room_id;
-                    this.$router.push({name:'erfdetail',params:{id:newroomid,time:new Date()}});
+                    window.location.href = 'http://'+window.location.host+'/index/erf/detail/'+newroomid+'/'+new Date().toString();
+                    // this.$router.push({name:'erfdetail',params:{id:newroomid,time:new Date()}});
                 }
             },
             imgtrans(img){

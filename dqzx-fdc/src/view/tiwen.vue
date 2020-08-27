@@ -20,7 +20,7 @@
 <script>
 import mixin from '../mixin/mixin';
     export default {
-        // name: "tiwen",
+        name: "tiwen",
         mixins:[mixin],
         data(){
             return{
@@ -35,9 +35,6 @@ import mixin from '../mixin/mixin';
         created() {
             let roomid = this.$route.params.id;
             let type = this.$route.params.type;
-            if(type == 'new'){
-                this.area = this.$route.params.area;
-            }
             this.roomid = roomid;
             this.type = type;
         },

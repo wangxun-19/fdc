@@ -23,16 +23,16 @@
                 <div v-else-if="year >= 5">
                     <label class="desc1" style="float: left">满五</label>
                 </div>
-                <div v-if="roominfo.elevator !== undefined&&roominfo.elevator == 1">
+                <div v-if="roominfo.elevator !== undefined&&roominfo.elevator == 0">
                     <label class="desc" style="float: left">不带电梯</label>
                 </div>
-                <div v-else-if="roominfo.elevator !== undefined&&roominfo.elevator == 2">
+                <div v-else-if="roominfo.elevator !== undefined&&roominfo.elevator == 1">
                     <label class="desc" style="float: left">带电梯</label>
                 </div>
-                <div v-if="roominfo.only !== undefined&&roominfo.only == 1">
+                <div v-if="roominfo.only !== undefined&&roominfo.only == 0">
                     <label class="desc" style="float: left">唯一住房</label>
                 </div>
-                <div v-else-if="roominfo.only !== undefined&&roominfo.only == 2">
+                <div v-else-if="roominfo.only !== undefined&&roominfo.only == 1">
                     <label class="desc" style="float: left">不是唯一住房</label>
                 </div>
                 <div v-if="roominfo.decoration !== undefined&&roominfo.decoration == 1">
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <div class="div1" >
-                    <label class="top">{{roominfo.area}}m</label>
+                    <label class="top">{{roominfo.area}}㎡</label>
                     <div>
                         <label class="desc0">面积</label>
                     </div>
@@ -69,58 +69,77 @@
         <div class="jiange"></div>
         <div class="xiangqin">
             <div class="div">
-                <label class="title">楼盘详情</label>
+                <label class="title">房屋信息</label>
             </div>
             <div class="detail">
-                <div>
+                <van-row>
                     <label class="junjia">总价</label>
                     <label class="price" v-if="roominfo.totalPrice&&roominfo.totalPrice != 0">{{roominfo.totalPrice}}<span class="danwei">万</span></label>
                     <label class="price" v-if="roominfo.totalPrice&&roominfo.totalPrice == 0">价格待定</label>
-                </div>
-                <div>
-                    <label class="grey">单价</label>
-                    <label v-if="roominfo.unitPrice&&roominfo.unitPrice != 0" class="huxin">约{{roominfo.unitPrice}}元/m²</label>
-                    <label v-if="roominfo.unitPrice&&roominfo.unitPrice == 0" class="huxin">价格待定</label>
-                    <label v-if="roominfo.unitPrice === undefined" class="huxin">价格待定</label>
-                    <label class="grey" style="margin-left: 75px">楼层</label>
-                    <label v-if="roominfo.floor" class="huxin">{{roominfo.floor}}/{{roominfo.level}}层</label>
-                </div>
-                <div>
-                    <label class="grey">楼型</label>
-                    <label class="huxin">{{roominfo.huxin}}</label>
-                    <label class="grey" style="margin-left: 101px">朝向</label>
-                    <label class="huxin">南</label>
-                </div>
-                <div>
-                    <label class="grey">装修</label>
-                    <label v-if="roominfo.decoration&&roominfo.decoration == 1" class="huxin">毛坯</label>
-                    <label v-if="roominfo.decoration&&roominfo.decoration == 2" class="huxin">简装</label>
-                    <label v-if="roominfo.decoration&&roominfo.decoration == 3" class="huxin">精装</label>
-                    <label class="grey" style="margin-left: 101px">电梯</label>
-                    <label v-if="roominfo.elevator&&roominfo.elevator == true" class="huxin">有</label>
-                    <label v-if="roominfo.elevator&&roominfo.elevator == false" class="huxin">没有</label>
-                    <label v-if="roominfo.elevator == null" class="huxin">没有</label>
-                </div>
-                <div>
-                    <label class="grey">年代</label>
-                    <label class="huxin">{{roominfo.putYear}}</label>
-                    <label class="grey" style="margin-left: 101px">产权</label>
-                    <label class="huxin">{{roominfo.property}}年</label>
-                </div>
-                <div>
+                </van-row>
+                <van-row style="margin-top: 0.20rem">
+                    <van-col :span="13">
+                        <label class="grey">单价</label>
+                        <label v-if="roominfo.unitPrice&&roominfo.unitPrice != 0" class="huxin">约{{roominfo.unitPrice}}元/m²</label>
+                        <label v-if="roominfo.unitPrice&&roominfo.unitPrice == 0" class="huxin">价格待定</label>
+                        <label v-if="roominfo.unitPrice === undefined" class="huxin">价格待定</label>
+                    </van-col>
+                   <van-col :span="11">
+                        <label class="grey" >楼层</label>
+                        <label v-if="roominfo.floor" class="huxin">{{roominfo.floor}}/{{roominfo.level}}层</label>
+                   </van-col>
+                </van-row>
+                <van-row style="margin-top: 0.20rem">
+                    <van-col :span="13">
+                        <label class="grey">楼型</label>
+                        <label class="huxin">{{roominfo.huxin}}</label>
+                    </van-col>
+                   <van-col :span="11">
+                        <label class="grey" >朝向</label>
+                       <label class="huxin">{{roominfo.direction}}</label>
+                   </van-col>
+                </van-row>
+                <van-row style="margin-top: 0.20rem">
+                    <van-col :span="13">
+                        <label class="grey">装修</label>
+                        <label v-if="roominfo.decoration&&roominfo.decoration == 1" class="huxin">毛坯</label>
+                        <label v-if="roominfo.decoration&&roominfo.decoration == 2" class="huxin">简装</label>
+                        <label v-if="roominfo.decoration&&roominfo.decoration == 3" class="huxin">精装</label>
+                    </van-col>
+                   <van-col :span="11">
+                        <label class="grey">电梯</label>
+                        <label v-if="roominfo.elevator&&roominfo.elevator == 2" class="huxin">有</label>
+                        <label v-if="roominfo.elevator&&roominfo.elevator == 1" class="huxin">没有</label>
+                        <label v-if="roominfo.elevator == null" class="huxin">没有</label>
+                   </van-col>
+                </van-row>
+                <van-row style="margin-top: 0.20rem">
+                    <van-col :span="13">
+                        <label class="grey">年代</label>
+                        <label class="huxin">{{roominfo.putYear}}</label>
+                    </van-col>
+                   <van-col :span="11">
+                        <label class="grey">产权</label>
+                       <label class="huxin">{{roominfo.property}}年</label>
+                   </van-col>
+                    
+                    <div style="float:right;margin-right: 1.7rem">
+                        
+                    </div>
+                </van-row>
+                <van-row style="margin-top: 0.20rem">
                     <label class="grey">首付</label>
                     <label class="huxin">约{{shoufu}}万，月供{{yuefu}}</label>
-                </div>
-                <div>
+                </van-row>
+                <van-row style="margin-top: 0.20rem">
                     <label class="grey">税费</label>
                     <label class="zixun">咨询</label>
-                </div>
-                <div style="width: 100%">
+                </van-row>
+                <van-row style="width: 100%;margin-top: 0.20rem" @click="locations">
                     <label class="grey" style="float:left;">小区</label>
                     <label class="address0" style="float:left">{{roominfo.name}}</label>
-                    <van-image class="location" :src="locationpic" fit="cover" width="20px" height="20px"
-                               @click="locations"></van-image>
-                </div>
+                    <van-image class="location" :src="locationpic" fit="cover" width="20px" height="20px"></van-image>
+                </van-row>
 
                 <div class="bluerect">
 
@@ -161,7 +180,7 @@
             </div>
             <div style="display: inline-block;width: 100%">
                 <div style="display: inline-block;width: 100%;">
-                    <ul class="zhuangxiu" style="width: 100%;border-bottom: 1px solid #ECECEC">
+                    <ul class="zhuangxiu9" style="width: 100%">
                         <li @click="clickaround(1);currentPage = 1" :class="{active:around==1}" style="margin-left: 15px;margin-bottom: 6.6px">公交</li>
                         <li @click="clickaround(2);currentPage = 1" :class="{active:around==2}" style="margin-left: 20px">学校</li>
                         <li @click="clickaround(3);currentPage = 1" :class="{active:around==3}" style="margin-left: 20px">医院</li>
@@ -172,7 +191,7 @@
                     <div id="container"></div>
                 </div>
                 <div style="display: inline-block;width: 100%" v-if="zhoubianarray.length != undefined&&zhoubianarray.length > 0">
-                    <div id="panel2">
+                    <div id="panel2" :style="(zhoubianarray.length>=5)?'height: 3.6rem':''">
                         <div v-for="(item,index) in zhoubianarray" 
                         @click="openMarkerTipById1(index,$event)"  
                         @mouseout="onmouseout_MarkerStyle(index+1,$event)" :key="index">
@@ -200,7 +219,7 @@
             <div class="div">
                 <label class="douzaiwen">猜你喜欢</label>
             </div>
-            <div class="fcarr" v-if="zhoubianfcarr.length>0">
+            <div class="fcarr" v-if="zhoubianfcarr.length>0" :style="(zhoubianfcarr.length>=5)?'height: 13.5rem':''">
                 <div v-for="(item,index) in zhoubianfcarr" :key="index">
                     <secRoomBox
                         :title="item.name"
@@ -232,7 +251,7 @@ import mixin from '../../mixin/mixin'
 var map,placeSearch;
     export default {
         name: "secondhandDetail",
-        
+        mixins:[mixin],
         data(){
             return{
                 roominfo:{},
@@ -246,7 +265,7 @@ var map,placeSearch;
                 anslist:[],
                 answer:'',
                 around:1,
-                pagesize0:50,
+                pagesize0:5,
                 currentPage:1,
                 totalss:0,
                 marker:[],
@@ -302,6 +321,7 @@ var map,placeSearch;
                             self.clickaround(1);
                         }else{
                             self.createMap('','');
+                             self.clickaround(1);
                             // self.clickaround(1);
                         }
                         let date = new Date();
@@ -373,12 +393,14 @@ var map,placeSearch;
                             cpoint[1] = self.position[1];
                         }
                         placeSearch.searchNearBy('', cpoint, 1000, function(status, result) {
-                            self.zhoubianarray = result.poiList.pois;
-                            self.totalss = result.poiList.count;
-                            for(let i=0;i<self.zhoubianarray.length;i++){
-                                self.addmarker(i, self.zhoubianarray[i]);
+                            if(status != 'no_data'){
+                                self.zhoubianarray = result.poiList.pois;
+                                self.totalss = result.poiList.count;
+                                for(let i=0;i<self.zhoubianarray.length;i++){
+                                    self.addmarker(i, self.zhoubianarray[i]);
+                                }
+                                map.setFitView()
                             }
-                            map.setFitView()
                         });
                     })
                 }else if(self.around == 2){
@@ -409,12 +431,14 @@ var map,placeSearch;
                             cpoint[1] = self.position[1];
                         }
                         placeSearch.searchNearBy('', cpoint, 1000, function(status, result) {
-                            self.zhoubianarray = result.poiList.pois;
-                            self.totalss = result.poiList.count;
-                            for(let i=0;i<self.zhoubianarray.length;i++){
-                                self.addmarker(i, self.zhoubianarray[i]);
+                            if(status != 'no_data'){
+                                self.zhoubianarray = result.poiList.pois;
+                                self.totalss = result.poiList.count;
+                                for(let i=0;i<self.zhoubianarray.length;i++){
+                                    self.addmarker(i, self.zhoubianarray[i]);
+                                }
+                                map.setFitView()
                             }
-                            map.setFitView()
                         });
                     })
                 }else if(self.around == 3){
@@ -446,12 +470,14 @@ var map,placeSearch;
                             cpoint[1] = self.position[1];
                         }
                         placeSearch.searchNearBy('', cpoint, 1500, function(status, result) {
-                            self.zhoubianarray = result.poiList.pois;
-                            self.totalss = result.poiList.count;
-                            for(let i=0;i<self.zhoubianarray.length;i++){
-                                self.addmarker(i, self.zhoubianarray[i]);
+                            if(status != 'no_data'){
+                                self.zhoubianarray = result.poiList.pois;
+                                self.totalss = result.poiList.count;
+                                for(let i=0;i<self.zhoubianarray.length;i++){
+                                    self.addmarker(i, self.zhoubianarray[i]);
+                                }
+                                map.setFitView()
                             }
-                            map.setFitView()
                         });
                     })
                 }else if(self.around == 4){
@@ -483,11 +509,14 @@ var map,placeSearch;
                             cpoint[1] = self.position[1];
                         }
                         placeSearch.searchNearBy('', cpoint, 1500, function(status, result) {
-                            self.zhoubianarray = result.poiList.pois;
-                            for(let i=0;i<self.zhoubianarray.length;i++){
-                                self.addmarker(i, self.zhoubianarray[i]);
+                            if(status != 'no_data'){
+                                self.zhoubianarray = result.poiList.pois;
+                                self.totalss = result.poiList.count;
+                                for(let i=0;i<self.zhoubianarray.length;i++){
+                                    self.addmarker(i, self.zhoubianarray[i]);
+                                }
+                                map.setFitView()
                             }
-                            map.setFitView()
                         });
                     })
                 }
@@ -581,7 +610,7 @@ var map,placeSearch;
                 let self = this;
                 let token = localStorage.getItem("token")
                 let roomid = self.roomid;
-                self.$axios.delete("http://house-api.zjlaishang.com:9001/new/collect/"+roomid,{
+                self.$axios.delete("http://house-api.zjlaishang.com:9001/old/collect/"+roomid,{
                   headers:{
                         token:token
                     }  
@@ -628,6 +657,9 @@ var map,placeSearch;
                     day = end.getDate() + (monthLength - start.getDate());
                 }
                 this.year = year;
+                if(year == NaN){
+                    this.year = 2020;
+                }
                 console.log(this.year);
             },
             getquestionlist(id){
@@ -719,7 +751,7 @@ var map,placeSearch;
             yuyue(){
                 let self = this;
                 console.log("yueyi");
-                // self.$router.push({path:'/yuyue',query:{type:'old',roomid:this.roomid}});
+                window.location.href = 'http://'+window.location.host+'/yuyue/old/'+this.roomid+'/'+new Date().toString();
             },
             dongtaigengduo(){
                 let self = this;
@@ -746,7 +778,7 @@ var map,placeSearch;
         margin-left: 19px;
         margin-top: 16px;
         float: left;
-        margin-bottom: 18px;
+        margin-bottom: 8px;
         font-size: 20px;
     }
     .img {
@@ -755,7 +787,7 @@ var map,placeSearch;
     }
 
     .titlebox {
-        margin-top: 0.47rem;
+        padding-top: 0.17rem;
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -799,7 +831,7 @@ var map,placeSearch;
 
     .location{
         float: right;
-        margin-right: 0.5rem;
+        margin-right: 0.75rem;
     }
 
     .desc {
@@ -822,6 +854,7 @@ var map,placeSearch;
 
     .div1 .top{
         font-size: 14px;
+        font-weight: bold;
         color: #F03535;
     }
 
@@ -932,11 +965,11 @@ var map,placeSearch;
     #panel2{
         position: relative;
         background-color: white;
-        height: 2.1rem;
+        /* height: 2.1rem; */
         overflow-y: auto;
-        margin-left: 0.30rem;
+        /* margin-left: 0.30rem; */
         margin-bottom: 0.10rem;
-        border-bottom: solid 1px silver;
+        /* border-bottom: solid 1px silver; */
     }
     .xiangqin .address0{
         margin-left: 10px;
@@ -1021,7 +1054,7 @@ var map,placeSearch;
         margin-top: 14px;
         margin-left: 14px;
         margin-right: 14px;
-        margin-bottom: 52px;
+        margin-bottom: 14px;
     }
 
     .btn .tiwen{
@@ -1033,11 +1066,11 @@ var map,placeSearch;
         height: 40px;
     }
 
-    .zhuangxiu{
+    .zhuangxiu9{
         width: 90%;
     }
 
-    .zhuangxiu li{
+    .zhuangxiu9 li{
         float: left;
         text-align: center;
         cursor: pointer;
@@ -1050,19 +1083,18 @@ var map,placeSearch;
         font-family:PingFang SC;
         font-weight:500;
         color:rgba(158,158,158,1);
-        margin-top: 0.29rem;
         margin-bottom: 6.6px;
     }
 
-    .zhuangxiu .active{
+    .zhuangxiu9 .active{
         background:rgba(83,135,247,1);
         color:rgba(255,255,255,1);
     }
 
     .fcarr{
         width: 100%;
-        height: 4.0rem;
-        overflow-y: auto;
+        /* height: 13.5rem; */
+        /* overflow-y: auto; */
     }
 
     .collect{

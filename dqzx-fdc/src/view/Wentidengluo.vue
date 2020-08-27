@@ -64,11 +64,14 @@
         </div>
         <div class="grey"></div>
         <div class="dongtai">
-            <scroll height="400">
+            <ul>
                 <div v-for="(item,index) in wentilist" :key="index">
                     <WentiList :question="item.content" :time="item.time" :answer="item.answer" :id="item.id" :type="type"></WentiList>
                 </div>
-            </scroll>
+            </ul>
+        </div>
+        <div class="btn">
+            <button class="tiwen" @click="tiwen">我要提问</button>
         </div>
     </div>
 </template>
@@ -120,6 +123,12 @@ import mixin from '../mixin/mixin'
                         self.roominfo = res.data.data;
                     })
                 }
+            },
+            tiwen(){
+                let self = this;
+                let roomid = self.roomid;
+                let type = self.type;
+                self.$router.push({name:'tiwen',params:{id: roomid,type:type}});
             },
             getwenti(roomid,type){
                 let self = this;
@@ -175,9 +184,9 @@ import mixin from '../mixin/mixin'
             gotoRoom(){
                 let self = this;
                 if(this.type == "new"){
-                    self.$router.push({path:'/index/xf/detail/',query:{id:self.roomid,time:''}});
+                    self.$router.push({name:'xfdetail',params:{id:self.roomid,time:''}});
                 }else if(this.type == 'old'){
-                    this.$router.push({path:"/index/erf/detail",query:{id:this.roomid,time:''}});
+                    this.$router.push({name:"erfdetail",params:{id:this.roomid,time:''}});
                 }
             }
         }
@@ -194,6 +203,48 @@ import mixin from '../mixin/mixin'
         height:0.20rem;
         background:rgba(241,243,247,1);
         opacity:0.6;
+    }
+
+    @media screen and (min-height: 0px) and ( max-height: 480px) {
+        .dongtai{
+            height: 7.3rem;
+            overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 481px) and ( max-height: 568px) {
+        .dongtai{
+            height: 9.3rem;
+            overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 569px) and ( max-height: 667px) {
+        .dongtai{
+            height: 9.5rem;
+            overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 668px) and ( max-height: 736px) {
+        .dongtai{
+            height: 9.7rem;
+            overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 737px) and ( max-height: 812px) {
+        .dongtai{
+            height: 12.5rem;
+            overflow-y: auto;
+        }
+    }
+
+    @media screen and (min-height: 813px) {
+        .dongtai{
+            height: 5.3rem;
+            overflow-y: auto;
+        }
     }
 
     .desc1 {
@@ -272,5 +323,22 @@ import mixin from '../mixin/mixin'
     .jiantou{
         margin-left: 0.17rem;
         font-size: 0.15rem;
+    }
+
+    .btn{
+        margin-top: 14px;
+        margin-left: 14px;
+        margin-right: 14px;
+        margin-bottom: 14px;
+    }
+
+    .btn .tiwen{
+        color: white;
+        font-size: 17px;
+        background-image: linear-gradient(267deg,rgba(149,192,221,1),rgba(142,167,212,1));
+        border-radius: 6px;
+        border: none;
+        height: 40px;
+        width: 100%;
     }
 </style>

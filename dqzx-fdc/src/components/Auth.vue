@@ -30,7 +30,7 @@
                     if(authBefore != ''&&authBefore != undefined){
                         window.location.href = authBefore;
                     }else{
-                        this.$router.replace("/index");
+                        window.location.href = 'http://'+window.location.host+'/index/'+12345;
                     }
                     localStorage.removeItem("authBefore");
                 }else{

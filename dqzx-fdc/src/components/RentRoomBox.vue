@@ -17,11 +17,11 @@
             </div>
             <div class="foot" >
                <div v-if="localName != ''&&area != ''">
-                   <van-image :src="src" width="0.20rem" height="0.26rem"></van-image>
+                   <van-image :src="src" width="0.20rem" height="0.26rem" style="float:left;margin-top: 0.05rem"></van-image>
                 <!-- <label style="color: #919FBE;font-size: 14px">{{localName}}</label> -->
-                   <label class="localname1">{{localName}}</label>
+                   <label class="localname0">{{localName}}</label>
                 <!-- <label style="float: right;color: #999999;font-size: 15px">{{area}}</label> -->
-                   <label class="area1">{{area}}</label>
+                   <label class="area4">{{area}}</label>
                 </div>
             </div>
         </div>
@@ -49,10 +49,12 @@
             gotoXQ(room_id){
                 if(this.$route.name != "rentdetail"){
                     let newroomid = parseInt(room_id);
-                    this.$router.push({name:'rentdetail',params:{id:newroomid,time:'123'}});
+                    window.location.href = 'http://'+window.location.host+'/index/rent/detail/'+newroomid+'/123'
+                    // this.$router.push({name:'rentdetail',params:{id:newroomid,time:'123'}});
                 }else{
                     let newroomid = parseInt(room_id);
-                    this.$router.push({name:'rentdetail',params:{id:newroomid,time:new Date()}});
+                    window.location.href = 'http://'+window.location.host+'/index/rent/detail/'+newroomid+'/'+new Date().toString();
+                    // this.$router.push({name:'rentdetail',params:{id:newroomid,time:new Date()}});
                 }
             },
             getimg(imgarray){
@@ -149,12 +151,13 @@
         display: inline-block;
     }
 
-    .localname1{
+    .localname0{
+        float:left;
         margin-left: 0.14rem;
         font-size:0.26rem;
         font-family:PingFang SC;
         font-weight:500;
-        width: 0.23rem;
+        width: 4.0rem;
         color:rgba(145,159,190,1);
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -162,7 +165,7 @@
         word-break: break-all;
     }
 
-    .area1{
+    .area4{
         float: right;
         font-family:PingFang SC;
         font-weight:500;

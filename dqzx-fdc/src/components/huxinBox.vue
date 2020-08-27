@@ -10,7 +10,7 @@
             <label style="margin-left: 0.19rem;margin-top: 0.19rem;" class="status0" v-if="status == 2">已售</label>
             <label style="margin-left: 0.19rem;margin-top: 0.19rem;" class="status2" v-if="status == 3">售罄</label>
         </div>
-        <div>
+        <div style="display:inline-block;float:left;width: 100%">
             <label class="area">{{area}}㎡</label>
         </div>
         <div >

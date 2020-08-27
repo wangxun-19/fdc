@@ -1,14 +1,9 @@
 import Vue from 'vue'
 import App from './App.vue'
-import Vant from 'vant';
-import 'vant/lib/index.css';
-import 'vant/lib/icon/local.css';
 import router from "./router/index";
 import store from "./store/index";
-import axios from "axios";
-import ViewUI from 'view-design';
-// import ElementUI from 'element-ui';
-import 'view-design/dist/styles/iview.css';
+import { Toast } from 'vant'
+import Qs from 'qs'
 
 import './assets/iconfont/iconfont.css'
 
@@ -20,32 +15,21 @@ import wxSdk from "./utils/wx-sdk";
 Vue.prototype.$axios = axios;
 Vue.prototype.$wxMethod = wxMethod;
 Vue.prototype.$wxsdk = wxSdk;
-import baseInfo from "./utils/config";
+Vue.prototype.$toast = Toast;
+Vue.prototype.$qs = Qs;
 import way from "./utils/CodeDeal";
-// import auth from './auth';
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-import { InfiniteScroll } from 'mint-ui';
-
-Vue.use(InfiniteScroll);
-
-
-
-Vue.use(Vant);
-Vue.use(ViewUI);
-// Vue.use(ElementUI);
-Vue.use(VueAwesomeSwiper);
-
+Vue.use(Toast);
 
 Vue.config.productionTip = false
+axios.defaults.headers["Content-Type"] = "application/x-www-form-urlencoded";
+axios.defaults.timeout = 100000;
 
 axios.interceptors.request.use(
   config => {
     config.cancelToken = new axios.CancelToken(function(cancel) {
       store.commit("pushToken", { cancelToken: cancel });
     });
-    // 每次发送请求之前判断vuex中是否存在token
-    // 如果存在，则统一在http请求的header都加上token，这样后台根据token判断你的登录情况
-    // 即使本地存在token，也有可能token是过期的，所以在响应拦截器中要对返回状态进行判断
+    
     const token = store.state.token;
     token && (config.headers.token = token);
     return config;
@@ -62,13 +46,12 @@ axios.interceptors.response.use(
     // 否则的话抛出错误
     // console.log(response);
     if (response.status === 200) {
-        // console.log(response);
+        console.log(response);
       way.codeDeal(response.data);
       return Promise.resolve(response);
-    }else if(response.status == 1001||response.status == 1002){
-      console.log(response);
-      way.codeDeal(response.data);
-    } else {
+    }else if(response.status == 0){
+      console.log('response')
+    }else {
       return Promise.reject(response);
     }
   },
@@ -81,10 +64,10 @@ axios.interceptors.response.use(
       return Promise.reject(error);
     }
     if (error.response&&error.response.status) {
-      // console.log(error.response.status);
+      console.log(error.response.status);
       return Promise.reject(error.response);
     } else if (error.request) {
-      // console.log(error.request);
+      console.log(error.request);
       return Promise.reject(error.request);
     } else {
       return Promise.reject(error);
@@ -93,7 +76,6 @@ axios.interceptors.response.use(
 );
 
 router.beforeEach((to, from, next) => {
-  let token = localStorage.getItem("token");
   store.commit("clearToken"); // 路由跳转取消请求
   document.title = to.meta.title; //让页面显示路由对应的name值。
   let toPath = to.path;

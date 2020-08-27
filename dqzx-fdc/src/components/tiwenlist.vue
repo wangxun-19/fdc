@@ -44,9 +44,9 @@
                 let title = self.question;
                 console.log("title: "+title);
                 if(self.type == 'new'){
-                    self.$router.push({path:'/answer',query:{id:wenid,title:title,type:'new',roomid:self.roomid,area:self.area}});
+                    self.$router.push({name:'answer',params:{id:wenid,title:title,type:'new',roomid:self.roomid}});
                 }else if(self.type == 'old'){
-                    self.$router.push({path:'/answer',query:{id:wenid,title:title,type:'old',roomid:self.roomid}});
+                    self.$router.push({name:'answer',params:{id:wenid,title:title,type:'old',roomid:self.roomid}});
                 }
             }
         }
@@ -63,7 +63,7 @@
         display: flex;
         background-color: #FFFFFF;
         border: none;
-        border-bottom: 1px solid #E9ECF0;
+        /* border-bottom: 1px solid #E9ECF0; */
     }
     .img{
         /* margin-top: 10px; */
@@ -76,6 +76,7 @@
         flex-direction: column;
         margin: 0;
         margin-left: 0.12rem;
+        margin-top: -0.03rem;
         vertical-align: top;
         line-height: 1.25;
         width: 100%;
@@ -95,24 +96,25 @@
         -webkit-box-orient: vertical;
     }
     .time{
-        margin-top: 0.22rem;
+        margin-top: 0.15rem;
         margin-left: 0.19rem;
         /* width: 220px; */
-        font-size: 15px;
+        font-size: 0.30rem;
         color: #989898;
         float: left;
     }
     .huida{
         float: right;
         color: #5B6A91;
-        font-size: 0.28rem;
+        font-size: 0.30rem;
         margin-right: 0.58rem;
     }
     .huifu{
-        width: 92%;
+        width: 89%;
         border: 1px solid #ccc;
         position: relative;
         margin-top: 10px;
+        margin-left: 0.2rem;
         background-color: #E6EEF8;
         border-radius: 7px;  /*圆角弧度为7px*/
         position: relative;
@@ -129,7 +131,7 @@
         border-radius: 7px;  /*圆角弧度为7px*/
         position: absolute;
         top: -20px;
-        left: 15px;
+        left: 5px;
     }
     .huifu .triangle:after {
         content: "";
@@ -146,15 +148,18 @@
         display: inline-block;
     }
     .user{
-        color: #5387F7;
-        margin-left: 10px;
+        color: #5B6A91;
+        font-weight: bold;
+        margin-left: 0.1rem;
+        margin-top: 0.1rem;
         margin-right: 10px;
     }
     .commit{
         color: #333333;
+        margin-top: 0.1rem;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 2;
         overflow: hidden;
         margin-right: 10px;
     }

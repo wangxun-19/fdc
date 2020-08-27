@@ -1,5 +1,4 @@
-const autoprefixer = require("autoprefixer");
-const pxtorem = require("postcss-pxtorem");
+const Timestamp = new Date().getTime();
 
 // 导入compression-webpack-plugin
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
@@ -26,22 +25,8 @@ module.exports={
             // when using title option,
             // template title tag needs to be <title><%= htmlWebpackPlugin.options.title %></title>
             title: "首页",
-            // chunks to include on this pages, by default includes
-            // extracted common chunks and vendor chunks.
             chunks: ["chunk-vendors", "chunk-common", "index"]
         },
-        redirect: {
-            entry: "src/main.js",
-            template: "public/redirect.html",
-            filename: "redirect.html",
-            title: "重定向"
-        },
-        auth: {
-            entry: "src/auth.js",
-            template: "public/auth.html",
-            filename: "auth.html",
-            title: "授权"
-        }
     },
     lintOnSave: false,
 
@@ -53,6 +38,29 @@ module.exports={
 
     // 生产环境 sourceMap
     productionSourceMap: false,
+
+    configureWebpack: {
+        output: {},
+        plugins: [
+            new CompressionWebpackPlugin({
+                filename: "[path].gz[query]",
+                algorithm: "gzip",
+                test: new RegExp(
+                    "\\.(" + productionGzipExtensions.join("|") + ")$"
+                ),
+                threshold: 10240,
+                minRatio: 0.8
+            })
+
+            
+        ],
+        externals: {
+            vue: "Vue",
+            axios: "axios",
+            "vue-router": "VueRouter",
+            vant: "vant"
+        }
+    },
 
     devServer:{
         open: true,

@@ -5,14 +5,14 @@
            <li @click="selectarea(1)" :class="{active:cur==1}" >二手房</li>
            <li @click="selectarea(2)" :class="{active:cur==2}" >租房</li>
        </ul>
-       <div v-show="cur == 0" style="height: 10.5rem">
+       <div v-if="cur == 0" style="height: 10.5rem">
            <ul v-infinite-scroll="handleReachBottom"
                infinite-scroll-distance="10">
                <div v-for="(item,index) in collectinfo" :key="index">
                    <RoomBox
                       :title="item.title"
                       :room_id="item.id"
-                      :img="item.img[0]"
+                      :img="item.img0"
                       :price="item.unitPrice"
                       :status="item.status"
                       :localName="item.localName"
@@ -24,7 +24,7 @@
                 </div>
            </ul>
        </div>
-       <div v-show="cur == 1" style="height: 10.5rem">
+       <div v-show="cur == 1" v-if="cur == 1" style="height: 10.5rem">
            <ul v-infinite-scroll="handleReachBottom"
                infinite-scroll-distance="10">
                <div v-for="(item,index) in collectinfo" :key="index">
@@ -38,7 +38,7 @@
                </div>
            </ul>
        </div>
-       <div v-show="cur == 2" style="height: 10.5rem">
+       <div v-if="cur == 2" style="height: 10.5rem">
            <ul v-infinite-scroll="handleReachBottom"
                infinite-scroll-distance="10">
                <div v-for="(item,index) in collectinfo" :key="index">
@@ -63,7 +63,7 @@ import mixin from '../mixin/mixin';
 
 export default {
   name: 'app',
-//   mixins:[mixin],
+   mixins:[mixin],
   data(){
       return{
           collectinfo:[],
@@ -79,7 +79,6 @@ export default {
       getKaifalist(){
           let token = localStorage.getItem("token");
           let self = this;
-        //   token = "d43c17f626304a0a68982a4eb4e32ef2";
           if(self.cur == 0){
               self.$axios.get("http://house-api.zjlaishang.com:9001/new/collect/"+self.page,{
                   headers:{
@@ -89,7 +88,9 @@ export default {
                   console.log(res);
                   if(res.data.code == 200){
                       res.data.data.forEach(item=>{
-                          self.collectinfo.push(item)
+                          let item0 = item;
+                          item0.img0 = item.img[0];
+                          self.collectinfo.push(item0)
                       })
                       console.log(self.collectinfo);
                   }else{
@@ -132,7 +133,7 @@ export default {
       },
       selectarea(index){
           this.cur = index;
-          this.collectinfo = [];
+          this.collectinfo.length = 0;
           this.page = 0;
           this.getKaifalist();
       },
